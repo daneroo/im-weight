@@ -48,8 +48,13 @@ var record_visit = function(req, res){
         if (!process.env.VCAP_SERVICES){
             res.write(JSON.stringify(mongourl)+'\n\n');
             res.write(JSON.stringify(mongo)+'\n\n');
-            res.write(require('util').inspect(process.env, false, null)+'\n');
+            res.write(require('util').inspect(process.env, false, null)+'\n');                        
         }
+
+        var fs = require('fs'), path=require('path');
+        var obsjson = fs.readFileSync(path.join(__dirname, 'observationdata.json'), 'utf8');
+        res.write(obsjson+'\n');
+
         res.end('\n');
       });
     });
