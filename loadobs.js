@@ -13,14 +13,7 @@ plist.parseFile(infile, function(err, plist) {
 
   var jsonPretty = JSON.stringify(obs,null,2);
   
-  var file = path.join(__dirname, outfile);
-  fs.open(file, "w", 0644, function(err, fd) {
-      if (err) throw err;
-      fs.write(fd, jsonPretty, 0, "utf8", function(err, written) {
-          if (err) throw err;
-          fs.closeSync(fd);
-      });
-  });
+  fs.writeFileSync(path.join(__dirname, outfile), jsonPretty,'utf8');
 
 });
 
