@@ -12,3 +12,12 @@ Started from example at
     
     # to push an update
     vmc update im-w
+
+
+## Seeding initial data
+Couls use [xml2json](https://github.com/buglabs/node-xml2json), but try [plist](https://github.com/TooTallNate/node-plist) which uses sax npm module.
+
+    # convert observationdata.xml to observationdata.json
+    node loadobs.js
+    
+    # git diff to confirm, git commit to backup!
