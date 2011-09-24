@@ -1,0 +1,8 @@
+{
+  "name":"im-w",
+  "version":"0.0.1",
+  "dependencies":{
+      "cloudfoundry":"",
+      "mongodb":""
+  }
+}
