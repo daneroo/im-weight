@@ -44,7 +44,12 @@ var record_visit = function(req, res){
       /* Note the _id has been created */
       coll.insert( object_to_insert, {safe:true}, function(err){
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.write(JSON.stringify(object_to_insert));
+        res.write(JSON.stringify(object_to_insert)+'\n\n');
+        if (!process.env.VCAP_SERVICES){
+            res.write(JSON.stringify(mongourl)+'\n\n');
+            res.write(JSON.stringify(mongo)+'\n\n');
+            res.write(require('util').inspect(process.env, false, null)+'\n');
+        }
         res.end('\n');
       });
     });
