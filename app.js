@@ -30,7 +30,7 @@ var mongourl = generate_mongo_url(mongo);
 
 /* Http Variables */
 var port = (process.env.VMC_APP_PORT || 3000);
-var host = (process.env.VCAP_APP_HOST || 'localhost');
+var host = (process.env.VCAP_APP_HOST || '0.0.0.0'|| 'localhost');
 var http = require('http');
 
 var record_visit = function(req, res){
@@ -65,3 +65,4 @@ http.createServer(function (req, res) {
   record_visit(req, res);
 }).listen(port, host);
 
+console.log('http://'+host+':'+port+'/');
