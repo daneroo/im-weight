@@ -1,67 +1,29 @@
-if(process.env.VCAP_SERVICES){
-  var env = JSON.parse(process.env.VCAP_SERVICES);
-  var mongo = env['mongodb-1.8'][0]['credentials'];
-}
-else{
-  var mongo = {
-    "hostname":"localhost",
-    "port":27017,
-    "username":"",
-    "password":"",
-    "name":"",
-    "db":""
-  }
-}
-
-var generate_mongo_url = function(obj){
-  obj.hostname = (obj.hostname || 'localhost');
-  obj.port = (obj.port || 27017);
-  obj.db = (obj.db || 'test');
-
-  if(obj.username && obj.password){
-    return "mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db + "?auto_reconnect=true";
-  }
-  else{
-    return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db;
-  }
-}
-
-var mongourl = generate_mongo_url(mongo);
-
+/*
+  refs: 
+  http://www.quora.com/What-is-the-best-way-to-read-a-file-line-by-line-in-node-js
+  http://blog.jaeckel.com/2010/03/i-tried-to-find-example-on-using-node.html
+  
+*/
 /* Http Variables */
+
 var port = (process.env.VMC_APP_PORT || 3000);
 var host = (process.env.VCAP_APP_HOST || 'localhost');
-var http = require('http');
+var http = require('http'), fs = require('fs'), path=require('path');
 
-var record_visit = function(req, res){
-  /* Connect to the DB and auth */
-  require('mongodb').connect(mongourl, function(err, conn){
-    conn.collection('ips', function(err, coll){
-      /* Simple object to insert: ip address and date */
-      object_to_insert = { 'ip': req.connection.remoteAddress, 'ts': new Date() };
+var parseTime = function(req, res){
+    res.writeHead(200, {'Content-Type': 'text/plain'});
 
-      /* Insert the object then print in response */
-      /* Note the _id has been created */
-      coll.insert( object_to_insert, {safe:true}, function(err){
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.write(JSON.stringify(object_to_insert)+'\n\n');
-        if (!process.env.VCAP_SERVICES){
-            res.write(JSON.stringify(mongourl)+'\n\n');
-            res.write(JSON.stringify(mongo)+'\n\n');
-            res.write(require('util').inspect(process.env, false, null)+'\n');                        
-        }
-
-        var fs = require('fs'), path=require('path');
-        var obsjson = fs.readFileSync(path.join(__dirname, 'observationdata.json'), 'utf8');
-        res.write(obsjson+'\n');
-
-        res.end('\n');
-      });
+    var allText = fs.readFileSync(path.join(__dirname, 'TEST.txt'), 'utf8'); //.toString()
+    var lines = allText.split('\n');
+    lines.forEach(function (line) { 
+        res.write(line+'\n');
     });
-  });
+
+    res.end('\n');
 }
 
 http.createServer(function (req, res) {
-  record_visit(req, res);
+  parseTime(req, res);
 }).listen(port, host);
+console.log('open http://'+host+':'+port);
 

@@ -16,4 +16,3 @@ plist.parseFile(infile, function(err, plist) {
   fs.writeFileSync(path.join(__dirname, outfile), jsonPretty,'utf8');
 
 });
-

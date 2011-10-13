@@ -1,9 +1,6 @@
 {
-  "name":"im-w",
+  "name":"rona-time",
   "version":"0.0.1",
   "dependencies":{
-      "cloudfoundry":"",
-      "mongodb":"",
-      "plist":""
   }
 }
