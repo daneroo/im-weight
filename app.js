@@ -9,8 +9,8 @@
 /* Http Variables */
 
 var port = (process.env.VMC_APP_PORT || 3000);
-var host = (process.env.VCAP_APP_HOST || 'localhost');
-var http = require('http'), fs = require('fs'), path=require('path');
+var host = (process.env.VCAP_APP_HOST || '0.0.0.0'|| 'localhost');
+var http = require('http');
 
 /*
 1016         BEAUMIER             CLAUDE           *                 7.00  16.00                    12.00  21.00     8.00  17.00     7.00  16.00     7.00  16.00                      40.00            
@@ -83,4 +83,4 @@ http.createServer(function (req, res) {
 }).listen(port, host);
 //console.log('open http://'+host+':'+port);
 
-//parseTimeSheet();
+parseTimeSheet();
