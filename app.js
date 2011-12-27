@@ -1,68 +1,124 @@
-if(process.env.VCAP_SERVICES){
-  var env = JSON.parse(process.env.VCAP_SERVICES);
-  var mongo = env['mongodb-1.8'][0]['credentials'];
-}
-else{
-  var mongo = {
-    "hostname":"localhost",
-    "port":27017,
-    "username":"",
-    "password":"",
-    "name":"",
-    "db":"im-w"
-  }
-}
-
-var generate_mongo_url = function(obj){
-  obj.hostname = (obj.hostname || 'localhost');
-  obj.port = (obj.port || 27017);
-  obj.db = (obj.db || 'test');
-
-  if(obj.username && obj.password){
-    return "mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db + "?auto_reconnect=true";
-  }
-  else{
-    return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db;
-  }
-}
-
-var mongourl = generate_mongo_url(mongo);
-
-/* Http Variables */
+// Config section
 var port = (process.env.VMC_APP_PORT || 3000);
 var host = (process.env.VCAP_APP_HOST || '0.0.0.0'|| 'localhost');
-var http = require('http');
+var mongo = (function(){
+  if(process.env.VCAP_SERVICES){
+    var env = JSON.parse(process.env.VCAP_SERVICES);
+    var mongo = env['mongodb-1.8'][0]['credentials'];
+    return mongo;
+  } else{
+    var mongo = {
+      "db":"im-w"
+    };
+    return mongo;
+  }
+})();
+var mongoURL = (function(obj){
+  obj.hostname = obj.hostname || 'localhost';
+  obj.port = obj.port || 27017;
+  obj.db = obj.db || 'test';
+  var auth=(obj.username && obj.password)?(obj.username + ":" + obj.password + "@"):"";
+  return "mongodb://" + auth + obj.hostname + ":" + obj.port + "/" + obj.db + "?auto_reconnect=true";
+})(mongo);
 
-var record_visit = function(req, res){
-  /* Connect to the DB and auth */
-  require('mongodb').connect(mongourl, function(err, conn){
-    conn.collection('ips', function(err, coll){
-      /* Simple object to insert: ip address and date */
-      object_to_insert = { 'ip': req.connection.remoteAddress, 'ts': new Date() };
+//console.log("mongo",mongo);
+console.log("mongo url",mongoURL);
 
-      /* Insert the object then print in response */
-      /* Note the _id has been created */
-      coll.insert( object_to_insert, {safe:true}, function(err){
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.write(JSON.stringify(object_to_insert)+'\n\n');
-        if (!process.env.VCAP_SERVICES){
-            res.write(JSON.stringify(mongourl)+'\n\n');
-            res.write(JSON.stringify(mongo)+'\n\n');
-            res.write(require('util').inspect(process.env, false, null)+'\n');                        
-        }
+var express = require('express');
+var server = express.createServer();
+var dnode = require('dnode');
+var mongodb = require('mongodb');
 
-        var fs = require('fs'), path=require('path');
-        var obsjson = fs.readFileSync(path.join(__dirname, 'observationdata.json'), 'utf8');
-        res.write(obsjson+'\n');
+var ioOpts= (process.env.VMC_APP_PORT)?{
+  'transports': [
+  //'websocket',
+  //'flashsocket',
+  //'htmlfile',
+  'xhr-polling',
+  'jsonp-polling'
+  ]   
+}:{};
+server.use(express.static(__dirname+ '/public'));
 
-        res.end('\n');
+var w = (function(){
+  var obsjson = require('fs').readFileSync(__dirname+'/observationdata.json', 'utf8');
+  //console.log(obsjson);
+  //console.log('----------');
+  return JSON.parse(obsjson);
+})();
+
+//console.log(w);
+//console.log('----------');
+if (0)w.forEach(function(o,i){
+  console.log('stamp:%s value:%s',o.stamp,o.value);
+});
+
+var collection='observations';
+var _id = 'daniel.lauzon@gmail.com';
+
+mongodb.connect(mongoURL, function(err, conn){
+  conn.collection(collection, function(err, coll){
+    /* Simple object to insert: ip address and date */
+    object_to_insert = { _id: _id, values: w };
+
+    /* Insert the object then print in response */
+    /* Note the _id has been created */
+    coll.save( object_to_insert, {safe:true}, function(err){
+      if (err) console.warn(err.message);
+      coll.find(/*{_id:_id},*/ function(err, cursor) {
+        if (err) console.warn(err.message);
+        cursor.toArray(function(err, docs) {
+          if (err) console.warn(err.message);
+          if (docs.length!=1){
+            console.warn('|find(_id)|>1',_id);
+          }
+          docs.forEach(function(doc) {
+            console.log('|%s|:%d\n\t%j\n\t...\n\t%j\n',doc._id,doc.values.length,doc.values[0],doc.values[doc.values.length-1]);
+          });
+        });
       });
     });
   });
+});
+
+
+var svc = {
+    zing : function (n, cb) { 
+      //console.log('called server');
+      cb(n * 100);
+    },
+    get: function(cb){
+      console.log('svc.get');
+      mongodb.connect(mongoURL, function(err, conn){
+        conn.collection(collection, function(err, coll){
+          coll.find(/*{_id:_id},*/ function(err, cursor) {
+            if (err) console.warn(err.message);
+            cursor.toArray(function(err, docs) {
+              if (err) console.warn(err.message);
+              if (docs.length!=1){
+                console.warn('|find(_id)|>1',_id);
+              }
+              cb(docs[0]);
+              docs.forEach(function(doc) {
+                console.log('|%s|:%d\n\t%j\n\t...\n\t%j\n',doc._id,doc.values.length,doc.values[0],doc.values[doc.values.length-1]);
+              });
+            });
+          });
+        });
+      });
+    },
+    add: function(stamp,value,cb){
+      console.log('svc.add:',stamp,value);
+      cb({message:'not implemented'});
+    }
+}; 
+dnode(svc).listen(server,{ io : ioOpts});
+
+if (!process.env.VMC_APP_PORT) {
+  // also listen to 7070 directly (locally)
+  dnode(svc).listen(7070);
 }
 
-http.createServer(function (req, res) {
-  record_visit(req, res);
-}).listen(port, host);
 
+server.listen(port, host);
 console.log('http://'+host+':'+port+'/');
