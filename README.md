@@ -12,6 +12,8 @@ Started from example at
     # to push an update
     vmc update im-w
 
+## Charting
+[Dygraphs](http://dygraphs.com/): Google type charting, and add touchmove capability
 
 ## Seeding initial data
 Couls use [xml2json](https://github.com/buglabs/node-xml2json), but try [plist](https://github.com/TooTallNate/node-plist) which uses sax npm module.
