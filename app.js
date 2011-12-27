@@ -9,7 +9,7 @@ else{
     "username":"",
     "password":"",
     "name":"",
-    "db":""
+    "db":"im-w"
   }
 }
 

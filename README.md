@@ -8,7 +8,6 @@ Started from example at
     
     # if not yet created...
     vmc push im-w
-    # 5-add redis - ax-rq-redis
     
     # to push an update
     vmc update im-w
@@ -18,7 +17,7 @@ Started from example at
 Couls use [xml2json](https://github.com/buglabs/node-xml2json), but try [plist](https://github.com/TooTallNate/node-plist) which uses sax npm module.
 
     # convert observationdata.xml to observationdata.json
-    node loadobs.js
+    node convert.js
     
     # git diff to confirm, git commit to backup!
     

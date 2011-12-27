@@ -3,6 +3,8 @@
   "version":"0.0.1",
   "dependencies":{
       "cloudfoundry":"",
+      "express": "2.5.x",
+      "dnode": "0.9.x",
       "mongodb":"",
       "plist":""
   }
