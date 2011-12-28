@@ -1,6 +1,14 @@
 
 
 $(function(){
+  $('#container').bind('touchmove',function(e){
+    e.preventDefault();
+  });
+  $('#valuediv').touchtrack({
+    range: 100,
+    scale:.1
+  });
+  
   $('#add').click(function(){
     var value=$('#value').val();
     var stamp = $('#stamp').val();

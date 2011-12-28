@@ -9,13 +9,16 @@
 
   <script src="/dnode.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+  <script src="/js/jquery.touchtrack.js"></script>
   <script src="/js/app.js"></script>
 
 </head>
 <body>
+<div id="container">    
   The server says remote.zing(<span id="zing-in">...</span>)=<span id="zing-out">?</span>
   <br />
   <label for="value">Value</label>
+  <div style="padding:50px;background:yellow" id="valuediv">165.0</div>
   <input id="value" type="text" pattern="[0-9]{3}\.[0-9]{2}" placeholder="123.45"/>
   <br />
   <label for="stamp">Stamp</label>
@@ -23,6 +26,7 @@
   <input id="add" value="add" type="submit" />
   <pre id='console'></pre>
   <pre id="obs"></pre>
+</div>
 </body>
 </html>
 
