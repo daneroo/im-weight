@@ -6,7 +6,8 @@ $(function(){
   });
   $('#valuediv').touchtrack({
     range: 100,
-    scale:.1
+    scale:.05,
+    round:.2
   });
   
   $('#add').click(function(){

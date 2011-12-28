@@ -9,6 +9,7 @@
 	  var defaults = {
       range: 100,
       scale:1,
+      round:1,
       swipeThreshHoldMS:500
     }
 
@@ -36,7 +37,8 @@
     var setProp = function(p){
       // set the new prop
       //if (isNAN)...
-      p=Math.round(p*10)/10;
+      var r=1/plugin.settings.round;
+      p=Math.round(p*r)/r;
       $element.text(p);
     };
     // the is the value the touch-drag session is tracking
