@@ -11,7 +11,8 @@ $(function(){
   });
   
   $('#add').click(function(){
-    var value=$('#value').val();
+    //var value=$('#value').val();
+    var value=$('#valuediv').text();
     var stamp = $('#stamp').val();
     console.log('add',value,stamp);
     svc.add(stamp,value,function(err){
@@ -26,7 +27,11 @@ $(function(){
     svc=remote;
     //tryzing();
     console.log('about to get');
-    svc.get(function(o){
+    svc.get(function(err,o){
+      if (err){
+        console.log('svc.get::error',error);
+        rerturn;
+      }
       console.log('get called back',o)
       $('#obs').text(JSON.stringify(o,null,2));
       $('#obs').text(JSON.stringify({
