@@ -19,14 +19,16 @@ var ioOpts= (process.env.VMC_APP_PORT)?{
 }:{};
 server.use(express.static(__dirname+ '/public'));
 
-var w = (function(){
-  var obsjson = require('fs').readFileSync(__dirname+'/observationdata.json', 'utf8');
-  //console.log(obsjson);
-  //console.log('----------');
-  return JSON.parse(obsjson);
-})();
-
-orm.save(w);
+var initialLoad=false;
+if (initialLoad){
+  var w = (function(){
+    var obsjson = require('fs').readFileSync(__dirname+'/observationdata.json', 'utf8');
+    //console.log(obsjson);
+    //console.log('----------');
+    return JSON.parse(obsjson);
+  })();
+  orm.save(w);
+}
 
 var svc = {
     zing : function (n, cb) { 
