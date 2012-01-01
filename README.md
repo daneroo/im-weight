@@ -1,3 +1,6 @@
+## Temporary backups
+We are making hourlys in dirac:~/Sites/im-w/observationdata.json
+
 ## im-w Mongo backed metric tracker (weight)
 When it's up, you can find it [here](http://im-w.cloudfoundry.com)
 Started from example at

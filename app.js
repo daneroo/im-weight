@@ -18,6 +18,14 @@ var ioOpts= (process.env.VMC_APP_PORT)?{
   ]   
 }:{};
 server.use(express.static(__dirname+ '/public'));
+server.get('/backup', function(req, res){
+  // see require('express-resource'),
+  orm.get(function(err,doc){
+    res.writeHead(200, {'content-type': 'text/json' });
+    res.write( JSON.stringify(doc,null,2) );
+    res.end('\n');
+  });
+});
 
 var initialLoad=false;
 if (initialLoad){
