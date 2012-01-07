@@ -1,23 +1,26 @@
 
 
 function showAddObs(){
+  //info('showAddObs: '+$('body').css('background-position'));
+   
   if (app.values && app.values.length>0){
     var v = Math.round(app.values[0].value/100)/10;
     $('#value').text(v);
   }
   
+  $('.addObs').addClass('showing');
   $('body').css('background-position','50% 50%');
   $('.now input').hide();
   $('#stamp').val('');
   $('.now span').show();
-  $('.addObs').show();
 }
 
 function hideAddObs(){
+  //info('hideAddObs: '+$('body').css('background-position'));  
   $('body').css('background-position','');
+  $('.addObs').removeClass('showing');
   $('.now input').hide();
   $('.now span').show();
-  $('.addObs').hide();
 }
 
 google.load('visualization', '1', {packages: ['corechart']});
@@ -124,9 +127,28 @@ function refreshData(){
   });
 }
 
+function addObs(cb){ // cb(err,msgok)
+  var value=$('#value').text();
+  var stamp = $('#stamp').val();
+
+  if (!stamp){
+    stamp = new Date().toISOString();
+  } else {
+    var norm = new Date(Date.parse(stamp)).toISOString();
+    if (norm=='Invalid Date'){
+      cb({message:'Invalid Date'});
+      return;
+    }
+    stamp=norm;
+  }
+  
+  console.log('add',value,stamp);
+  app.svc.add(stamp,value,cb);
+}
+
 $(function(){
   window.scrollTo(0,0);
-  $('#container').bind('touchmove',function(e){
+  $('html').bind('touchmove',function(e){
     e.preventDefault();
   });
   $('#value').touchtrack({
@@ -137,9 +159,6 @@ $(function(){
 
 
   hideAddObs();
-  $('.addObsBtn').click(function(){
-    showAddObs();    
-  });
   $('#dygraph').click(function(){
     toggleRange();
   });
@@ -148,35 +167,25 @@ $(function(){
     $('.now span').hide();
     $('.now input').show().focus();
   });
-  $('.cancel').click(function(){
+  
+  $('.cancelObsBtn').click(function(){
     hideAddObs();
   });
-  $('.add').click(function(){
-    var value=$('#value').text();
-    var stamp = $('#stamp').val();
-
-    if (!stamp){
-      stamp = new Date().toISOString();
-    } else {
-      var norm = new Date(Date.parse(stamp)).toISOString();
-      if (norm=='Invalid Date'){
-        info('Invalid Date');
+  $('.addObsBtn').click(function(){
+    if ($('.addObs').hasClass('showing')){
+      addObs(function(err,nullexpected){
+        if (err){
+          info(err.message);
+        } else {
+          info('observation added');
+        }
         hideAddObs();
-        return;
-      }
-      stamp=norm;
+        refreshData();
+      });
+    } else {
+      showAddObs();    
     }
-    
-    console.log('add',value,stamp);
-    app.svc.add(stamp,value,function(err){
-      if (err){
-        info(err.message);
-      } else {
-        info('observation added');
-      }
-      hideAddObs();
-      refreshData();
-    });
+    return;
   });
   DNode.connect({reconnect:5000},function (remote) {
     app.svc=remote; // global!
@@ -184,7 +193,8 @@ $(function(){
   });
 });
 
-function info(msg){
+function info(msg,clear){
+  if(clear) $('#console').html('');
   $('#console').append('<div>'+new Date().toISOString()+' '+msg+'</div>');
 }
 

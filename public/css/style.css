@@ -10,10 +10,9 @@ html, body {
 }
 
 body {
-  background:rgb(255,64,64);
+  background:black;
 }
-body {
-
+.NOT {
   /* from colorzilla - swap center bottom */
   background: rgb(7,48,78); /* Old browsers */
   background: -moz-radial-gradient(center bottom, ellipse cover,  rgb(7,48,78) 0%, rgb(0,19,45) 72%, rgb(0,0,0) 100%); /* FF3.6+ */
@@ -22,7 +21,10 @@ body {
   background: -o-radial-gradient(center bottom, ellipse cover,  rgb(7,48,78) 0%,rgb(0,19,45) 72%,rgb(0,0,0) 100%); /* Opera 12+ */
   background: -ms-radial-gradient(center bottom, ellipse cover,  rgb(7,48,78) 0%,rgb(0,19,45) 72%,rgb(0,0,0) 100%); /* IE10+ */
   background: radial-gradient(center bottom, ellipse cover,  rgb(7,48,78) 0%,rgb(0,19,45) 72%,rgb(0,0,0) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#07304e', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#07304e', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */  
+}
+body {
+
 
   background: -webkit-radial-gradient(center bottom, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); /* Chrome10+,Safari5.1+ */
   background: -webkit-radial-gradient(center center, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); /* Chrome10+,Safari5.1+ */
@@ -38,10 +40,41 @@ body {
 }
 #container {
 }
-.addObsDiv {
+
+.addObs {
+  z-index:10;
   position: fixed;
-  bottom:-24px;
+/*  position: absolute;*/
+bottom:-24px;
   width:100%;
+
+  -webkit-transition: bottom 1s;
+  -moz-transition: bottom 1s;
+
+}
+.addObs.showing {
+  bottom:32px;
+}
+.addObs.showing .activeControls {
+  display:block;
+  opacity:1;
+}
+
+.addObs .activeControls {
+  /*  display:none;*/
+  opacity:0;
+  -webkit-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+}
+.cancelObsBtn , .resetObsBtn {
+  position: absolute;
+  bottom:50px;
+}
+.cancelObsBtn {
+  left:15%;
+}
+.resetObsBtn {
+  right:15%;
 }
 
 .addObsBtn {
@@ -53,29 +86,13 @@ body {
   width:64px;
   height:64px;
 
-  text-align: center;
   background:black;
   background: rgba(0,0,0, 0.8);
   border: 6px solid rgba(255,255,255,.5);
-
-  padding:5px;
-  font-size:200%;
-  color:#777;
-  
-/*  border: 10px solid  rgba(0,0,0,.5);*/
   
   -webkit-border-radius: 64px;
   -moz-border-radius: 64px;
   border-radius: 64px;
-}
-
-.addObs {
-  z-index:3;
-  position: absolute;
-  top:0;
-  width:100%;
-  background-color: rgba(128,128,128,.8);
-  background-color: transparent;
 }
 
 #value {
@@ -92,12 +109,7 @@ body {
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
-.close {
-  float:right;
-  padding:10px;
-  font-size:200%;
-  color:#777;
-}
+
 .now {
   width:250px;
   margin:auto;
@@ -112,35 +124,16 @@ body {
   border-radius: 5px;
 }
 
-.go {  
-  margin:auto;
-  margin-top:10px;
-  font-size:200%;
-  width:290px;
-}
-.go div {  
-  display: inline-block;
-  width:100px;
-  padding:20px;
-  text-align:center;
-  color:white;
-  background:black;
-
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
 #dygraph {
+/*  display:none;*/
   width:320px;
   height:200px;
 }
 #console {
   display:none;
   position:fixed;
-  bottom:0px;
+  top:0px;
   width:100%;
-  height:50px;
   color:#333;
   background:#ccc;
 }
