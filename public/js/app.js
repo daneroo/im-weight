@@ -116,7 +116,7 @@ function refreshData(){
     info('refreshed data');
     app.values = o.values;
 
-    //drawGraph();
+    drawGraph();
     //printGraph();
 
   });
