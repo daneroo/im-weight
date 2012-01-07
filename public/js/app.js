@@ -6,6 +6,7 @@ function showAddObs(){
     $('#value').text(v);
   }
   
+  $('body').css('background-position','50% 50%');
   $('.now input').hide();
   $('#stamp').val('');
   $('.now span').show();
@@ -13,6 +14,7 @@ function showAddObs(){
 }
 
 function hideAddObs(){
+  $('body').css('background-position','');
   $('.now input').hide();
   $('.now span').show();
   $('.addObs').hide();

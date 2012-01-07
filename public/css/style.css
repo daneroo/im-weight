@@ -25,9 +25,12 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#07304e', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
   background: -webkit-radial-gradient(center bottom, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-radial-gradient(center center, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); /* Chrome10+,Safari5.1+ */
 
-/*  background-size:100% 100%;*/
-/*  background-position:50% 0px; /* to recenter the bg */*/
+  background-size:100% 200%;
+  /* to recenter the bg */
+  background-position:50% 0%;
+/*  background-position:50% 50%;*/
 
   -webkit-transition: background-position 1s;
   -moz-transition: background-position 1s;
