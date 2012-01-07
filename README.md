@@ -25,4 +25,7 @@ Couls use [xml2json](https://github.com/buglabs/node-xml2json), but try [plist](
     node convert.js
     
     # git diff to confirm, git commit to backup!
-    
+
+## icons
+
+http://www.iconfinder.com/search/1/?q=iconset%3Atwg_retina_icons  
