@@ -3,22 +3,67 @@ body, button, input, select, textarea { font-family: sans-serif; color: #222; }
 body, div {
   margin:0;
 }
-.addObsBtn {
-  z-index:2;
+
+html, body {
+  height:100%;
+  width:100%;
+}
+
+body {
+  background:rgb(255,64,64);
+}
+body {
+
+  /* from colorzilla - swap center bottom */
+  background: rgb(7,48,78); /* Old browsers */
+  background: -moz-radial-gradient(center bottom, ellipse cover,  rgb(7,48,78) 0%, rgb(0,19,45) 72%, rgb(0,0,0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center bottom, 0px, center bottom, 100%, color-stop(0%,rgb(7,48,78)), color-stop(72%,rgb(0,19,45)), color-stop(100%,rgb(0,0,0))); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center bottom, ellipse cover,  rgb(7,48,78) 0%,rgb(0,19,45) 72%,rgb(0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center bottom, ellipse cover,  rgb(7,48,78) 0%,rgb(0,19,45) 72%,rgb(0,0,0) 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center bottom, ellipse cover,  rgb(7,48,78) 0%,rgb(0,19,45) 72%,rgb(0,0,0) 100%); /* IE10+ */
+  background: radial-gradient(center bottom, ellipse cover,  rgb(7,48,78) 0%,rgb(0,19,45) 72%,rgb(0,0,0) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#07304e', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+  background: -webkit-radial-gradient(center bottom, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); /* Chrome10+,Safari5.1+ */
+
+/*  background-size:100% 100%;*/
+/*  background-position:50% 0px; /* to recenter the bg */*/
+
+  -webkit-transition: background-position 1s;
+  -moz-transition: background-position 1s;
+  
+}
+#container {
+}
+.addObsDiv {
   position: fixed;
-  bottom:5px;
-  left:5px;
-  width:3em;
+  bottom:-24px;
+  width:100%;
+}
+
+.addObsBtn {
+/*  z-index:2;*/
+
+  /* center in parent */
+  margin:auto;
+
+  width:64px;
+  height:64px;
+
   text-align: center;
   background:black;
+  background: rgba(0,0,0, 0.8);
+  border: 6px solid rgba(255,255,255,.5);
 
   padding:5px;
   font-size:200%;
   color:#777;
   
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+/*  border: 10px solid  rgba(0,0,0,.5);*/
+  
+  -webkit-border-radius: 64px;
+  -moz-border-radius: 64px;
+  border-radius: 64px;
 }
 
 .addObs {
@@ -27,6 +72,7 @@ body, div {
   top:0;
   width:100%;
   background-color: rgba(128,128,128,.8);
+  background-color: transparent;
 }
 
 #value {
