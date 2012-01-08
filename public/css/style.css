@@ -47,6 +47,13 @@ body {
 
 }
 
+.addObs .activeControls .arctouch {
+/*  width:320;*/
+  background:rgba(255,255,0,.2);
+  position:absolute;
+  bottom:64px; /* 64+2xborder=6*/
+}
+
 .addObs.showing {
   bottom:32px;
 }
@@ -121,7 +128,7 @@ body {
 #dygraph {
 /*  display:none;*/
 /*width:320px;*/
-width:100%;
+  width:100%;
   height:200px;
 /*
   width:800px;

@@ -185,6 +185,12 @@ $(function(){
   $('html').bind('touchmove',function(e){
     e.preventDefault();
   });
+  // be more specific ?
+  $('.arctouch').arctouch({
+    range: 100,
+    scale:.05,
+    round:.2
+  });
   $('#value').touchtrack({
     range: 100,
     scale:.05,
