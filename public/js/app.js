@@ -7,18 +7,27 @@ function showAddObs(){
     var v = Math.round(app.values[0].value/100)/10;
     $('#value').text(v);
   }
-  
-  $('.addObs').addClass('showing');
-  $('body').css('background-position','50% 50%');
   $('.now input').hide();
   $('#stamp').val('');
   $('.now span').show();
+  
+  // display:none/block and opactity animation need attention
+  // set display:block now, opacity:1 in nextTick
+  $('.addObs .activeControls').css({display:''});
+  setTimeout(function(){
+    $('.addObs').addClass('showing');
+    $('body').css('background-position','50% 50%');
+  },0);
 }
 
 function hideAddObs(){
   //info('hideAddObs: '+$('body').css('background-position'));  
   $('body').css('background-position','');
   $('.addObs').removeClass('showing');
+  // display:none after opacity animation done
+  setTimeout(function(){
+    $('.addObs .activeControls').css({display:'none'});
+  },1000);
   $('.now input').hide();
   $('.now span').show();
 }

@@ -9,9 +9,6 @@ html, body {
   width:100%;
 }
 
-body {
-  background:black;
-}
 .NOT {
   /* from colorzilla - swap center bottom */
   background: rgb(7,48,78); /* Old browsers */
@@ -24,44 +21,43 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#07304e', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */  
 }
 body {
-
-
-  background: -webkit-radial-gradient(center bottom, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); /* Chrome10+,Safari5.1+ */
+  background:black; 
   background: -webkit-radial-gradient(center center, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); /* Chrome10+,Safari5.1+ */
 
   background-size:100% 200%;
   /* to recenter the bg */
   background-position:50% 0%;
-/*  background-position:50% 50%;*/
 
   -webkit-transition: background-position 1s;
   -moz-transition: background-position 1s;
   
 }
-#container {
-}
 
 .addObs {
   z-index:10;
   position: fixed;
-/*  position: absolute;*/
-bottom:-24px;
+
+  /*  position: absolute;*/
+  bottom:-24px;
   width:100%;
 
   -webkit-transition: bottom 1s;
   -moz-transition: bottom 1s;
 
 }
+
 .addObs.showing {
   bottom:32px;
 }
 .addObs.showing .activeControls {
-  display:block;
   opacity:1;
 }
 
+.addObs.showing .addObsBtn {
+  border: 6px solid rgba(0,255,0,.5);
+}
+
 .addObs .activeControls {
-  /*  display:none;*/
   opacity:0;
   -webkit-transition: opacity 1s;
   -moz-transition: opacity 1s;
@@ -78,11 +74,8 @@ bottom:-24px;
 }
 
 .addObsBtn {
-/*  z-index:2;*/
-
-  /* center in parent */
+  /* center in parentL needs size */
   margin:auto;
-
   width:64px;
   height:64px;
 
