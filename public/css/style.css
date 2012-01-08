@@ -54,7 +54,7 @@ body {
 }
 
 .addObs.showing .addObsBtn {
-  border: 6px solid rgba(0,255,0,.5);
+  border: 6px solid rgba(128,128,255,.5);
 }
 
 .addObs .activeControls {
@@ -64,7 +64,7 @@ body {
 }
 .cancelObsBtn , .resetObsBtn {
   position: absolute;
-  bottom:50px;
+  bottom:16px;
 }
 .cancelObsBtn {
   left:15%;
