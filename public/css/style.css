@@ -22,7 +22,8 @@ html, body {
 }
 body {
   background:black; 
-  background: -webkit-radial-gradient(center center, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); /* Chrome10+,Safari5.1+ */
+  /* Chrome10+,Safari5.1+ */
+  background: -webkit-radial-gradient(center center, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); 
 
   background-size:100% 200%;
   /* to recenter the bg */
@@ -121,6 +122,10 @@ body {
 /*  display:none;*/
   width:320px;
   height:200px;
+/*
+  width:800px;
+  height:400px;
+*/
 }
 #console {
   display:none;

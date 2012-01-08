@@ -40,7 +40,9 @@ function drawGraph(){
   var data = {
     cols: [
     {id: 'date', label: 'Date', type: 'date'},
-    {id: 'power', label: 'Signal', type: 'number'}],
+    {id: 'weight', label: 'Weight', type: 'number'}
+    //,{id: 'sigma', label: 'Error', type: 'number'}
+    ],
     rows: [/*{c:[{v: new Date("2011/06/21")}, {v: 7}]},*/]
   };
   if (values && values.length>0){
@@ -48,6 +50,7 @@ function drawGraph(){
       var value = values[i].value/1000;
       var stamp = new Date(Date.parse(values[i].stamp));
       data.rows.push({c:[{v: stamp}, {v: value}]});
+      // data.rows.push({c:[{v: stamp}, {v: value}, {v: 1}]});
     }
   }
   var datatable = new google.visualization.DataTable(data,0.6);
@@ -55,8 +58,30 @@ function drawGraph(){
     title: 'im-w ',
     titleHeight: 32,
     logscale : false,
-    //showRoller: true,
-    //rollPeriod: 1,
+
+    //showRoller: true, // allows controlling roller
+    // rollPeriod: 30, // ok depends on scale
+
+    //rollPeriod: 3,
+    // errorBars: true, requires sigma column
+
+    // gridLineColor: '#FF0000',
+    // highlightCircleSize: 10,
+    strokeWidth: 2,
+
+    axisLabelColor: 'gray',
+    
+    colors:['rgb(128,128,255)'],
+    // axis:{
+    //   'weight':{axisLabelWidth:20}
+    // },
+    // axisLineColor: 'blue',
+    // drawXGrid: false,
+    // drawYGrid: false,
+    // axisLabelWidth:100, // doesn't seem to do anything
+    yAxisLabelWidth:25
+    
+    // for touch stuff later...
     //interactionModel: interactionModel
   };
   globalG=new Dygraph.GVizChart(document.getElementById('dygraph'));
