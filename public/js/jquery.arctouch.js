@@ -26,6 +26,7 @@
       $element.bind('touchend', touchend);
     }
 
+    var state=null; // line|arcleft,arcright, up|down
     var ctx=null;
 
     // == utility functions ==
@@ -71,6 +72,33 @@
       return newProp;
     };
 
+    var setState = function(canvas){
+      if (ctx.state) return;
+      var off = $element.offset();
+      var origin = {x:off.left,y:off.top};
+      var poi = {x:(ctx.v.x-origin.x),y:(ctx.v.y-origin.y)};
+      var row=Math.floor(poi.y/canvas.height*3);
+      var col=Math.floor(poi.x/canvas.width*3);
+      console.log('row,col',row,col,poi,canvas);
+      var state = [[
+         // top row
+         ['lthumb','down'],
+         ['vert','down'],
+         ['rthumb','down']
+       ],[
+       // middle row
+         ['horiz','up'],
+         ['edit','none'],
+         ['horiz','down']
+       ],[
+       // bottom row
+         ['rthumb','up'],
+         ['vert','up'],
+         ['lthumb','up']
+      ]][row][col];
+      console.log('setting state',state);
+      return state;
+    }
     var map01 = function(pos01,canvas){
       var w=canvas.width,h=canvas.height;
       return {
@@ -129,7 +157,26 @@
       cctx.arc(c.x+delta.x,c.y+delta.y,5,0,2*pi,false);
       cctx.fill();
 
+
+      cctx.strokeStyle = 'cyan';
+      cctx.beginPath();
+      gridLine(1/2,null,cctx,canvas);
+      cctx.stroke();
+      cctx.fillStyle = 'cyan';
+      cctx.beginPath();
+      cctx.arc(canvas.width/2,poi.y,5,0,2*pi,false);
+      cctx.fill();
+
+      cctx.strokeStyle = 'magenta';
+      cctx.beginPath();
+      gridLine(null,1/2,cctx,canvas);
+      cctx.stroke();
+      cctx.fillStyle = 'magenta';
+      cctx.beginPath();
+      cctx.arc(poi.x,canvas.height/2,5,0,2*pi,false);
+      cctx.fill();
       
+      // blue dot
       cctx.fillStyle = 'rgba(0,0,255,.5)';
       cctx.beginPath();
       cctx.arc(poi.x,poi.y,20,0,2*pi,false);
@@ -138,12 +185,13 @@
     }
     var drawGrid = function(){
       var canvas = $element[0];
+      setState(canvas);
       var off = $element.offset();
       var origin = {x:off.left,y:off.top};
       if (canvas.getContext) {  
         var w=canvas.width,h=canvas.height;
         var poi = {x:(ctx.l.x-origin.x),y:(ctx.l.y-origin.y)};
-        console.log('poi',poi.x,poi.y);
+        console.log('poi',poi.x,poi.y,ctx.state);
         var cctx = canvas.getContext("2d");
         cctx.save();
         cctx.clearRect(0,0,w,h);
@@ -157,7 +205,7 @@
         cctx.stroke();
 
         arcLines(poi,cctx,canvas);
-
+        
         cctx.strokeStyle = 'red';
         cctx.beginPath();
         cctx.moveTo(0,0);
