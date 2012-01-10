@@ -186,10 +186,17 @@ $(function(){
     e.preventDefault();
   });
   // be more specific ?
+  $value = $('#value');
   $('.arctouch').arctouch({
-    range: 100,
-    scale:.05,
-    round:.2
+    getter:function(){
+      return $('#value').text()/1;
+    },
+    setter:function(initialValue,delta01){
+      //console.log('setter',initialValue,delta01,value,typeof value);
+      value = Math.round((initialValue+delta01*2)*10)/10;
+      if ($value.text()==value) return;
+      $value.text(value);
+    }
   });
   $('#value').touchtrack({
     range: 100,

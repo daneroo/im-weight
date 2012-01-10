@@ -8,9 +8,8 @@
     var $canvas = null;
     
 	  var defaults = {
-      range: 100,
-      scale:1,
-      round:1,
+      setter: null, // setter(delta01)
+      getter:null, // getter()-> initial dragValue
       swipeThreshHoldMS:500
     }
 
@@ -46,11 +45,13 @@
 
     // could be something else...
     var getProp = function(){
-      return 0;
-      return parseInt($element.text());
+      if (!plugin.settings.getter) return 100;
+      return plugin.settings.getter()
     };
-    var setProp = function(p){
-      //console.log('setProp',p);
+    var setProp = function(){
+      if (!plugin.settings.setter) return;
+      var delta01 = (ctx.state[1]=='down')?ctx.delta-1:ctx.delta
+      plugin.settings.setter(ctx.p,delta01);
       return;
       // set the new prop
       //if (isNAN)...
@@ -154,7 +155,7 @@
       if (ctx.state[0]=='lthumb'){  // -.5 .. 0 (pi)
         var d = -2*Math.atan2(delta.y,delta.x)/pi;
         ctx.delta= d; // min/max deadRange        
-        console.log('lthumb',ctx.delta);
+        //console.log('lthumb',ctx.delta);
       }
 
       clr= ctx.state[0]=='rthumb'?'orange':'grey';
@@ -263,7 +264,7 @@
         l: valueToTrack,        // the last known touch-event value
         p: getProp(), // initial property value (touchstart)
       };
-      //console.log('dragstart',ctx);
+      console.log('dragstart',ctx);
       drawGrid();
     };
 
@@ -274,8 +275,8 @@
       // update the context
       ctx.l = valueToTrack;
       // update the ui
-      setProp(updatedProp(ctx));
       drawGrid();
+      setProp();
     };
 
     // snap back or click
