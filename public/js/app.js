@@ -1,12 +1,14 @@
 
-
-function showAddObs(){
-  //info('showAddObs: '+$('body').css('background-position'));
-   
+function resetAddObs(){
   if (app.values && app.values.length>0){
     var v = Math.round(app.values[0].value/100)/10;
     $('#value').text(v);
   }
+}
+
+function showAddObs(){
+  //info('showAddObs: '+$('body').css('background-position'));
+  resetAddObs();
   $('.now input').hide();
   $('#stamp').val('');
   $('.now span').show();
@@ -217,6 +219,9 @@ $(function(){
   
   $('.cancelObsBtn').click(function(){
     hideAddObs();
+  });
+  $('.resetObsBtn').click(function(){
+    resetAddObs();
   });
   $('.addObsBtn').click(function(){
     if ($('.addObs').hasClass('showing')){

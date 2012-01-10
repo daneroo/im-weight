@@ -73,7 +73,7 @@ body {
 }
 .cancelObsBtn , .resetObsBtn {
   position: absolute;
-  bottom:16px;
+  bottom:0px;
 }
 .cancelObsBtn {
   left:15%;
@@ -100,7 +100,7 @@ body {
 #value {
   width:60%;
   margin:auto;
-  margin-top:10px;
+  margin-bottom:40px;
   padding:20px;
   text-align:center;
   color:white;
@@ -113,8 +113,11 @@ body {
 }
 
 .now {
-  width:250px;
+  position:relative;
+  z-index: 20;
+  width:100px;
   margin:auto;
+  margin-bottom:40px;
   padding:20px;
   text-align:center;
   color:white;
