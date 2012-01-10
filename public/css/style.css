@@ -35,7 +35,7 @@ body {
 }
 
 .addObs {
-  z-index:10;
+  z-index:15; /* dygraph labels at 10 */
   position: fixed;
 
   /*  position: absolute;*/
@@ -48,10 +48,11 @@ body {
 }
 
 .addObs .activeControls .arctouch {
-/*  width:320;*/
   background:rgba(255,255,0,.2);
   position:absolute;
   bottom:64px; /* 64+2xborder=6*/
+  width:100%;
+  height:320px;
 }
 
 .addObs.showing {

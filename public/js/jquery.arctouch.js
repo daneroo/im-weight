@@ -5,7 +5,8 @@
     var plugin = this;
 
     var $element = $(element);  // reference to the jQuery version of DOM element the plugin is attached to
-
+    var $canvas = null;
+    
 	  var defaults = {
       range: 100,
       scale:1,
@@ -16,14 +17,26 @@
     // the "constructor" method that gets called when the object is created
     plugin.init = function() {
       plugin.settings = $.extend({}, defaults, options);
+
+      var canvases=$element.find('canvas');
+      var canvas = null
+      if (canvases.length<1){
+        canvas = $("<canvas />")[0];
+        $element.append(canvas);
+      } else {
+        canvas = canvases[0];
+      }
+      $canvas = $(canvas);
+      $(canvas).attr({width: $element.width(), height: $element.height()});
+
       // set the initial state
-      $element.bind('mousedown', mousedown);
-      $element.bind('mousemove', mousemove);
-      $element.bind('mouseout', mouseout);
-      $element.bind('mouseup', mouseup);
-      $element.bind('touchstart', touchstart);
-      $element.bind('touchmove', touchmove);
-      $element.bind('touchend', touchend);
+      $canvas.bind('mousedown', mousedown);
+      $canvas.bind('mousemove', mousemove);
+      $canvas.bind('mouseout', mouseout);
+      $canvas.bind('mouseup', mouseup);
+      $canvas.bind('touchstart', touchstart);
+      $canvas.bind('touchmove', touchmove);
+      $canvas.bind('touchend', touchend);
     }
 
     var state=null; // line|arcleft,arcright, up|down
@@ -74,7 +87,7 @@
 
     var setState = function(canvas){
       if (ctx.state) return;
-      var off = $element.offset();
+      var off = $canvas.offset();
       var origin = {x:off.left,y:off.top};
       var poi = {x:(ctx.v.x-origin.x),y:(ctx.v.y-origin.y)};
       var row=Math.floor(poi.y/canvas.height*3);
@@ -138,7 +151,11 @@
       cctx.beginPath();
       cctx.arc(c.x+delta.x,c.y+delta.y,5,0,2*pi,false);
       cctx.fill();
-      
+      if (ctx.state[0]=='lthumb'){  // -.5 .. 0 (pi)
+        var d = -2*Math.atan2(delta.y,delta.x)/pi;
+        ctx.delta= d; // min/max deadRange        
+        console.log('lthumb',ctx.delta);
+      }
 
       clr= ctx.state[0]=='rthumb'?'orange':'grey';
       cctx.strokeStyle =clr;
@@ -156,6 +173,11 @@
       cctx.beginPath();
       cctx.arc(c.x+delta.x,c.y+delta.y,5,0,2*pi,false);
       cctx.fill();
+      if (ctx.state[0]=='rthumb'){ // -1 .. -.5 (pi)
+        var d = 2+2*Math.atan2(delta.y,delta.x)/pi;
+        ctx.delta= d; // min/max deadRange        
+        console.log('rthumb',ctx.delta);
+      }
 
 
       clr= ctx.state[0]=='vert'?'cyan':'grey';
@@ -167,6 +189,11 @@
       cctx.beginPath();
       cctx.arc(canvas.width/2,poi.y,5,0,2*pi,false);
       cctx.fill();
+      if (ctx.state[0]=='vert'){ // -1 .. -.5 (pi)
+        var d = 1-poi.y/canvas.height;
+        ctx.delta= d; // min/max deadRange        
+        console.log('vert',ctx.delta);
+      }
 
       clr= ctx.state[0]=='horiz'?'magenta':'grey';
       cctx.strokeStyle =clr;
@@ -177,6 +204,11 @@
       cctx.beginPath();
       cctx.arc(poi.x,canvas.height/2,5,0,2*pi,false);
       cctx.fill();
+      if (ctx.state[0]=='horiz'){ // -1 .. -.5 (pi)
+        var d = poi.x/canvas.width;
+        ctx.delta= d; // min/max deadRange        
+        console.log('horiz',ctx.delta);
+      }
       
       // blue dot
       cctx.fillStyle = 'rgba(0,0,255,.5)';
@@ -186,19 +218,19 @@
       
     }
     var drawGrid = function(){
-      var canvas = $element[0];
+      var canvas=$canvas[0];
       setState(canvas);
-      var off = $element.offset();
+      var off = $canvas.offset();
       var origin = {x:off.left,y:off.top};
       if (canvas.getContext) {  
         var w=canvas.width,h=canvas.height;
         var poi = {x:(ctx.l.x-origin.x),y:(ctx.l.y-origin.y)};
-        console.log('poi',poi.x,poi.y,ctx.state);
+        //console.log('poi',poi.x,poi.y,ctx.state);
         var cctx = canvas.getContext("2d");
         cctx.save();
         cctx.clearRect(0,0,w,h);
         
-        cctx.strokeStyle = '#777';
+        cctx.strokeStyle = '#333';
         cctx.beginPath();
         gridLine(1/3,null,cctx,canvas);
         gridLine(2/3,null,cctx,canvas);
@@ -237,7 +269,7 @@
 
     var dragmove = function(valueToTrack) {
       if (!ctx) return; // will happen when mousemove without mousedown first
-      console.log('move:v ',JSON.stringify(valueToTrack));
+      //console.log('move:v ',JSON.stringify(valueToTrack));
 
       // update the context
       ctx.l = valueToTrack;
