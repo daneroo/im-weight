@@ -97,7 +97,7 @@
          ['lthumb','up']
       ]][row][col];
       console.log('setting state',state);
-      return state;
+      ctx.state=state;
     }
     var map01 = function(pos01,canvas){
       var w=canvas.width,h=canvas.height;
@@ -120,58 +120,60 @@
       // cctx.arc(x,y,radius,startAngle,endAngle, clockwise);
       var pi=Math.PI;
       var radius = Math.min(canvas.width,canvas.height);
-      var c,delta;
+      var c,delta,clr;
 
-      cctx.strokeStyle = 'yellow';
+      clr= ctx.state[0]=='lthumb'?'yellow':'grey';
+      cctx.strokeStyle =clr;
+      cctx.fillStyle = clr;
       cctx.beginPath();
       c={x:0,y:radius};
       cctx.arc(c.x,c.y,radius,-pi/2,0,false);
       cctx.stroke();
-
       cctx.beginPath();
       cctx.moveTo(c.x,c.y);
       delta={x:poi.x-c.x,y:poi.y-c.y};
       delta = norm(delta,radius);
       cctx.lineTo(c.x+delta.x,c.y+delta.y);
       cctx.stroke();      
-      cctx.fillStyle = 'yellow';
       cctx.beginPath();
       cctx.arc(c.x+delta.x,c.y+delta.y,5,0,2*pi,false);
       cctx.fill();
       
 
-      cctx.strokeStyle = 'orange';
+      clr= ctx.state[0]=='rthumb'?'orange':'grey';
+      cctx.strokeStyle =clr;
+      cctx.fillStyle = clr;
       cctx.beginPath();
       c={x:radius,y:radius};
       cctx.arc(c.x,c.y,radius,-pi,-pi/2,false);
       cctx.stroke();
-
       cctx.beginPath();
       cctx.moveTo(c.x,c.y);
       delta={x:poi.x-c.x,y:poi.y-c.y};
       delta = norm(delta,radius);
       cctx.lineTo(c.x+delta.x,c.y+delta.y);
       cctx.stroke();      
-      cctx.fillStyle = 'orange';
       cctx.beginPath();
       cctx.arc(c.x+delta.x,c.y+delta.y,5,0,2*pi,false);
       cctx.fill();
 
 
-      cctx.strokeStyle = 'cyan';
+      clr= ctx.state[0]=='vert'?'cyan':'grey';
+      cctx.strokeStyle =clr;
+      cctx.fillStyle = clr;
       cctx.beginPath();
       gridLine(1/2,null,cctx,canvas);
       cctx.stroke();
-      cctx.fillStyle = 'cyan';
       cctx.beginPath();
       cctx.arc(canvas.width/2,poi.y,5,0,2*pi,false);
       cctx.fill();
 
-      cctx.strokeStyle = 'magenta';
+      clr= ctx.state[0]=='horiz'?'magenta':'grey';
+      cctx.strokeStyle =clr;
+      cctx.fillStyle = clr;
       cctx.beginPath();
       gridLine(null,1/2,cctx,canvas);
       cctx.stroke();
-      cctx.fillStyle = 'magenta';
       cctx.beginPath();
       cctx.arc(poi.x,canvas.height/2,5,0,2*pi,false);
       cctx.fill();
