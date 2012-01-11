@@ -36,6 +36,7 @@
       $canvas.bind('touchstart', touchstart);
       $canvas.bind('touchmove', touchmove);
       $canvas.bind('touchend', touchend);
+      drawGrid(true);
     }
 
     var state=null; // line|arcleft,arcright, up|down
@@ -87,6 +88,7 @@
     };
 
     var setState = function(canvas){
+      if (!ctx) return; // cause we are called from drawGrid on init
       if (ctx.state) return;
       var off = $canvas.offset();
       var origin = {x:off.left,y:off.top};
@@ -130,123 +132,133 @@
       var l = Math.sqrt(p.x*p.x+p.y*p.y);
       return {x:p.x/l*scale,y:p.y/l*scale};
     }
+    
     var arcLines = function(poi,cctx,canvas) {
       // cctx.arc(x,y,radius,startAngle,endAngle, clockwise);
       var pi=Math.PI;
       var radius = Math.min(canvas.width,canvas.height);
       var c,delta,clr;
 
-      clr= ctx.state[0]=='lthumb'?'yellow':'grey';
+      var isLthumb=poi && ctx.state[0]=='lthumb';
+      clr= isLthumb?'yellow':'grey';
       cctx.strokeStyle =clr;
       cctx.fillStyle = clr;
       cctx.beginPath();
       c={x:0,y:radius};
       cctx.arc(c.x,c.y,radius,-pi/2,0,false);
       cctx.stroke();
-      cctx.beginPath();
-      cctx.moveTo(c.x,c.y);
-      delta={x:poi.x-c.x,y:poi.y-c.y};
-      delta = norm(delta,radius);
-      cctx.lineTo(c.x+delta.x,c.y+delta.y);
-      cctx.stroke();      
-      cctx.beginPath();
-      cctx.arc(c.x+delta.x,c.y+delta.y,5,0,2*pi,false);
-      cctx.fill();
-      if (ctx.state[0]=='lthumb'){  // -.5 .. 0 (pi)
+      if (isLthumb){
+        delta={x:poi.x-c.x,y:poi.y-c.y};
+        delta = norm(delta,radius);
         var d = -2*Math.atan2(delta.y,delta.x)/pi;
         ctx.delta= d; // min/max deadRange        
-        //console.log('lthumb',ctx.delta);
+
+        // line on arc
+        cctx.beginPath();
+        cctx.moveTo(c.x,c.y);
+        cctx.lineTo(c.x+delta.x,c.y+delta.y);
+        cctx.stroke();      
+        cctx.beginPath();
+        cctx.arc(c.x+delta.x,c.y+delta.y,5,0,2*pi,false);
+        cctx.fill();
+        
       }
 
-      clr= ctx.state[0]=='rthumb'?'orange':'grey';
+      var isRThumb=poi && ctx.state[0]=='rthumb';
+      clr= isRThumb?'orange':'grey';
       cctx.strokeStyle =clr;
       cctx.fillStyle = clr;
       cctx.beginPath();
       c={x:radius,y:radius};
       cctx.arc(c.x,c.y,radius,-pi,-pi/2,false);
       cctx.stroke();
-      cctx.beginPath();
-      cctx.moveTo(c.x,c.y);
-      delta={x:poi.x-c.x,y:poi.y-c.y};
-      delta = norm(delta,radius);
-      cctx.lineTo(c.x+delta.x,c.y+delta.y);
-      cctx.stroke();      
-      cctx.beginPath();
-      cctx.arc(c.x+delta.x,c.y+delta.y,5,0,2*pi,false);
-      cctx.fill();
-      if (ctx.state[0]=='rthumb'){ // -1 .. -.5 (pi)
+      if (isRThumb){
+        delta={x:poi.x-c.x,y:poi.y-c.y};
+        delta = norm(delta,radius);
         var d = 2+2*Math.atan2(delta.y,delta.x)/pi;
         ctx.delta= d; // min/max deadRange        
-        console.log('rthumb',ctx.delta);
+
+        // line on arc
+        cctx.beginPath();
+        cctx.moveTo(c.x,c.y);
+        cctx.lineTo(c.x+delta.x,c.y+delta.y);
+        cctx.stroke();      
+        cctx.beginPath();
+        cctx.arc(c.x+delta.x,c.y+delta.y,5,0,2*pi,false);
+        cctx.fill();
+
       }
 
-
-      clr= ctx.state[0]=='vert'?'cyan':'grey';
+      var isVert=poi && ctx.state[0]=='vert';
+      clr= isVert?'cyan':'grey';
       cctx.strokeStyle =clr;
       cctx.fillStyle = clr;
       cctx.beginPath();
       gridLine(1/2,null,cctx,canvas);
       cctx.stroke();
-      cctx.beginPath();
-      cctx.arc(canvas.width/2,poi.y,5,0,2*pi,false);
-      cctx.fill();
-      if (ctx.state[0]=='vert'){ // -1 .. -.5 (pi)
+      if (isVert){
         var d = 1-poi.y/canvas.height;
         ctx.delta= d; // min/max deadRange        
-        console.log('vert',ctx.delta);
+        cctx.beginPath();
+        cctx.arc(canvas.width/2,poi.y,5,0,2*pi,false);
+        cctx.fill();
       }
 
-      clr= ctx.state[0]=='horiz'?'magenta':'grey';
+      var isHoriz=poi && ctx.state[0]=='horiz';
+      clr= isHoriz?'magenta':'grey';
       cctx.strokeStyle =clr;
       cctx.fillStyle = clr;
       cctx.beginPath();
       gridLine(null,1/2,cctx,canvas);
       cctx.stroke();
-      cctx.beginPath();
-      cctx.arc(poi.x,canvas.height/2,5,0,2*pi,false);
-      cctx.fill();
-      if (ctx.state[0]=='horiz'){ // -1 .. -.5 (pi)
+      if (isHoriz){
         var d = poi.x/canvas.width;
         ctx.delta= d; // min/max deadRange        
-        console.log('horiz',ctx.delta);
+        cctx.beginPath();
+        cctx.arc(poi.x,canvas.height/2,5,0,2*pi,false);
+        cctx.fill();
       }
       
+      var isEdit=poi && ctx.state[0]=='edit';
+      if (isEdit){
+        // call out with event...
+        ctx.delta= 0; // min/max deadRange        
+      }
       // blue dot
-      cctx.fillStyle = 'rgba(0,0,255,.5)';
-      cctx.beginPath();
-      cctx.arc(poi.x,poi.y,20,0,2*pi,false);
-      cctx.fill();
+      if (poi) {
+        cctx.fillStyle = 'rgba(0,0,255,.4)';
+        cctx.beginPath();
+        cctx.arc(poi.x,poi.y,30,0,2*pi,false);
+        cctx.fill();
+      }
       
     }
-    var drawGrid = function(){
+    var drawGrid = function(isEnd){
       var canvas=$canvas[0];
       setState(canvas);
       var off = $canvas.offset();
       var origin = {x:off.left,y:off.top};
       if (canvas.getContext) {  
         var w=canvas.width,h=canvas.height;
-        var poi = {x:(ctx.l.x-origin.x),y:(ctx.l.y-origin.y)};
-        //console.log('poi',poi.x,poi.y,ctx.state);
         var cctx = canvas.getContext("2d");
         cctx.save();
         cctx.clearRect(0,0,w,h);
         
-        cctx.strokeStyle = '#333';
+        cctx.save();
+        cctx.strokeStyle = 'rgba(128,128,0,0.1)';
+        cctx.lineWidth=8;
         cctx.beginPath();
         gridLine(1/3,null,cctx,canvas);
         gridLine(2/3,null,cctx,canvas);
         gridLine(null,1/3,cctx,canvas);
         gridLine(null,2/3,cctx,canvas);
         cctx.stroke();
+        cctx.restore();
 
+        var poi = (ctx && !isEnd)?{x:(ctx.l.x-origin.x),y:(ctx.l.y-origin.y)}:null;
+        //console.log('poi',poi.x,poi.y,ctx.state);
         arcLines(poi,cctx,canvas);
         
-        cctx.strokeStyle = 'red';
-        cctx.beginPath();
-        cctx.moveTo(0,0);
-        cctx.lineTo(poi.x,poi.y);
-        //cctx.stroke();
-
         cctx.restore();
         
       } else {
@@ -293,6 +305,7 @@
         setProp(updatedProp(ctx));
       }
       //console.log('dragend',ctx);      
+      drawGrid(true);
       ctx=null;
     }
 

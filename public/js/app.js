@@ -1,4 +1,7 @@
 
+function hideURLBar(){
+  window.scrollTo(0,0);
+}
 function resetAddObs(){
   if (app.values && app.values.length>0){
     var v = Math.round(app.values[0].value/100)/10;
@@ -30,6 +33,9 @@ function hideAddObs(){
   setTimeout(function(){
     $('.addObs .activeControls').css({display:'none'});
   },1000);
+  setTimeout(function(){ // timing on this is not understood
+    hideURLBar();
+  },1500);
   $('.now input').hide();
   $('.now span').show();
 }
@@ -183,7 +189,8 @@ function addObs(cb){ // cb(err,msgok)
 }
 
 $(function(){
-  window.scrollTo(0,0);
+  hideURLBar();
+  //setInterval(hideURLBar,1000);
   $('html').bind('touchmove',function(e){
     e.preventDefault();
   });
@@ -215,6 +222,12 @@ $(function(){
     $('#stamp').val('');
     $('.now span').hide();
     $('.now input').show().focus();
+  });
+  $('.now input').blur(hideURLBar);
+  if(0)$('.now input').change(function(){
+    setTimeout(function(){
+      hideURLBar();    
+    },1000);
   });
   
   $('.cancelObsBtn').click(function(){

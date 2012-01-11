@@ -35,12 +35,15 @@ body {
 }
 
 .addObs {
-  z-index:15; /* dygraph labels at 10 */
+  z-index:20; /* dygraph labels at 10, .addObs at 20 */
   position: fixed;
-
-  /*  position: absolute;*/
-  bottom:-24px;
   width:100%;
+  bottom:-24px;
+
+  margin:0px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  border-radius: 16px;
 
   -webkit-transition: bottom 1s;
   -moz-transition: bottom 1s;
@@ -48,22 +51,27 @@ body {
 }
 
 .addObs .activeControls .arctouch {
-  background:rgba(255,255,0,.2);
+/*  background:rgba(255,255,0,.1);*/
   position:absolute;
-  bottom:64px; /* 64+2xborder=6*/
+  bottom:0px; /* 64+2xborder=6*/
   width:100%;
   height:320px;
 }
-
+.addObs .activeControls .arctouch canvas {
+  position:absolute;
+  z-index:15; /* dygraph labels at 10, .addObs at 20 */
+}
 .addObs.showing {
-  bottom:32px;
+  bottom:0px;
+  background: rgba(64,64,64, 0.6);
 }
 .addObs.showing .activeControls {
   opacity:1;
 }
 
 .addObs.showing .addObsBtn {
-  border: 6px solid rgba(128,128,255,.5);
+  border: 6px solid rgba(64,64,255,.5);
+  z-index:20;
 }
 
 .addObs .activeControls {
@@ -73,17 +81,18 @@ body {
 }
 .cancelObsBtn , .resetObsBtn {
   position: absolute;
-  bottom:0px;
-}
-.cancelObsBtn {
-  left:15%;
+  top:16px;
 }
 .resetObsBtn {
-  right:15%;
+  left:16px;
+}
+.cancelObsBtn {
+  right:16px;
 }
 
 .addObsBtn {
   /* center in parentL needs size */
+  position:relative;
   margin:auto;
   width:64px;
   height:64px;
@@ -104,7 +113,7 @@ body {
   padding:20px;
   text-align:center;
   color:white;
-  background:black;
+  background:rgba(0,0,0,.5);
   font-size:300%;
 
   -webkit-border-radius: 5px;
@@ -115,18 +124,24 @@ body {
 .now {
   position:relative;
   z-index: 20;
-  width:100px;
+  width:60%;
   margin:auto;
-  margin-bottom:40px;
-  padding:20px;
+  margin-top:15px;
+  margin-bottom:80px;
+  padding:5px;
   text-align:center;
   color:white;
   background:black;
-  font-size:200%;
 
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+}
+.now span {
+  font-size:200%;  
+}
+.now input {
+  font-size:110%;  
 }
 
 #dygraph {

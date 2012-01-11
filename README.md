@@ -28,4 +28,4 @@ Couls use [xml2json](https://github.com/buglabs/node-xml2json), but try [plist](
 
 ## icons
 
-http://www.iconfinder.com/search/1/?q=iconset%3Atwg_retina_icons  
+[Retina Icons](http://www.iconfinder.com/search/1/?q=iconset%3Atwg_retina_icons)
