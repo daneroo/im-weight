@@ -224,11 +224,6 @@ $(function(){
     $('.now input').show().focus();
   });
   $('.now input').blur(hideURLBar);
-  if(0)$('.now input').change(function(){
-    setTimeout(function(){
-      hideURLBar();    
-    },1000);
-  });
   
   $('.cancelObsBtn').click(function(){
     hideAddObs();

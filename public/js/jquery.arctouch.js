@@ -133,6 +133,15 @@
       return {x:p.x/l*scale,y:p.y/l*scale};
     }
     
+    var hintColor = function(){
+      return 'rgba(128,128,128,0.4)';
+      return 'transparent';
+    }
+    var gridColor = function(){
+      return 'transparent';
+      return 'rgba(128,128,0,0.1)';
+    }    
+    
     var arcLines = function(poi,cctx,canvas) {
       // cctx.arc(x,y,radius,startAngle,endAngle, clockwise);
       var pi=Math.PI;
@@ -140,7 +149,7 @@
       var c,delta,clr;
 
       var isLthumb=poi && ctx.state[0]=='lthumb';
-      clr= isLthumb?'yellow':'grey';
+      clr= isLthumb?'yellow':hintColor();
       cctx.strokeStyle =clr;
       cctx.fillStyle = clr;
       cctx.beginPath();
@@ -165,7 +174,7 @@
       }
 
       var isRThumb=poi && ctx.state[0]=='rthumb';
-      clr= isRThumb?'orange':'grey';
+      clr= isRThumb?'orange':hintColor();
       cctx.strokeStyle =clr;
       cctx.fillStyle = clr;
       cctx.beginPath();
@@ -190,7 +199,7 @@
       }
 
       var isVert=poi && ctx.state[0]=='vert';
-      clr= isVert?'cyan':'grey';
+      clr= isVert?'cyan':hintColor();
       cctx.strokeStyle =clr;
       cctx.fillStyle = clr;
       cctx.beginPath();
@@ -205,7 +214,7 @@
       }
 
       var isHoriz=poi && ctx.state[0]=='horiz';
-      clr= isHoriz?'magenta':'grey';
+      clr= isHoriz?'magenta':hintColor();
       cctx.strokeStyle =clr;
       cctx.fillStyle = clr;
       cctx.beginPath();
@@ -233,6 +242,7 @@
       }
       
     }
+
     var drawGrid = function(isEnd){
       var canvas=$canvas[0];
       setState(canvas);
@@ -245,7 +255,7 @@
         cctx.clearRect(0,0,w,h);
         
         cctx.save();
-        cctx.strokeStyle = 'rgba(128,128,0,0.1)';
+        cctx.strokeStyle = gridColor();
         cctx.lineWidth=8;
         cctx.beginPath();
         gridLine(1/3,null,cctx,canvas);
