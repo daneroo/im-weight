@@ -92,6 +92,7 @@ function drawGraph(){
     // axisLabelWidth:100, // doesn't seem to do anything
     yAxisLabelWidth:25,
     
+    showLabelsOnHighlight:false,
     // for touch stuff later...
     //interactionModel: interactionModel
     // interactionModel: {},
