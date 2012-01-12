@@ -1,9 +1,9 @@
 var anchorZoomSetup = function() {
 
   var day=1000*60*60*24; // in ms
-  var zoomDays=[30,90,180,365,730];
+  var zoomDays=[7,14,30,90,180,365,730];
   var zoomDaysPlus=zoomDays.slice(); //plus all time
-  var zoomTitles=['1 month','3 months','6 months','1 year','2 years','All Time']
+  var zoomTitles=['1 week','2 weeks','1 month','3 months','6 months','1 year','2 years','All Time']
   function currentDaysContext(){
     if (!app.values) return {
       current:0,
