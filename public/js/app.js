@@ -62,8 +62,11 @@ function drawGraph(){
     }
   }
   var datatable = new google.visualization.DataTable(data,0.6);
+  var now = new Date-0;
+  var day=1000*60*60*24; // in ms
+  var desiredDays=180;
   var options = {
-    title: 'im-w ',
+    title: '6 months',
     titleHeight: 32,
     logscale : false,
 
@@ -87,10 +90,12 @@ function drawGraph(){
     // drawXGrid: false,
     // drawYGrid: false,
     // axisLabelWidth:100, // doesn't seem to do anything
-    yAxisLabelWidth:25
+    yAxisLabelWidth:25,
     
     // for touch stuff later...
     //interactionModel: interactionModel
+    // interactionModel: {},
+    dateWindow: [now-desiredDays*day,now],
   };
   globalG=new Dygraph.GVizChart(document.getElementById('dygraph'));
   globalG.draw(datatable,options);
@@ -137,6 +142,9 @@ function toggleRange(desiredDays){
   });
   
 }
+
+
+
 function printGraph(){
   if (!app.values) return;
   var values = app.values;
@@ -215,9 +223,10 @@ $(function(){
 
 
   hideAddObs();
-  $('#dygraph').click(function(){
-    toggleRange();
-  });
+  //$dygraph=$('#dygraph');
+  //$dygraph.click(function(){toggleRange()});
+  anchorZoomSetup();
+  
   $('.now').click(function(){
     $('#stamp').val('');
     $('.now span').hide();
