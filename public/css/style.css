@@ -154,6 +154,20 @@ body {
   height:400px;
 */
 }
+#current {
+  width:60%;
+  margin:auto;
+  margin-bottom:40px;
+  padding:20px;
+  text-align:center;
+  color:rgb(64,64,255);
+  font-size:300%;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
 #console {
   display:none;
   position:fixed;

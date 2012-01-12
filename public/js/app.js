@@ -170,7 +170,10 @@ function refreshData(){
     }
     info('refreshed data');
     app.values = o.values;
-
+    if (app.values && app.values.length>0){
+      var v = Math.round(app.values[0].value/100)/10;
+      $('#current').text(v);
+    }
     drawGraph();
     //printGraph();
 
