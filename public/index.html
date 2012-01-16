@@ -5,8 +5,16 @@
   <title>im-w | iMetrical-w</title>
   <meta name="description" content="Dnode example">
   <meta name="author" content="Daniel Lauzon">
-  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" /><!-- viewport settings for mobile device(s) -->
+  
+  <!-- viewport settings for mobile device(s) -->
+  <!-- might still benefit from user-scalable=no -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
+  <!-- iOS web app, deletable if not needed -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
   <link rel="stylesheet" href="css/style.css?v=1">
 
   <script src="http://www.google.com/jsapi"></script>
@@ -19,8 +27,15 @@
   <script src="/js/jquery.touchtrack.js"></script>
   <script src="/js/jquery.arctouch.js"></script>
   <script src="/js/anchorzoom.js"></script>
+  <script src="/js/mylibs/helper.js"></script>
   <script src="/js/app.js"></script>
-
+  <script>
+    // iPhone Scale Bug Fix, read this when using http://www.blog.highub.com/mobile-2/a-fix-for-iphone-viewport-scale-bug/
+    window.onload = function() {
+       // consider this later.
+       // MBP.scaleFix();
+    }
+  </script>
 </head>
 <body>
   <div id="container">

@@ -5,6 +5,7 @@ body, div {
 }
 
 html, body {
+  min-height:480px; /* so we can hide the URL bar , without viewport height=device-height*/
   height:100%;
   width:100%;
 }
@@ -32,6 +33,16 @@ body {
   -webkit-transition: background-position 1s;
   -moz-transition: background-position 1s;
   
+}
+
+/* Landscape iPhone */
+@media screen and (min-width: 321px) and (max-width: 480px) {
+  body {
+    background-position:50% 25%; /* bring up the focus */
+  }
+  .addObs {
+    display:none;
+  }
 }
 
 .addObs {

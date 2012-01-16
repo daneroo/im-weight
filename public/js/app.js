@@ -1,6 +1,8 @@
 
+
 function hideURLBar(){
-  window.scrollTo(0,0);
+  //window.scrollTo(0,0);
+  MBP.hideUrlBar();
 }
 function resetAddObs(){
   if (app.values && app.values.length>0){
@@ -206,6 +208,19 @@ $(function(){
   $('html').bind('touchmove',function(e){
     e.preventDefault();
   });
+  
+  // orientation change
+  function orientationChange(){
+    MBP.viewportmeta.content = "width=device-width, minimum-scale=1.0, maximum-scale=1.0";    
+    hideURLBar();
+    if (window.globalG) {
+      globalG.date_graph.resize();
+    }
+  }
+  $(window).bind('orientationchange', orientationChange);
+  orientationChange();
+  
+  
   // be more specific ?
   $value = $('#value');
   $('.arctouch').arctouch({
