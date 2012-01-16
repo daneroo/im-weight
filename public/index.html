@@ -21,12 +21,20 @@
   <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
   <link rel="apple-touch-icon-precomposed" href="img/icon/apple-touch-icon-57x57-precomposed.png">
   <!-- For nokia devices: -->
-  <link rel="shortcut icon" href="img/l/apple-touch-icon.png">
+  <link rel="shortcut icon" href="img/icon/apple-touch-icon-57x57.png">
 
   <!-- iOS web app, deletable if not needed -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+  <!-- 320x460 for iPhone 3GS -->
+  <link rel="apple-touch-startup-image" media="(max-device-width: 480px) and not (-webkit-min-device-pixel-ratio: 2)" href="img/startup/startup.png">
+  <!-- 640x920 for retina display -->
+  <link rel="apple-touch-startup-image" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" href="img/startup/startup-retina.png">
+  <!-- iPad Portrait 768x1004 -->
+  <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: portrait)" href="img/startup/startup-tablet-portrait.png">
+  <!-- iPad Landscape 1024x748 -->
+  <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: landscape)" href="img/startup/startup-tablet-landscape.png">
   
   <link rel="stylesheet" href="css/style.css?v=1">
 
