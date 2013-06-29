@@ -1,12 +1,12 @@
 {
-  "name":"im-w",
-  "version":"0.0.1",
-  "dependencies":{
-      "cloudfoundry":"",
-      "express": "2.5.x",
-      "dnode": "0.9.x",
-      "mongodb":"",
-      "plist":""
+  "name": "im-w",
+  "version": "0.0.1",
+  "dependencies": {
+    "cloudfoundry": "~0.1.0",
+    "express": "~2.5.11",
+    "dnode": "~0.9.12",
+    "mongodb": "~1.3.10",
+    "plist": "~0.4.3"
   },
   "subdomain": "im-weight",
   "scripts": {

@@ -1,7 +1,11 @@
 ## Temporary backups
 We are making hourlys in dirac:~/Sites/im-w/observationdata.json
 
-## moving to appfog
+# TODO
+
+* remove cloudfoundry package (npm)
+
+## Moved to appfog : 2013-06-29
 Install appfog tools
     gem install af
     af login
