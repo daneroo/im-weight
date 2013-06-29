@@ -8,7 +8,9 @@ var dnode = require('dnode');
 
 var orm = require('./lib/orm');
 
-var ioOpts= (process.env.VMC_APP_PORT)?{
+// always use xhr/jsonp
+// instead og ?(process.env.VMC_APP_PORT){}:{}
+var ioOpts= {
   'transports': [
   //'websocket',
   //'flashsocket',
@@ -16,7 +18,8 @@ var ioOpts= (process.env.VMC_APP_PORT)?{
   'xhr-polling',
   'jsonp-polling'
   ]   
-}:{};
+};
+
 server.use(express.static(__dirname+ '/public'));
 server.get('/backup', function(req, res){
   // see require('express-resource'),
@@ -27,7 +30,7 @@ server.get('/backup', function(req, res){
   });
 });
 
-var initialLoad=false;
+var initialLoad=true;
 if (initialLoad){
   var restore = (function(){
     var obsjson = require('fs').readFileSync(__dirname+'/observationdata.json', 'utf8');
