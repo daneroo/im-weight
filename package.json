@@ -7,5 +7,9 @@
       "dnode": "0.9.x",
       "mongodb":"",
       "plist":""
+  },
+  "subdomain": "im-weight",
+  "scripts": {
+    "start": "node app.js"
   }
 }

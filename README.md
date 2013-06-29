@@ -1,6 +1,12 @@
 ## Temporary backups
 We are making hourlys in dirac:~/Sites/im-w/observationdata.json
 
+## moving to appfog
+Install appfog tools
+    gem install af
+    af login
+    af update im-weight --runtime=node08
+
 ## im-w Mongo backed metric tracker (weight)
 When it's up, you can find it [here](http://im-w.cloudfoundry.com)
 Started from example at
