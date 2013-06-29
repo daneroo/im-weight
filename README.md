@@ -4,6 +4,7 @@ We are making hourlys in dirac:~/Sites/im-w/observationdata.json
 # TODO
 
 * remove cloudfoundry package (npm)
+* mv backup script to repo.. on darwin, and dirac
 
 ## Moved to appfog : 2013-06-29
 Install appfog tools
