@@ -19,7 +19,7 @@ app.get('/backup', function(req, res){
   });
 });
 
-var initialLoad=false;
+var initialLoad=true;
 if (initialLoad){
   var restore = (function(){
     var obsjson = require('fs').readFileSync(__dirname+'/observationdata.json', 'utf8');
@@ -54,8 +54,9 @@ var svc = {
   var server = app.listen(port, host);
   console.log('http://'+host+':'+port+'/');
 
+  // could disable only in production...
   socksjsOpts = {
-    // websocket: false,
+    websocket: false,
     prefix: '/dnode'
   };
 
@@ -64,6 +65,3 @@ var svc = {
     d.pipe(stream).pipe(d);
   });
   sock.install(server, socksjsOpts);
-  // sock.install(server);
-
-
