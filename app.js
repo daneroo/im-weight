@@ -37,31 +37,31 @@ if (initialLoad){
 
 var svc = {
   zing : function (n, cb) { 
-      //console.log('called server');
-      cb(n * 100);
-    },
-    get: function(cb){ // cb(err,doc)      
-      console.log('svc.get');
-      orm.get(cb);
-    },
-    add: function(stamp,value,cb){
-      console.log('svc.add:',stamp,value);
-      //cb({message:'not implemented'});
-      orm.add(stamp,value,cb);
-    }
-  };
+    //console.log('called server');
+    cb(n * 100);
+  },
+  get: function(cb){ // cb(err,doc)      
+    console.log('svc.get');
+    orm.get(cb);
+  },
+  add: function(stamp,value,cb){
+    console.log('svc.add:',stamp,value);
+    //cb({message:'not implemented'});
+    orm.add(stamp,value,cb);
+  }
+};
 
-  var server = app.listen(port, host);
-  console.log('http://'+host+':'+port+'/');
+var server = app.listen(port, host);
+console.log('http://'+host+':'+port+'/');
 
-  // could disable only in production...
-  socksjsOpts = {
-    websocket: false,
-    prefix: '/dnode'
-  };
+// could disable only in production...
+socksjsOpts = {
+  websocket: false,
+  prefix: '/dnode'
+};
 
-  var sock = shoe(function (stream) {
-    var d = dnode(svc);
-    d.pipe(stream).pipe(d);
-  });
-  sock.install(server, socksjsOpts);
+var sock = shoe(function (stream) {
+  var d = dnode(svc);
+  d.pipe(stream).pipe(d);
+});
+sock.install(server, socksjsOpts);
