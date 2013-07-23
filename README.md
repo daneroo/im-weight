@@ -1,7 +1,7 @@
 ## Temporary backups
-We are making hourlys in dirac:~/Sites/im-w/observationdata.json
+We are making hourlys in dirac:~/Sites/im-weight/observationdata.json
 
-# TODO
+## TODO
 
 * remove cloudfoundry package (npm)
 * mv backup script to repo.. on darwin, and dirac
@@ -12,7 +12,7 @@ Install appfog tools
     af login
     af update im-weight --runtime=node08
 
-## im-w Mongo backed metric tracker (weight)
+## im-weight Mongo backed metric tracker (weight)
 When it's up, you can find it [here](http://im-w.cloudfoundry.com)
 Started from example at
   [cloudfoundry_node_mongodb](https://github.com/gatesvp/cloudfoundry_node_mongodb.git)
