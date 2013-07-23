@@ -1,3 +1,4 @@
+// DEPRECATED - plist removed from package.json dependancies
 var plist = require('plist'),
     path = require('path')
     fs = require('fs');

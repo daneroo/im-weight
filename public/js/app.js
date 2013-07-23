@@ -164,12 +164,13 @@ var app = {
 }
 
 function refreshData(){
-  // console.log('about to get');
+  // console.log('attempt to refresh');
   if (!app.svc) return;
   app.svc.get(function(err,o){
     if (err){
-      console.log('svc.get::error',error);
-      rerturn;
+      console.log('svc.get::error',err);
+      app.values=[];
+      return;
     }
     info('refreshed data');
     app.values = o.values;
@@ -275,10 +276,9 @@ $(function(){
     }
     return;
   });
-  DNode.connect({reconnect:5000},function (remote) {
-    app.svc=remote; // global!
-    refreshData();
-  });
+
+  // Dnode connect has been moved to client.js -> js/bundle.js
+
 });
 
 function info(msg,clear){

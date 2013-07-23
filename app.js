@@ -3,25 +3,14 @@ var port = (process.env.VMC_APP_PORT || 3000);
 var host = (process.env.VCAP_APP_HOST || '0.0.0.0'|| 'localhost');
 
 var express = require('express');
-var server = express.createServer();
+var app = express();
+var shoe = require('shoe');
 var dnode = require('dnode');
 
 var orm = require('./lib/orm');
 
-// always use xhr/jsonp
-// instead og ?(process.env.VMC_APP_PORT){}:{}
-var ioOpts= {
-  'transports': [
-  //'websocket',
-  //'flashsocket',
-  //'htmlfile',
-  'xhr-polling',
-  'jsonp-polling'
-  ]   
-};
-
-server.use(express.static(__dirname+ '/public'));
-server.get('/backup', function(req, res){
+app.use(express.static(__dirname+ '/public'));
+app.get('/backup', function(req, res){
   // see require('express-resource'),
   orm.get(function(err,doc){
     res.writeHead(200, {'content-type': 'text/json' });
@@ -47,7 +36,7 @@ if (initialLoad){
 }
 
 var svc = {
-    zing : function (n, cb) { 
+  zing : function (n, cb) { 
       //console.log('called server');
       cb(n * 100);
     },
@@ -60,15 +49,21 @@ var svc = {
       //cb({message:'not implemented'});
       orm.add(stamp,value,cb);
     }
-};
+  };
 
-dnode(svc).listen(server,{ io : ioOpts});
+  var server = app.listen(port, host);
+  console.log('http://'+host+':'+port+'/');
 
-if (!process.env.VMC_APP_PORT) {
-  // also listen to 7070 directly (locally)
-  dnode(svc).listen(7070);
-}
+  socksjsOpts = {
+    // websocket: false,
+    prefix: '/dnode'
+  };
+
+  var sock = shoe(function (stream) {
+    var d = dnode(svc);
+    d.pipe(stream).pipe(d);
+  });
+  sock.install(server, socksjsOpts);
+  // sock.install(server);
 
 
-server.listen(port, host);
-console.log('http://'+host+':'+port+'/');
