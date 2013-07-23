@@ -1,5 +1,5 @@
 {
-  "name": "im-w",
+  "name": "im-weight",
   "version": "0.0.1",
   "dependencies": {
     "cloudfoundry": "~0.1.0",
