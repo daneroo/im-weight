@@ -1,4 +1,5 @@
 ## Temporary backups
+[Backups from appfog](http://im-weight.aws.af.cm/)
 We are making hourlys in dirac:~/Sites/im-weight/observationdata.json
 
 ## TODO
