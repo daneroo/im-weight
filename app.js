@@ -10,6 +10,9 @@ var dnode = require('dnode');
 var orm = require('./lib/orm');
 
 app.use(express.static(__dirname+ '/public'));
+// bodyParser will move to separate middleware...
+app.use(express.bodyParser());
+
 app.get('/backup', function(req, res){
   // see require('express-resource'),
   orm.get(function(err,doc){
@@ -18,6 +21,34 @@ app.get('/backup', function(req, res){
     res.end('\n');
   });
 });
+
+app.post('/add', function(req, res){
+  console.log('req.body',req.body);
+  svc.add(req.body.stamp,req.body.value,function(err,doc){
+    if (err){
+      res.writeHead(403, {'content-type': 'text/json' });
+      res.write( JSON.stringify(err,null,2) );
+    } else {
+      res.writeHead(200, {'content-type': 'text/json' });
+      res.write( JSON.stringify(doc,null,2) );
+    }
+    res.end('\n');
+  });
+});
+
+app.post('/zing', function(req, res){
+  svc.zing(req.body.n,function(err,doc){
+    if (err){
+      res.writeHead(403, {'content-type': 'text/json' });
+      res.write( JSON.stringify(err,null,2) );
+    } else {
+      res.writeHead(200, {'content-type': 'text/json' });
+      res.write( JSON.stringify(doc,null,2) );
+    }
+    res.end('\n');
+  });
+});
+
 
 var initialLoad=true;
 if (initialLoad){
@@ -37,8 +68,14 @@ if (initialLoad){
 
 var svc = {
   zing : function (n, cb) { 
-    //console.log('called server');
-    cb(n * 100);
+    console.log('svc.zing',n);
+    var asnum = parseFloat(n);
+    if (isNaN(asnum)) { 
+      if (cb) cb({message:'Invalid Value'});
+      return;
+    }
+    n = asnum;
+    cb(null,n * 100);
   },
   get: function(cb){ // cb(err,doc)      
     console.log('svc.get');
