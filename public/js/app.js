@@ -184,6 +184,25 @@ function refreshData(){
   });
 }
 
+/* 
+  This is a replacement for app.svc.add(cb)
+  It can be invoked below to test POST requests, instead of dnode
+*/
+function addObsByPostSvc(stamp,value,cb){
+  // var endpoint = '/add';
+  var endpoint = 'http://dirac:3000/add';
+  // jQuery.post( url [, data ] [, success ] [, dataType ] )
+  //  jqxhr .done().fail().always()
+  $.post(endpoint,{stamp:stamp,value:value})
+    .done(function(nullexpected){
+      console.log('success',nullexpected);
+      cb(null,null);
+    })
+    .fail(function(err){
+      console.log('error',err);
+      cb(err);
+    });
+}
 function addObs(cb){ // cb(err,msgok)
   var value=$('#value').text();
   var stamp = $('#stamp').val();
@@ -200,7 +219,16 @@ function addObs(cb){ // cb(err,msgok)
   }
   
   console.log('add',value,stamp);
-  app.svc.add(stamp,value,cb);
+  var useDNode=true;
+  if(useDNode){
+    // This uses dnode
+    console.log('app.svc.add',stamp,value);
+    app.svc.add(stamp,value,cb);
+  } else {
+    console.log('addObsByPostSvc',stamp,value);
+    // alternatively use a POST request
+    addObsByPostSvc(stamp,value,cb);
+  }
 }
 
 $(function(){

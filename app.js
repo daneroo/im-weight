@@ -21,40 +21,36 @@ var allowCrossDomain = function(req, res, next) {
 };
 app.use(allowCrossDomain);
 
+// factory - curries result to handler
+var commonResHandler = function(res){
+  return function(err,doc){
+    if (err){
+      res.writeHead(403, {'content-type': 'text/json' });
+      res.write( JSON.stringify(err,null,2) );
+    } else {
+      res.writeHead(200, {'content-type': 'text/json' });
+      res.write( JSON.stringify(doc,null,2) );
+    }
+    res.end('\n');
+  }  
+}
 // now the routes
 app.get('/backup', function(req, res){
-  // see require('express-resource'),
-  orm.get(function(err,doc){
-    res.writeHead(200, {'content-type': 'text/json' });
-    res.write( JSON.stringify(doc,null,2) );
-    res.end('\n');
-  });
+  console.log('svc.get (GET /backup):');
+  svc.get(commonResHandler(res));
 });
 
 app.post('/add', function(req, res){
-  svc.add(req.body.stamp,req.body.value,function(err,doc){
-    if (err){
-      res.writeHead(403, {'content-type': 'text/json' });
-      res.write( JSON.stringify(err,null,2) );
-    } else {
-      res.writeHead(200, {'content-type': 'text/json' });
-      res.write( JSON.stringify(doc,null,2) );
-    }
-    res.end('\n');
-  });
+  var stamp = req.body.stamp;
+  var value = req.body.value;
+  console.log('svc.add (POST /add):',stamp,value);
+  svc.add(stamp,value,commonResHandler(res));
 });
 
 app.post('/zing', function(req, res){
-  svc.zing(req.body.n,function(err,doc){
-    if (err){
-      res.writeHead(403, {'content-type': 'text/json' });
-      res.write( JSON.stringify(err,null,2) );
-    } else {
-      res.writeHead(200, {'content-type': 'text/json' });
-      res.write( JSON.stringify(doc,null,2) );
-    }
-    res.end('\n');
-  });
+  var n = req.body.n;
+  console.log('svc.zing (POST /zing):',n);
+  svc.zing(n,commonResHandler(res));
 });
 
 
