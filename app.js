@@ -54,7 +54,7 @@ app.post('/zing', function(req, res){
 });
 
 
-var initialLoad=true;
+var initialLoad=false;
 if (initialLoad){
   var restore = (function(){
     var obsjson = require('fs').readFileSync(__dirname+'/observationdata.json', 'utf8');
