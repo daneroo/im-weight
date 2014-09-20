@@ -2,7 +2,9 @@
 [Backups from appfog](http://im-weight.aws.af.cm/)
 We are making hourlys in dirac:~/Sites/im-weight/observationdata.json
 
+Note: had to revert to commit labelled: 2013-07-22T22:41:20.817Z
 Note: dnode-shoe-socks has been merged and deployed.
+
 
 ## Plan (2014-09-20)
 We started to move to the new dnode in Jul 2013, but left it unmerged, this is what I'd like to accomplish:
