@@ -1,21 +1,24 @@
 ## Temporary backups
+[Backups from appfog](http://im-weight.aws.af.cm/)
 We are making hourlys in dirac:~/Sites/im-weight/observationdata.json
 
+## TODO
+
+* Move to firebase/meteor/angular
+* remove cloudfoundry package (npm)
+* mv backup script to repo.. on darwin, and dirac
+
 ## Moved to appfog : 2013-06-29
+When it's up, you can find it [here on appfog](http://im-weight.aws.af.cm/)
 Install appfog tools
 
     gem install af
     af login
     af update im-weight --runtime=node08
 
-## TODO
-
-* remove cloudfoundry package (npm)
-* mv backup script to repo.. on darwin, and dirac
-
 
 ## im-weight Mongo backed metric tracker (weight)
-When it's up, you can find it [here](http://im-w.cloudfoundry.com)
+When it's up, you can find it [here on cloudfoundry](http://im-w.cloudfoundry.com)
 Started from example at
   [cloudfoundry_node_mongodb](https://github.com/gatesvp/cloudfoundry_node_mongodb.git)
 
@@ -46,3 +49,9 @@ Could use [xml2json](https://github.com/buglabs/node-xml2json), but try [plist](
     
     # git diff to confirm, git commit to backup!
 
+<<<<<<< HEAD
+=======
+## icons
+
+[Retina Icons](http://www.iconfinder.com/search/1/?q=iconset%3Atwg_retina_icons)
+>>>>>>> master
