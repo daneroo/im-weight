@@ -12,7 +12,16 @@ var orm = require('./lib/orm');
 app.use(express.static(__dirname+ '/public'));
 // bodyParser will move to separate middleware...
 app.use(express.bodyParser());
+// Allow CORS - to move frontend
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+};
+app.use(allowCrossDomain);
 
+// now the routes
 app.get('/backup', function(req, res){
   // see require('express-resource'),
   orm.get(function(err,doc){
@@ -23,7 +32,6 @@ app.get('/backup', function(req, res){
 });
 
 app.post('/add', function(req, res){
-  console.log('req.body',req.body);
   svc.add(req.body.stamp,req.body.value,function(err,doc){
     if (err){
       res.writeHead(403, {'content-type': 'text/json' });
