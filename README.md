@@ -17,6 +17,7 @@ We started to move to the new dnode in Jul 2013, but left it unmerged, this is w
 * add POST to addObs,
 * open CORS so we can have a different frontend
 * merge dnode-shoe-socks back to master
+* remove initialLoad=true in app.js before deploy
 * --- Later
 * If we are keeping this backend, fix npm outdated: express 4.x,...
 * Move to firebase/meteor/angular
