@@ -9,6 +9,7 @@ We started to move to the new dnode in Jul 2013, but left it unmerged, this is w
     - to simplify will add simple POST to addObs
     - if I can get shoe/socks/dnode to work in the new frontend, we can keep this backend, otherwise move to firebase/meteor
 
+- AngularJS fronted (CORS) - [angular-dygraphs](http://cdjackson.github.io/angular-dygraphs/)
 - Eventually Separate the backend, if we keep socks
 
 ## TODO
