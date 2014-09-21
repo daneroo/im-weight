@@ -1,6 +1,12 @@
 {
   "name": "im-weight",
   "version": "0.0.1",
+  "description": "iMetrical weight tracker",
+  "author": "Daniel Lauzon <daniel.lauzon@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daneroo/im-weight.git"
+  },
   "dependencies": {
     "cloudfoundry": "~0.1.0",
     "express": "~3.3.4",
