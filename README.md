@@ -2,8 +2,13 @@
 [Backups from appfog](http://im-weight.aws.af.cm/)
 We are making hourlys in dirac:~/Sites/im-weight/observationdata.json
 
-Note: had to revert to commit labelled: 2013-07-22T22:41:20.817Z
 Note: dnode-shoe-socks has been merged and deployed.
+
+## Deploy to appfog:
+Seems we need to tell appfog to use node 0.10.x, and use `npm-shrinkwrap.json` which is git-ignored
+
+    npm shrinkwrap
+    af --runtime=node10 update im-weight
 
 
 ## Plan (2014-09-20)

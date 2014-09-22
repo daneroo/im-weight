@@ -93,6 +93,7 @@ var svc = {
 };
 
 var server = app.listen(port, host);
+console.log('server running: ',process.versions);
 console.log('http://'+host+':'+port+'/');
 
 // could disable only in production...

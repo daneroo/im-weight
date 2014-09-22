@@ -189,10 +189,8 @@ function refreshData(){
   It can be invoked below to test POST requests, instead of dnode
 */
 function addObsByPostSvc(stamp,value,cb){
-  // var endpoint = '/add';
-  var endpoint = 'http://dirac:3000/add';
-  // jQuery.post( url [, data ] [, success ] [, dataType ] )
-  //  jqxhr .done().fail().always()
+  // var endpoint = 'http://dirac:3000/add';
+  var endpoint = '/add';
   $.post(endpoint,{stamp:stamp,value:value})
     .done(function(nullexpected){
       console.log('success',nullexpected);
