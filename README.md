@@ -1,3 +1,8 @@
+## Todo
+
+* Use position:fixed for bottom layer
+* App icons, http://realfavicongenerator.net/ and http://css-tricks.com/favicon-quiz/
+
 ## Temporary backups
 [Backups from appfog](http://im-weight.aws.af.cm/)
 We are making hourlys in dirac:~/Sites/im-weight/observationdata.json
