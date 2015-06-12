@@ -65,11 +65,11 @@ body {
 }
 
 .addObs .activeControls {
-  border: 1px solid yellow;
+  /*border: 1px solid yellow;*/
 }
 
 .addObs .activeControls .arctouch {
-  border: 1px solid green;
+  /*border: 1px solid green;*/
   position:fixed;
   bottom:0px; /* 64+2xborder=6*/
   width:100%;
@@ -78,8 +78,8 @@ body {
   margin:auto;
 }
 .addObs .activeControls .arctouch canvas {
-  border: 1px solid red;
-  background:rgba(255,255,0,.1);
+  /*border: 1px solid red;*/
+  /*background:rgba(255,255,0,.1);*/
   display: block;
   margin: auto;
   /*width:100%;*/
@@ -141,7 +141,7 @@ body {
 #value {
   width:60%;
   margin:auto;
-  margin-bottom:40px;
+  margin-bottom:80px;
   padding:20px;
   text-align:center;
   color:white;
@@ -159,7 +159,7 @@ body {
   width:60%;
   margin:auto;
   margin-top:15px;
-  margin-bottom:80px;
+  margin-bottom:40px;
   padding:5px;
   text-align:center;
   color:white;
