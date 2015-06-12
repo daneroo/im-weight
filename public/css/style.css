@@ -186,6 +186,11 @@ body {
   height:400px;
 */
 }
+
+#dygraph .dygraph-title {
+  color:gray;
+}
+
 #current {
   width:60%;
   margin:auto;
