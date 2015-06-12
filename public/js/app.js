@@ -20,7 +20,7 @@ function showAddObs(){
   
   // display:none/block and opactity animation need attention
   // set display:block now, opacity:1 in nextTick
-  $('.addObs .activeControls').css({display:''});
+  $('.addObs .activeControls').css({display:'block'});
   setTimeout(function(){
     $('.addObs').addClass('showing');
     $('body').css('background-position','50% 50%');

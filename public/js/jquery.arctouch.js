@@ -26,7 +26,16 @@
         canvas = canvases[0];
       }
       $canvas = $(canvas);
-      $(canvas).attr({width: $element.width(), height: $element.height()});
+      var size = {width: $element.width(), height: $element.height()};
+      var maxWidth = 320;
+
+      size.width = 320;//Math.min(size.width,maxWidth);
+      console.log('size',size);
+      console.log('setting canvas size attr and css');
+      // html attr
+      $(canvas).attr(size);
+      // css style attr
+      $(canvas).css(size);
 
       // set the initial state
       $canvas.bind('mousedown', mousedown);
@@ -138,7 +147,7 @@
       return 'transparent';
     }
     var gridColor = function(){
-      return 'transparent';
+      // return 'transparent';
       return 'rgba(128,128,0,0.1)';
     }    
     
@@ -146,6 +155,9 @@
       // cctx.arc(x,y,radius,startAngle,endAngle, clockwise);
       var pi=Math.PI;
       var radius = Math.min(canvas.width,canvas.height);
+      var xOffset = (radius < canvas.width) ? canvas.width - radius : 0;
+
+
       var c,delta,clr;
 
       var isLthumb=poi && ctx.state[0]=='lthumb';
@@ -153,7 +165,7 @@
       cctx.strokeStyle =clr;
       cctx.fillStyle = clr;
       cctx.beginPath();
-      c={x:0,y:radius};
+      c={x:xOffset,y:radius};
       cctx.arc(c.x,c.y,radius,-pi/2,0,false);
       cctx.stroke();
       if (isLthumb){

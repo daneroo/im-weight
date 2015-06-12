@@ -35,12 +35,15 @@ body {
   
 }
 
-/* Landscape iPhone */
-@media screen and (min-width: 321px) and (max-width: 480px) {
+/* Landscape Nexus/iPhone */
+@media screen and (min-width: 361px) and (max-width: 600px) {
   body {
     background-position:50% 25%; /* bring up the focus */
   }
   .addObs {
+    display:none;
+  }
+  .addObsBtn {
     display:none;
   }
 }
@@ -61,20 +64,34 @@ body {
 
 }
 
+.addObs .activeControls {
+  border: 1px solid yellow;
+}
+
 .addObs .activeControls .arctouch {
-/*  background:rgba(255,255,0,.1);*/
-  position:absolute;
+  border: 1px solid green;
+  position:fixed;
   bottom:0px; /* 64+2xborder=6*/
   width:100%;
   height:320px;
+
+  margin:auto;
 }
 .addObs .activeControls .arctouch canvas {
-  position:absolute;
+  border: 1px solid red;
+  background:rgba(255,255,0,.1);
+  display: block;
+  margin: auto;
+  /*width:100%;*/
+  /*height:100%;*/
+  /*max-width: 400px;*/
+  /*position:fixed;*/
   z-index:15; /* dygraph labels at 10, .addObs at 20 */
 }
 .addObs.showing {
   bottom:0px;
   background: rgba(64,64,64, 0.6);
+  opacity:1;
 }
 .addObs.showing .activeControls {
   opacity:1;
@@ -82,6 +99,7 @@ body {
 
 .addObs.showing .addObsBtn {
   border: 6px solid rgba(64,64,255,.5);
+  bottom: 0px;
   z-index:20;
 }
 
@@ -102,9 +120,12 @@ body {
 }
 
 .addObsBtn {
+  z-index: 25;
   /* center in parentL needs size */
-  position:relative;
-  margin:auto;
+  position:fixed;
+  bottom: -16px;
+  left:50%;
+  margin-left: -32px;
   width:64px;
   height:64px;
 
