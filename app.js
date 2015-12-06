@@ -1,6 +1,5 @@
 // Config section
-var port = (process.env.VMC_APP_PORT || 3000);
-var host = (process.env.VCAP_APP_HOST || '0.0.0.0'|| 'localhost');
+var port = process.env.PORT || 3000;
 
 var express = require('express');
 var app = express();
@@ -94,9 +93,9 @@ var svc = {
   }
 };
 
-var server = app.listen(port, host);
+var server = app.listen(port);
 console.log('server running: ',process.versions);
-console.log('http://'+host+':'+port+'/');
+console.log('listening on port: %s',port);
 
 // could disable only in production...
 socksjsOpts = {
