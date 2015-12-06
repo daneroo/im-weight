@@ -53,7 +53,7 @@ app.post('/zing', function(req, res){
 });
 
 
-var initialLoad=true;
+var initialLoad=false;
 if (initialLoad){
     setTimeout(function(){
     var restore = (function(){
