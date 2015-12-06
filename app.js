@@ -54,20 +54,22 @@ app.post('/zing', function(req, res){
 });
 
 
-var initialLoad=false;
+var initialLoad=true;
 if (initialLoad){
-  var restore = (function(){
-    var obsjson = require('fs').readFileSync(__dirname+'/observationdata.json', 'utf8');
-    //console.log(obsjson);
-    //console.log('----------');
-    return JSON.parse(obsjson);
-  })();
-  if (restore.values){
-    console.log('restoring values');
-    orm.save(restore.values);
-  } else {
-    console.log('ERROR: could not restore values');
-  }
+    setTimeout(function(){
+    var restore = (function(){
+      var obsjson = require('fs').readFileSync(__dirname+'/observationdata.json', 'utf8');
+      //console.log(obsjson);
+      //console.log('----------');
+      return JSON.parse(obsjson);
+    })();
+    if (restore.values){
+      console.log('restoring values');
+      orm.save(restore.values);
+    } else {
+      console.log('ERROR: could not restore values');
+    }    
+  },2000); // wait for connection to be initialized
 }
 
 var svc = {

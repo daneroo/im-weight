@@ -1,9 +1,25 @@
 ## Todo
 
+* Fix connectio init (delay of 1 sec to initialize db...)
+* remove or fix dnode,
+  * ./node_modules/.bin/browserify client.js -o public/js/bundle.js
+  * https://gist.github.com/nathan7/3729590
 * Use position:fixed for bottom layer
 * App icons, http://realfavicongenerator.net/ and http://css-tricks.com/favicon-quiz/
 
+## 2015-12-06 Move to heroku
+
+    heroku apps:create im-weight
+    # which added remote: heroku    https://git.heroku.com/im-weight.git
+    heroku addons:create mongolab
+
+## Testing with local mongodb
+
+    docker run -d -p 27017:27017 -p 28017:28017 --name mongo mongo
+
+
 ## Temporary backups
+These have been replaced to point to heroku
 [Backups from appfog](http://im-weight.aws.af.cm/)
 We are making hourlys in dirac:~/Sites/im-weight/observationdata.json
 
@@ -74,9 +90,6 @@ Could use [xml2json](https://github.com/buglabs/node-xml2json), but try [plist](
     
     # git diff to confirm, git commit to backup!
 
-<<<<<<< HEAD
-=======
 ## icons
 
 [Retina Icons](http://www.iconfinder.com/search/1/?q=iconset%3Atwg_retina_icons)
->>>>>>> master
