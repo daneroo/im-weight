@@ -1,2 +1,5 @@
 node_modules
 npm-shrinkwrap.json
+# contains loggly token
+backup/ENV.sh
+backup/error.log*
