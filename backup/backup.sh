@@ -4,7 +4,8 @@
 # source as env variable $LOGGLY_TOKEN
 . ENV.sh
 SOURCE="im-weight.herokuapp.com"
-SOURCE_URI="http://${SOURCE}/backup"
+# ssl when available, which it is on heroku
+SOURCE_URI="https://${SOURCE}/backup"
 DESTINATION="`hostname`"
 
 # Get the backup data
