@@ -3,7 +3,7 @@
 # ** Do not put the LOGGLY TOKEN in version control...
 # source as env variable $LOGGLY_TOKEN
 . ENV.sh
-SOURCE="im-weight.aws.af.cm"
+SOURCE="im-weight.herokuapp.com"
 SOURCE_URI="http://${SOURCE}/backup"
 DESTINATION="`hostname`"
 
