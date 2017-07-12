@@ -16,7 +16,7 @@
     "shoe": "0.0.15"
   },
   "engines": {
-    "node": "4.2.x"
+    "node": "4.x"
   },
   "subdomain": "im-weight",
   "scripts": {
