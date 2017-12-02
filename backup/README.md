@@ -8,8 +8,7 @@ We should allow for save/restore from the app....
     # crontab -e # on shannon
     03 */4 * * * cd /Users/daniel/Code/iMetrical/im-weight/backup; ./backup.sh >> error.log 2>&1
 
-	03 */4 * * * cd /Users/daniel/Code/iMetrical/im-weight/backup; ./backup.sh >> e\
-rror.log 2>&1
+	03 */4 * * * cd /Users/daniel/Code/iMetrical/im-weight/backup; ./backup.sh >> error.log 2>&1
 
 ## Backups from im-w.cloudfoundry.com
 These have been disabled, and the app removed
