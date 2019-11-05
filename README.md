@@ -3,6 +3,8 @@
 ## TODO
 
 - Rotate on Pixel 3
+- upgrade mongo driver
+- add linter
 - Fix connectio init (delay of 1 sec to initialize db...)
 - remove or fix dnode,
   - ./node_modules/.bin/browserify client.js -o public/js/bundle.js
@@ -10,7 +12,23 @@
 - Use position:fixed for bottom layer
 - App icons, http://realfavicongenerator.net/ and http://css-tricks.com/favicon-quiz/
 
-## 2019-11-04 Redeploy
+## Redeploy
+
+```bash
+git push heroku master
+```
+
+## Develop with local mongodb
+
+You should set `initialRestore=true` in `app.js::init()`
+
+```bash
+docker run --rm -p 27017:27017 --name mongo mongo
+```
+
+## 2019-11-04 Remove dnode/shoe
+
+Bringing the app up to date. Dnode/Shoe/socks is wildly out of date
 
 ## 2015-12-06 Move to heroku
 
@@ -20,11 +38,6 @@
   heroku addons:create mongolab
 ```
 
-## Testing with local mongodb
-
-```bash
-docker run -d -p 27017:27017 -p 28017:28017 --name mongo mongo
-```
 
 ## Temporary backups
 

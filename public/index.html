@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>im-w | iMetrical-w</title>
@@ -11,7 +12,7 @@
   <meta name="MobileOptimized" content="320">
   <!-- viewport settings for mobile device(s) -->
   <!-- might still benefit from user-scalable=no -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Home screen icon  Mathias Bynens http://goo.gl/6nVq0 -->
   <!-- For iPhone 4 with high-resolution Retina display: -->
@@ -28,21 +29,25 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
   <!-- 320x460 for iPhone 3GS -->
-  <link rel="apple-touch-startup-image" media="(max-device-width: 480px) and not (-webkit-min-device-pixel-ratio: 2)" href="img/startup/startup.png">
+  <link rel="apple-touch-startup-image" media="(max-device-width: 480px) and not (-webkit-min-device-pixel-ratio: 2)"
+    href="img/startup/startup.png">
   <!-- 640x920 for retina display -->
-  <link rel="apple-touch-startup-image" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" href="img/startup/startup-retina.png">
+  <link rel="apple-touch-startup-image" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)"
+    href="img/startup/startup-retina.png">
   <!-- iPad Portrait 768x1004 -->
-  <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: portrait)" href="img/startup/startup-tablet-portrait.png">
+  <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: portrait)"
+    href="img/startup/startup-tablet-portrait.png">
   <!-- iPad Landscape 1024x748 -->
-  <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: landscape)" href="img/startup/startup-tablet-landscape.png">
-  
+  <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: landscape)"
+    href="img/startup/startup-tablet-landscape.png">
+
   <link rel="stylesheet" href="css/style.css?v=1">
 
   <script src="http://www.google.com/jsapi"></script>
   <!--<script src="http://dygraphs.com/dygraph-dev.js"></script> -->
   <!-- <script src="http://dygraphs.com/dygraph-combined.js"></script> -->
   <script src="js/libs/dygraph-combined.js"></script>
-  
+
   <!--<script src="/dnode.js"></script>-->
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
@@ -52,15 +57,16 @@
   <script src="/js/mylibs/helper.js"></script>
   <script src="/js/app.js"></script>
   <!-- replaced /dnode.js with browserified bundle -->
-  <script src="/js/bundle.js"></script>
+  <!-- <script src="/js/bundle.js"></script> -->
   <script>
     // iPhone Scale Bug Fix, read this when using http://www.blog.highub.com/mobile-2/a-fix-for-iphone-viewport-scale-bug/
-    window.onload = function() {
-       // consider this later.
-       // MBP.scaleFix();
+    window.onload = function () {
+      // consider this later.
+      // MBP.scaleFix();
     };
   </script>
 </head>
+
 <body>
   <div id="container">
     <div class="addObs">
@@ -68,7 +74,7 @@
         <div class="arctouch"></div>
         <div class="now">
           <span>Now</span>
-          <input id="stamp" type="datetime-local" value="2011-12-29"/>
+          <input id="stamp" type="datetime-local" value="2011-12-29T00:00" />
         </div>
         <br />
         <div id="value">100</div>
@@ -84,6 +90,5 @@
     <pre id="obs"></pre>
   </div>
 </body>
+
 </html>
-
-
