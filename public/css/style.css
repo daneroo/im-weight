@@ -35,8 +35,8 @@ body {
   
 }
 
-/* Landscape Nexus/iPhone */
-@media screen and (min-width: 361px) and (max-width: 600px) {
+/* Landscape use to be min/max widths unstable */
+@media screen and (orientation: landscape) {
   body {
     background-position:50% 25%; /* bring up the focus */
   }
