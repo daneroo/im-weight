@@ -41,8 +41,10 @@ function hideAddObs() {
   $('.now span').show();
 }
 
-google.load('visualization', '1', { packages: ['corechart'] });
-function drawGraph() {
+// load returns a promise, which we await in drawGraph
+const googleVizLoaded = google.charts.load('current', {'packages':['corechart']});
+
+async function drawGraph() {
   if (!app.values) return;
   var values = app.values;
 
@@ -62,6 +64,10 @@ function drawGraph() {
       // data.rows.push({c:[{v: stamp}, {v: value}, {v: 1}]});
     }
   }
+
+  await googleVizLoaded
+  console.log('Now google.visualization is loaded')
+
   var datatable = new google.visualization.DataTable(data, 0.6);
   var now = new Date - 0;
   var day = 1000 * 60 * 60 * 24; // in ms
@@ -173,8 +179,8 @@ async function refreshData() {
     var v = Math.round(app.values[0].value / 100) / 10;
     $('#current').text(v);
   }
-  drawGraph();
-  //printGraph();
+  await drawGraph();
+  // printGraph();
 }
 
 async function addObs(cb) { // cb(err,msgok)
