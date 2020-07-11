@@ -1,24 +1,23 @@
 # im-weight
 
+- Deployed to heroku @ <http://im-weight.herokuapp.com/>
+
 ## TODO
 
-- Rotate on Pixel 3
-- upgrade mongo driver
-- add linter
-- Fix connectio init (delay of 1 sec to initialize db...)
-- remove or fix dnode,
-  - ./node_modules/.bin/browserify client.js -o public/js/bundle.js
-  - https://gist.github.com/nathan7/3729590
-- Use position:fixed for bottom layer
+- Add S3
+  - remove mongo
+- Move to vercel/next/S3
 - App icons, http://realfavicongenerator.net/ and http://css-tricks.com/favicon-quiz/
 
-## Redeploy
+## Usage
+
+### Redeploy
 
 ```bash
 git push heroku master
 ```
 
-## Develop with local mongodb
+### Develop with local mongodb
 
 You should set `initialRestore=true` in `app.js::init()`
 
@@ -26,11 +25,12 @@ You should set `initialRestore=true` in `app.js::init()`
 docker run --rm -p 27017:27017 --name mongo mongo
 ```
 
-## 2019-11-04 Remove dnode/shoe
+## Historical Logs
 
-Bringing the app up to date. Dnode/Shoe/socks is wildly out of date
-
-## 2015-12-06 Move to heroku
+- 2020-07-10 Add S3 for backup, then remove Mongo (Shutdown notice: mLab MongoDB add-on)
+- 2020-07-10 Fix CSS Layout/GoogleCharts
+- 2019-11-04 Remove Dnode/Shoe/socks (wildly out of date)
+- 2015-12-06 Move to heroku
 
 ```bash
   heroku apps:create im-weight
@@ -38,6 +38,7 @@ Bringing the app up to date. Dnode/Shoe/socks is wildly out of date
   heroku addons:create mongolab
 ```
 
+## Historical Below
 
 ## Temporary backups
 
