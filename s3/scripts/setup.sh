@@ -7,7 +7,7 @@ aws iam create-user --user-name ${USERNAME}
 
 echo 
 echo "Creating access key"
-aws iam create-access-key --user-name ${USERNAME} |jq .AccessKey >../s3-creds.json
+aws iam create-access-key --user-name ${USERNAME} |jq .AccessKey >${CREDENTIALS_FILE}
 
 echo 
 echo "Creating access policy"

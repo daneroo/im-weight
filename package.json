@@ -20,5 +20,8 @@
   "subdomain": "im-weight",
   "scripts": {
     "start": "node app.js"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
   }
 }

@@ -6,7 +6,7 @@ const fs = require('fs').promises
 const region = 'us-east-1'
 const bucketName = 'im-weight'
 
-const { AccessKeyId: accessKeyId, SecretAccessKey: secretAccessKey } = JSON.parse(readFileSync('./s3-creds.json'))
+const { AccessKeyId: accessKeyId, SecretAccessKey: secretAccessKey } = JSON.parse(readFileSync('./s3-credentials.json'))
 console.log({
   accessKeyId,
   secretAccessKey
