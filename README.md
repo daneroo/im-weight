@@ -1,17 +1,23 @@
 # im-weight
 
-- Deployed to heroku @ <http://im-weight.herokuapp.com/>
+- Deployed to heroku @ <https://im-weight.herokuapp.com/>
+- Backed up from dirac and shannon crons
 
 ## TODO
 
-- Add S3
-  - remove mongo
 - JSON.stringify(.,null,2) for output?
 - include public/js for linter
-- Add backup restore digest methods to npm scripts
-- Rotate keys with temp script (heroku config < `s3/s3-credentials.json`)
+- Infra
+  - Turn on history on bucket - with cleanup
+  - Add backup/restore/digest methods to npm scripts
+    - remove observationdata.json from `/`
+    - backup using what creds? currently open for heroku, im-dan?
+  - backup cron += nats
+  - Pulumi
+    - Rotate keys with temp script (heroku config < `s3/s3-credentials.json`)
+    - provision multiple stacks for S3: dev/prod - enhance config
 - Add local minio/s3 for testing - requires test config for s3 endpoint
-- Move to vercel/next/S3
+- Move to vercel/next
 - App icons, <http://realfavicongenerator.net/> and <http://css-tricks.com/favicon-quiz/>
 
 ## Usage
@@ -20,14 +26,6 @@
 
 ```bash
 git push heroku master
-```
-
-### Develop with local mongodb
-
-You should set `initialRestore=true` in `app.js::init()`
-
-```bash
-docker run --rm -p 27017:27017 --name mongo mongo
 ```
 
 ## Backup/Restore
