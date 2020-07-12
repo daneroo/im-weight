@@ -37,6 +37,5 @@ function getCredentials (credentialsFile) {
   }
 }
 
-console.log('config: ', config)
 console.log(`config: using accessKeyId: ${config.aws.credentials.accessKeyId}`)
 module.exports = config

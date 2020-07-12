@@ -7,6 +7,7 @@
 - Add S3
   - remove mongo
 - Add backup restore digest methods to npm scripts
+- Rotate keys with temp script (heroku config < `s3/s3-credentials.json`)
 - Add local minio/s3 for testing - requires test config for s3 endpoint
 - Move to vercel/next/S3
 - App icons, <http://realfavicongenerator.net/> and <http://css-tricks.com/favicon-quiz/>
@@ -34,8 +35,14 @@ Now that our backend is S3, we can backup and restore with `aws s3 {cp|sync}`
 ```bash
 # checksum
 aws --profile im-dan s3 cp s3://im-weight/observationdata.json - | md5sum
+curl -s https://im-weight.herokuapp.com/backup | md5sum
+cat backup/observationdata.json | md5sum
+
 # head (latest)
 aws --profile im-dan s3 cp s3://im-weight/observationdata.json - | jq .values[0]
+curl -s https://im-weight.herokuapp.com/backup | jq .values[0]
+cat backup/observationdata.json | jq .values[0]
+
 # backup
 aws --profile im-dan s3 cp s3://im-weight/observationdata.json observation
 # restore
