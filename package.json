@@ -8,21 +8,27 @@
     "url": "https://github.com/daneroo/im-weight.git"
   },
   "license": "BSD-2-Clause",
-  "dependencies": {
-    "aws-sdk": "^2.713.0",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "express": "~4.17.1",
-    "mongodb": "^2.0.49"
-  },
   "engines": {
     "node": "12.x"
   },
   "subdomain": "im-weight",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "npm run lint && npm audit",
+    "lint": "standard"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.713.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "~4.17.1"
   },
   "devDependencies": {
     "standard": "^14.3.4"
+  },
+  "standard": {
+    "ignore": [
+      "/public/js/**/*.js"
+    ]
   }
 }

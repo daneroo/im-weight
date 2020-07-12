@@ -6,8 +6,6 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var cors = require('cors')
 
-const { aws: awsConfig } = require('./config')
-
 var app = express()
 
 var orm = require('./lib/orm')
@@ -22,7 +20,7 @@ var commonResHandler = function (res) {
   return function (err, doc) {
     if (err) {
       res.writeHead(400, { 'content-type': 'text/json' })
-      res.write(JSON.stringify(err, null, 2))
+      res.write(JSON.stringify({ message: err.toString() }, null, 2))
     } else {
       res.writeHead(200, { 'content-type': 'text/json' })
       res.write(JSON.stringify(doc, null, 2))
@@ -43,30 +41,13 @@ app.post('/add', function (req, res) {
   svc.add(stamp, value, commonResHandler(res))
 })
 
-function delay (ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 async function init () {
   console.log('Server initializing')
-  console.log('..Delay to establish connection to mongo')
-  await delay(1000)
 
-  var initialRestore = false
-  if (initialRestore) {
-    const observations = require('fs').readFileSync(path.join(__dirname, awsConfig.keyForSingleObject), 'utf8')
-    const restore = JSON.parse(observations)
-
-    if (restore.values) {
-      console.log('Restoring values')
-      orm.save(restore.values)
-    } else {
-      console.log('ERROR: could not restore values')
-    }
-  }
+  // just to validate our aws key, and show last three measurements
   orm.get((err, doc) => {
     if (err) {
-      console.log('orm.get:err', err)
+      console.log('app.init -> orm.get:error', err.toString())
     } else {
       // console.log('orm.get:doc', doc)
       console.log('orm.get:doc.values[0..3)', doc.values.slice(0, 3))
@@ -76,12 +57,9 @@ async function init () {
 
 var svc = {
   get: function (cb) { // cb(err,doc)
-    console.log('svc.get')
     orm.get(cb)
   },
   add: function (stamp, value, cb) {
-    console.log('svc.add:', stamp, value)
-    // cb({message:'not implemented'});
     orm.add(stamp, value, cb)
   }
 }

@@ -6,6 +6,8 @@
 
 - Add S3
   - remove mongo
+- JSON.stringify(.,null,2) for output?
+- include public/js for linter
 - Add backup restore digest methods to npm scripts
 - Rotate keys with temp script (heroku config < `s3/s3-credentials.json`)
 - Add local minio/s3 for testing - requires test config for s3 endpoint
@@ -36,6 +38,7 @@ Now that our backend is S3, we can backup and restore with `aws s3 {cp|sync}`
 # checksum
 aws --profile im-dan s3 cp s3://im-weight/observationdata.json - | md5sum
 curl -s https://im-weight.herokuapp.com/backup | md5sum
+cat observationdata.json | md5sum
 cat backup/observationdata.json | md5sum
 
 # head (latest)
@@ -44,9 +47,9 @@ curl -s https://im-weight.herokuapp.com/backup | jq .values[0]
 cat backup/observationdata.json | jq .values[0]
 
 # backup
-aws --profile im-dan s3 cp s3://im-weight/observationdata.json observation
+aws --profile im-dan s3 cp s3://im-weight/observationdata.json observationdata.json
 # restore
-aws --profile im-dan s3 cp s3://im-weight/observationdata.json observation
+aws --profile im-dan s3 cp observationdata.json s3://im-weight/observationdata.json
 ```
 
 ## Historical Logs
@@ -55,6 +58,11 @@ aws --profile im-dan s3 cp s3://im-weight/observationdata.json observation
 - 2020-07-10 Fix CSS Layout/GoogleCharts
 - 2019-11-04 Remove Dnode/Shoe/socks (wildly out of date)
 - 2015-12-06 Move to heroku
+- 2013-07-01 Integrate DNode/shoe/socks
+- 2013-06-29 Moved to appfog
+- 2011-10-27 convert from iPhone observation.xml plist
+- 2011-09-24 Originally deployed to cloudfoundry
+- 2011-09-23 restart project from iPhone App
 
 ```bash
   heroku apps:create im-weight
