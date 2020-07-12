@@ -3,18 +3,16 @@ const { readFileSync } = require('fs')
 
 const region = 'us-east-1'
 const bucketName = 'im-weight'
-const credentialsFile = './s3/s3-credentials.json'
+const keyForSingleObject = 'observationdata.json'
+const credentialsFile = './Zs3/s3-credentials.json'
 
 const config = {
   aws: {
     apiVersion: '2006-03-01',
     region,
     bucketName,
-    credentials: getCredentials(credentialsFile)
-    // credentials:{
-    //   accessKeyId: process.env.ACCESS_KEY_ID || accessKeyId,
-    //   secretAccessKey: process.env.SECRET_ACCESS_KEY || secretAccessKey
-    // }
+    keyForSingleObject,
+    credentials: getCredentials(credentialsFile) // { accessKeyId, secretAccessKey }
   }
 }
 

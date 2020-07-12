@@ -6,8 +6,10 @@
 
 - Add S3
   - remove mongo
+- Add backup restore digest methods to npm scripts
+- Add local minio/s3 for testing - requires test config for s3 endpoint
 - Move to vercel/next/S3
-- App icons, http://realfavicongenerator.net/ and http://css-tricks.com/favicon-quiz/
+- App icons, <http://realfavicongenerator.net/> and <http://css-tricks.com/favicon-quiz/>
 
 ## Usage
 
@@ -23,6 +25,21 @@ You should set `initialRestore=true` in `app.js::init()`
 
 ```bash
 docker run --rm -p 27017:27017 --name mongo mongo
+```
+
+## Backup/Restore
+
+Now that our backend is S3, we can backup and restore with `aws s3 {cp|sync}`
+
+```bash
+# checksum
+aws --profile im-dan s3 cp s3://im-weight/observationdata.json - | md5sum
+# head (latest)
+aws --profile im-dan s3 cp s3://im-weight/observationdata.json - | jq .values[0]
+# backup
+aws --profile im-dan s3 cp s3://im-weight/observationdata.json observation
+# restore
+aws --profile im-dan s3 cp s3://im-weight/observationdata.json observation
 ```
 
 ## Historical Logs
@@ -44,11 +61,11 @@ docker run --rm -p 27017:27017 --name mongo mongo
 
 These have been replaced to point to heroku
 [Backups from appfog](http://im-weight.aws.af.cm/)
-We are making hourlys in dirac:~/Sites/im-weight/observationdata.json
+We are making hourly backups in dirac:~/Sites/im-weight/observationdata.json
 
 Note: dnode-shoe-socks has been merged and deployed.
 
-## Deploy to appfog:
+## Deploy to appfog
 
 Seems we need to tell appfog to use node 0.10.x, and use `npm-shrinkwrap.json` which is git-ignored
 
@@ -61,7 +78,7 @@ Seems we need to tell appfog to use node 0.10.x, and use `npm-shrinkwrap.json` w
 
 We started to move to the new dnode in Jul 2013, but left it unmerged, this is what I'd like to accomplish:
 
-- Deploy a new fronted (seperate repo)
+- Deploy a new fronted (separate repo)
   - to simplify will add simple POST to addObs
   - if I can get shoe/socks/dnode to work in the new frontend, we can keep this backend, otherwise move to firebase/meteor
 - AngularJS fronted (CORS) - [angular-dygraphs](http://cdjackson.github.io/angular-dygraphs/)
@@ -112,7 +129,7 @@ vmc update im-w
 
 ## Seeding initial data
 
-No longer needed, `plist` has been removed from package.json dependancies.
+No longer needed, `plist` has been removed from package.json dependencies.
 
 Could use [xml2json](https://github.com/buglabs/node-xml2json), but try [plist](https://github.com/TooTallNate/node-plist) which uses sax npm module.
 
