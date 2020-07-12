@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 var commonResHandler = function (res) {
   return function (err, doc) {
     if (err) {
-      res.writeHead(403, { 'content-type': 'text/json' });
+      res.writeHead(400, { 'content-type': 'text/json' });
       res.write(JSON.stringify(err, null, 2));
     } else {
       res.writeHead(200, { 'content-type': 'text/json' });

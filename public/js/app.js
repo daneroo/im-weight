@@ -198,9 +198,8 @@ async function addObs(cb) { // cb(err,msgok)
     stamp = norm;
   }
 
-  console.log('add', value, stamp);
   console.log('add', stamp, value);
-  // addObsByPostSvc(stamp, value, cb);
+
   const res = await fetch('/add', {
     method: 'post',
     headers: {
@@ -209,9 +208,15 @@ async function addObs(cb) { // cb(err,msgok)
     },
     body: JSON.stringify({ stamp, value })
   })
-  const o = await res.json()
-  console.log('Posted Obs', o)
-  cb(null, o)
+  if (res.status===200){
+    const o = await res.json()
+    console.log('Posted Obs (null expected)', o)
+    cb(null, o)  
+  } else {
+    const err = await res.json()
+    console.log('Error Posting Obs', res.status, err)
+    cb(new Error(err.message))  
+  }
 }
 
 $(function () {
@@ -276,6 +281,7 @@ $(function () {
       addObs(function (err, nullexpected) {
         if (err) {
           info(err.message);
+          alert(err.message)
         } else {
           info('observation added');
         }
