@@ -11,7 +11,7 @@
   - Turn on history on bucket - with cleanup
   - Add backup/restore/digest methods to npm scripts
     - remove observationdata.json from `/`
-    - backup using what creds? currently open for heroku, im-dan?
+    - backup using what credentials? currently open for heroku, im-dan?
   - backup cron += nats
   - Pulumi
     - Rotate keys with temp script (heroku config < `s3/s3-credentials.json`)
