@@ -22,14 +22,13 @@
 
 ## Usage
 
-### Redeploy
+### Redeploy - Legacy
 
-Heroku: deploy old version from legacy subdirectory
+From legacy-heroku branch (`git checkout legacy-heroku`)
 
 ```bash
-git subtree push --prefix legacy heroku master
-
-# previously...
+git push heroku legacy-heroku:master
+# previously... from master branch
 git push heroku master
 ```
 
