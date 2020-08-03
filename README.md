@@ -27,7 +27,7 @@
 From legacy-heroku branch (`git checkout legacy-heroku`)
 
 ```bash
-git push heroku master
+git push heroku legacy-heroku:master
 ```
 
 ## Backup/Restore
