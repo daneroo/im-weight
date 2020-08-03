@@ -24,6 +24,8 @@
 
 ### Redeploy
 
+From legacy-heroku branch (`git checkout legacy-heroku`)
+
 ```bash
 git push heroku master
 ```
