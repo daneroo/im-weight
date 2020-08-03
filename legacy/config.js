@@ -4,7 +4,7 @@ const { readFileSync } = require('fs')
 const region = 'us-east-1'
 const bucketName = 'im-weight'
 const keyForSingleObject = 'observationdata.json'
-const credentialsFile = './s3/s3-credentials.json'
+const credentialsFile = '../s3/s3-credentials.json'
 
 const config = {
   aws: {

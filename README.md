@@ -24,7 +24,12 @@
 
 ### Redeploy
 
+Heroku: deploy old version from legacy subdirectory
+
 ```bash
+git subtree push --prefix legacy heroku master
+
+# previously...
 git push heroku master
 ```
 
