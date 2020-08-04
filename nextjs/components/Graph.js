@@ -1,46 +1,44 @@
 import React, { useState } from 'react'
-import useSWR from 'swr'
 import moment from 'moment'
 
-import fetcher from './fetcher'
 import { ResponsiveLine } from '@nivo/line'
 
-const zoomDays = [145, 1, 6, 12, 24, 36, 60]
+const zoomDays = [1, 6, 12, 24, 36, 60, 145]
 
 // TODO(daneroo): take data out of here...
-export default function Graph () {
+export default function Graph ({ values }) {
   const [zoom, setZoom] = useState(0)
-  const { data, error } = useSWR('/api/backup', fetcher)
 
   const adjustZoom = (delta) => {
     console.log(delta)
     setZoom((zoom + delta + zoomDays.length) % zoomDays.length)
   }
-  const startMoment = moment().subtract(zoomDays[zoom], 'months')
-  console.log(startMoment.format())
-  const filterSince = ({ x, y }) => moment(x).isAfter(startMoment)
-  // const filterSince = ({ x, y }) => x > '2019-02'
-  if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
-  const series = [...data.values] // .reverse()
+  const sinceMoment = moment().subtract(zoomDays[zoom], 'months')
+
+  // filter values:{stamp,value}
+  const filterSince = ({ stamp, value }) => moment(stamp).isAfter(sinceMoment)
+  // const filterSince = ({ x, y }) => moment(x).isAfter(startMoment)
+
+  const series = values.filter(filterSince)
+  // nivo needs {x,y} pars
   const nivoData = [{
     id: 'line',
     color: 'rgb(128, 128, 255)',
     data: series.map((o, i) => {
       return { x: o.stamp, y: o.value / 1000 }
-    }).filter(filterSince)
+    })
   }]
 
   const commonProperties = {
-    // width: 600,
-    // height: '50vh',
     margin: { top: 20, right: 20, bottom: 40, left: 40 },
-    data,
     animate: true,
     enableSlices: 'x'
   }
 
   const theme = {
+    background: 'transparent',
+    // fontFamily: 'sans-serif',
+    fontSize: 14,
     textColor: 'rgb(128, 128, 128)',
     axis: {
       domain: {
@@ -87,8 +85,7 @@ export default function Graph () {
   )
 
   return (
-    <div style={{ width: '100%', height: '50vh', borderNot: '1px solid red' }}>
-
+    <>
       <ResponsiveLine
         {...commonProperties}
         theme={theme}
@@ -118,10 +115,11 @@ export default function Graph () {
         // enableGridY={false}
         axisBottom={{
         // format: '%b %d',
-          format: '%b \'%y',
+          // format: '%b \'%y',
+          format: '%Y',
           // tickValues: 'every 2 days',
           // tickValues: 'every 6 months',
-          tickValues: 'every 2 years',
+          tickValues: 'every 1 years',
           tickSize: 10
         // legend: 'time scale',
         // legendOffset: -12
@@ -197,11 +195,11 @@ export default function Graph () {
 
       <div style={{ position: 'fixed', top: 0 }}>
         <button onClick={() => adjustZoom(-1)}>-</button>
-        {zoom} : {startMoment.fromNow()}
+        {zoom} : {sinceMoment.fromNow()}
         <button onClick={() => adjustZoom(+1)}>+</button>
       </div>
 
-    </div>
+    </>
 
   )
 }
