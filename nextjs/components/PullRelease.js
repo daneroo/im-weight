@@ -24,8 +24,7 @@ export default function PullRelease () {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      alignItems: 'center',
-      border: '1px solid red'
+      alignItems: 'center'
     }}
     >
       <JSONData />

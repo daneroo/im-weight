@@ -1,9 +1,25 @@
+import React, { useState } from 'react'
 import useSWR from 'swr'
-import fetcher from './fetcher'
-import { ResponsiveLine, Line } from '@nivo/line'
+import moment from 'moment'
 
+import fetcher from './fetcher'
+import { ResponsiveLine } from '@nivo/line'
+
+const zoomDays = [145, 1, 6, 12, 24, 36, 60]
+
+// TODO(daneroo): take data out of here...
 export default function Graph () {
+  const [zoom, setZoom] = useState(0)
   const { data, error } = useSWR('/api/backup', fetcher)
+
+  const adjustZoom = (delta) => {
+    console.log(delta)
+    setZoom((zoom + delta + zoomDays.length) % zoomDays.length)
+  }
+  const startMoment = moment().subtract(zoomDays[zoom], 'months')
+  console.log(startMoment.format())
+  const filterSince = ({ x, y }) => moment(x).isAfter(startMoment)
+  // const filterSince = ({ x, y }) => x > '2019-02'
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>
   const series = [...data.values] // .reverse()
@@ -12,7 +28,7 @@ export default function Graph () {
     color: 'rgb(128, 128, 255)',
     data: series.map((o, i) => {
       return { x: o.stamp, y: o.value / 1000 }
-    }).filter(({ x, y }) => x > '2019-02')
+    }).filter(filterSince)
   }]
 
   const commonProperties = {
@@ -104,13 +120,14 @@ export default function Graph () {
         // format: '%b %d',
           format: '%b \'%y',
           // tickValues: 'every 2 days',
-          tickValues: 'every 6 months',
+          // tickValues: 'every 6 months',
+          tickValues: 'every 2 years',
           tickSize: 10
         // legend: 'time scale',
         // legendOffset: -12
         }}
         curve='monotoneX'
-        // enablePoints={false}
+        enablePoints={false}
         // enablePointLabel
         pointSymbol={CustomSymbol}
         pointSize={8}
@@ -177,6 +194,13 @@ export default function Graph () {
       //   }
       // ]}
       />
+
+      <div style={{ position: 'fixed', top: 0 }}>
+        <button onClick={() => adjustZoom(-1)}>-</button>
+        {zoom} : {startMoment.fromNow()}
+        <button onClick={() => adjustZoom(+1)}>+</button>
+      </div>
+
     </div>
 
   )

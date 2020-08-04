@@ -2,6 +2,8 @@ This is a starter template for [Learn Next.js](https://nextjs.org/learn).
 
 ## TODO
 
+- replace og-image, once deployed to vercel
+- full screen (no browserbar)
 - moment for weight byline, ago/stamp - onCLick(dot)
 - scales for time/graph range/units
 - refactor components, theme object (ctx)

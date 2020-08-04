@@ -6,19 +6,20 @@ body {
     Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   line-height: 1.6;
   font-size: 18px;
-  /* background: rgba(240,240,255,1); */
   background: rgba(0,0,0,1);
   color: gray;
 
 }
 
 body {
-  background: -webkit-radial-gradient(center center, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); 
+  /* at bottom */
+  background: radial-gradient(circle at center bottom,rgb(128,128,255) 0% ,rgb(0,0,0) 40%); 
+  /* Roughly centered on button */
+  background: radial-gradient(circle at center 75%,rgb(128,128,255) 0% ,rgb(0,0,0) 40%); 
 
-  background-size:100% 200%;
-  /* to recenter the bg */
-  background-position:50% 00%;
-  transition: background-position 1s;
+  /* TODO(daneroo) this in to animate the background gradient 
+    probably nee to use transition background, not position*/
+  /* transition: background-position 1s; */
 
 }
 
