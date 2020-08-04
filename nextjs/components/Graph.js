@@ -1,36 +1,20 @@
-import React, { useState } from 'react'
-import moment from 'moment'
 
 import { ResponsiveLine } from '@nivo/line'
 
-const zoomDays = [1, 6, 12, 24, 36, 60, 145]
-
 // TODO(daneroo): take data out of here...
-export default function Graph ({ values }) {
-  const [zoom, setZoom] = useState(0)
-
-  const adjustZoom = (delta) => {
-    console.log(delta)
-    setZoom((zoom + delta + zoomDays.length) % zoomDays.length)
-  }
-  const sinceMoment = moment().subtract(zoomDays[zoom], 'months')
-
-  // filter values:{stamp,value}
-  const filterSince = ({ stamp, value }) => moment(stamp).isAfter(sinceMoment)
-  // const filterSince = ({ x, y }) => moment(x).isAfter(startMoment)
-
-  const series = values.filter(filterSince)
+export default function Graph ({ values, since, adjustZoom }) {
   // nivo needs {x,y} pars
   const nivoData = [{
     id: 'line',
     color: 'rgb(128, 128, 255)',
-    data: series.map((o, i) => {
-      return { x: o.stamp, y: o.value / 1000 }
+    data: values.map((o, i) => {
+      return { x: o.stamp, y: o.value }
     })
   }]
 
   const commonProperties = {
-    margin: { top: 20, right: 20, bottom: 40, left: 40 },
+    // add margin for axis labels
+    margin: { top: 20, right: 20, bottom: 40, left: 60 },
     animate: true,
     enableSlices: 'x'
   }
@@ -195,7 +179,7 @@ export default function Graph ({ values }) {
 
       <div style={{ position: 'fixed', top: 0 }}>
         <button onClick={() => adjustZoom(-1)}>-</button>
-        {zoom} : {sinceMoment.fromNow()}
+        {since}
         <button onClick={() => adjustZoom(+1)}>+</button>
       </div>
 
