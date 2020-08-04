@@ -1,0 +1,23 @@
+{
+  "name": "learn-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@nivo/line": "^0.62.0",
+    "axios": "^0.19.2",
+    "next": "9.3.5",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-spring": "^8.0.27",
+    "react-use-gesture": "^7.0.15",
+    "swr": "^0.2.3"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
+  }
+}

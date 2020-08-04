@@ -1,0 +1,41 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  line-height: 1.6;
+  font-size: 18px;
+  /* background: rgba(240,240,255,1); */
+  background: rgba(0,0,0,1);
+  color: gray;
+
+}
+
+body {
+  background: -webkit-radial-gradient(center center, circle cover,  rgb(128,128,255) 0%,rgb(0,0,0) 40%); 
+
+  background-size:100% 200%;
+  /* to recenter the bg */
+  background-position:50% 00%;
+  transition: background-position 1s;
+
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
