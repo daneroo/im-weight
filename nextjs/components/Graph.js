@@ -1,8 +1,40 @@
 
+import moment from 'moment'
 import { ResponsiveLine } from '@nivo/line'
 
 // TODO(daneroo): take data out of here...
 export default function Graph ({ values, since, adjustZoom }) {
+  console.log(since, values.length)
+  const hasDots = values.length < 75
+
+  const xTicks = {
+    // default
+    format: '%Y',
+    tickValues: 'every 2 years',
+    ...((values.length < 100) ? {
+      format: '%Y',
+      tickValues: 'every 1 years'
+    } : {}),
+    ...((values.length < 50) ? {
+      format: '%Y',
+      tickValues: 'every 1 years'
+    } : {}),
+    ...((values.length <= 35) ? {
+      format: '%b \'%y',
+      tickValues: 'every 6 months'
+    } : {}),
+    ...((values.length <= 20) ? { // 6months
+      format: '%b',
+      tickValues: 'every 1 months'
+    } : {})
+
+    // format: '%b \'%y',
+    // tickValues: 'every 2 days',
+    // tickValues: 'every 6 months',
+    // tickValues: 'every 1 months'
+
+  }
+
   // nivo needs {x,y} pars
   const nivoData = [{
     id: 'line',
@@ -98,18 +130,14 @@ export default function Graph ({ values, since, adjustZoom }) {
         // enableGridX={false}
         // enableGridY={false}
         axisBottom={{
-        // format: '%b %d',
-          // format: '%b \'%y',
-          format: '%Y',
-          // tickValues: 'every 2 days',
-          // tickValues: 'every 6 months',
-          tickValues: 'every 1 years',
+          format: xTicks.format,
+          tickValues: xTicks.tickValues,
           tickSize: 10
         // legend: 'time scale',
         // legendOffset: -12
         }}
         curve='monotoneX'
-        enablePoints={false}
+        enablePoints={hasDots}
         // enablePointLabel
         pointSymbol={CustomSymbol}
         pointSize={8}

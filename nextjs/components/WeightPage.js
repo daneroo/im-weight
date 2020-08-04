@@ -31,7 +31,6 @@ export default function WeightPage () {
   const values = data.values.map(scale).filter(filterSince)
 
   const adjustZoom = (delta) => {
-    console.log(delta)
     setZoom((zoom + delta + zoomDays.length) % zoomDays.length)
   }
 
