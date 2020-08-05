@@ -1,44 +1,36 @@
 
 import moment from 'moment'
 import { ResponsiveLine } from '@nivo/line'
+import { minmaxValuesRounded } from './minmaxValues'
 
 // TODO(daneroo): take data out of here...
 export default function Graph ({ values, since, adjustZoom }) {
-  console.log(since, values.length)
+  // important params: hasDots => enablePoints
   const hasDots = values.length < 75
 
-  const xTicks = {
-    // default
-    format: '%Y',
-    tickValues: 'every 2 years',
-    ...((values.length < 100) ? {
-      format: '%Y',
-      tickValues: 'every 1 years'
-    } : {}),
-    ...((values.length < 50) ? {
-      format: '%Y',
-      tickValues: 'every 1 years'
-    } : {}),
-    ...((values.length <= 35) ? {
-      format: '%b \'%y',
-      tickValues: 'every 6 months'
-    } : {}),
-    ...((values.length <= 20) ? { // 6months
-      format: '%b',
-      tickValues: 'every 1 months'
-    } : {})
-
-    // format: '%b \'%y',
-    // tickValues: 'every 2 days',
-    // tickValues: 'every 6 months',
-    // tickValues: 'every 1 months'
-
+  // adjust time range: min/max
+  const xScale = {
+    min: values.slice(-1)[0].stamp, // could round this off (floor)
+    max: new Date().toISOString() // use `now`, not latest sample
   }
+
+  // const yScale = { min: 'auto', max: 'auto' }
+  const yScale = minmaxValuesRounded(values)
+
+  // set up time axis labels - all we need is min/max
+  const xTicks = timeTicks(xScale)
+
+  const myTheme = {
+    color: {
+      text: 'rgb(128, 128, 128)',
+      tickAndGrid: 'rgb(128, 128, 128)'
+    }
+  }
+  // That should be all for tuning.
 
   // nivo needs {x,y} pars
   const nivoData = [{
-    id: 'line',
-    color: 'rgb(128, 128, 255)',
+    id: 'line', // needed for legends
     data: values.map((o, i) => {
       return { x: o.stamp, y: o.value }
     })
@@ -47,45 +39,36 @@ export default function Graph ({ values, since, adjustZoom }) {
   const commonProperties = {
     // add margin for axis labels
     margin: { top: 20, right: 20, bottom: 40, left: 60 },
-    animate: true,
-    enableSlices: 'x'
+    animate: true
+    // enableSlices: 'x'
   }
 
+  // see https://github.com/plouc/nivo/blob/master/packages/core/src/theming/defaultTheme.js
   const theme = {
     background: 'transparent',
     // fontFamily: 'sans-serif',
     fontSize: 14,
-    textColor: 'rgb(128, 128, 128)',
+    textColor: myTheme.color.text,
     axis: {
-      domain: {
-        line: {
-          stroke: 'transparent',
-          strokeWidth: 1
-        }
-      },
       ticks: {
         line: {
-          stroke: 'rgb(128, 128, 128)',
+          stroke: myTheme.color.tickAndGrid,
           strokeWidth: 0.7
-        },
-        text: {}
+        }
       },
       legend: {
         text: {
-          fontSize: 12
+          fontSize: 18
         }
       }
     },
     grid: {
       line: {
-        stroke: 'rgb(128, 128, 128)',
+        stroke: myTheme.color.tickAndGrid,
         strokeWidth: 0.7
       }
     }
-
   }
-
-  // const curveOptions = ['linear', 'monotoneX', 'step', 'stepBefore', 'stepAfter']
 
   const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
     <g>
@@ -105,36 +88,39 @@ export default function Graph ({ values, since, adjustZoom }) {
       <ResponsiveLine
         {...commonProperties}
         theme={theme}
-        // data={timeExampleData}
         data={nivoData}
         colors={['rgb(128, 128, 255)']}
         xScale={{
           type: 'time',
           format: '%Y-%m-%dT%H:%M:%S.%LZ',
+          ...xScale, // min,max
           useUTC: false,
           precision: 'day'
         }}
         xFormat='time:%Y-%m-%d'
         yScale={{
           type: 'linear',
-          stacked: false,
-          min: 'auto',
-          max: 'auto'
-        }}
-        axisLeft={{
-          color: 'red',
-          tickValues: 5
-        // legend: 'Weight',
-        // legendOffset: 5
+          ...yScale // min/max
         }}
         // enableGridX={false}
         // enableGridY={false}
+        axisTop={{
+          tickValues: 0,
+          legendPosition: 'middle',
+          legend: since,
+          legendOffset: 5
+        }}
         axisBottom={{
-          format: xTicks.format,
-          tickValues: xTicks.tickValues,
+          ...xTicks, // format and tickValues
           tickSize: 10
-        // legend: 'time scale',
-        // legendOffset: -12
+          // tickRotation: -45
+          // legend: 'Time',
+          // legendOffset: -12
+        }}
+        axisLeft={{
+          tickValues: 5
+          // legend: 'Weight',
+          // legendOffset: 5
         }}
         curve='monotoneX'
         enablePoints={hasDots}
@@ -148,61 +134,6 @@ export default function Graph ({ values, since, adjustZoom }) {
         }}
         useMesh
         enableSlices={false}
-
-        // before
-
-      // axisBottom={{
-      //   orient: 'bottom',
-      //   // tickSize: 5,
-      //   // tickPadding: 5,
-      //   tickRotation: -45
-      //   // legend: 'transportation',
-      //   // legendOffset: 36,
-      //   // legendPosition: 'middle'
-      // }}
-      // axisLeft={{
-      //   orient: 'left',
-      //   tickSize: 5,
-      //   tickPadding: 5,
-      //   tickRotation: 0
-      //   // legend: 'count',
-      //   // legendOffset: -40,
-      //   // legendPosition: 'middle'
-      // }}
-      // colors={{ scheme: 'spectral' }}
-      // pointSize={10}
-      // pointColor={{ theme: 'grid.line.stroke' }}
-      // pointBorderWidth={2}
-      // pointBorderColor={{ from: 'serieColor' }}
-      // pointLabel='y'
-      // pointLabelYOffset={-12}
-      // useMesh
-      // legends={[
-      //   {
-      //     anchor: 'bottom-right',
-      //     direction: 'column',
-      //     justify: false,
-      //     translateX: 100,
-      //     translateY: 0,
-      //     itemsSpacing: 0,
-      //     itemDirection: 'left-to-right',
-      //     itemWidth: 80,
-      //     itemHeight: 20,
-      //     itemOpacity: 0.75,
-      //     symbolSize: 12,
-      //     symbolShape: 'circle',
-      //     symbolBorderColor: 'rgba(0, 0, 0, .5)',
-      //     effects: [
-      //       {
-      //         on: 'hover',
-      //         style: {
-      //           itemBackground: 'rgba(0, 0, 0, .03)',
-      //           itemOpacity: 1
-      //         }
-      //       }
-      //     ]
-      //   }
-      // ]}
       />
 
       <div style={{ position: 'fixed', top: 0 }}>
@@ -210,109 +141,36 @@ export default function Graph ({ values, since, adjustZoom }) {
         {since}
         <button onClick={() => adjustZoom(+1)}>+</button>
       </div>
-
     </>
 
   )
 }
 
-const unusedDefaultTheme = {
-  background: 'transparent',
-  fontFamily: 'sans-serif',
-  fontSize: 11,
-  textColor: '#333333',
-  axis: {
-    domain: {
-      line: {
-        stroke: 'transparent',
-        strokeWidth: 1
-      }
-    },
-    ticks: {
-      line: {
-        stroke: '#777777',
-        strokeWidth: 1
-      },
-      text: {}
-    },
-    legend: {
-      text: {
-        fontSize: 12
-      }
+// separate out xAxis ticks logic
+function timeTicks ({ min, max }) {
+  const minMoment = moment(min)
+  const maxMoment = moment(max)
+  const daysInRange = maxMoment.diff(minMoment, 'days')
+
+  if (daysInRange < 180) { // up to six labels
+    return {
+      format: '%b',
+      tickValues: 'every 1 months'
     }
-  },
-  grid: {
-    line: {
-      stroke: '#dddddd',
-      strokeWidth: 1
+  }
+  if (daysInRange < 730) { // up to 4 labels
+    return {
+      format: '%b \'%y',
+      tickValues: 'every 6 months'
     }
-  },
-  legends: {
-    text: {
-      fill: '#333333'
-    }
-  },
-  labels: {
-    text: {}
-  },
-  markers: {
-    lineColor: '#000000',
-    lineStrokeWidth: 1,
-    text: {}
-  },
-  dots: {
-    text: {}
-  },
-  tooltip: {
-    container: {
-      background: 'white',
-      color: 'inherit',
-      fontSize: 'inherit',
-      borderRadius: '2px',
-      boxShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
-      padding: '5px 9px'
-    },
-    basic: {
-      whiteSpace: 'pre',
-      display: 'flex',
-      alignItems: 'center'
-    },
-    table: {},
-    tableCell: {
-      padding: '3px 5px'
-    }
-  },
-  crosshair: {
-    line: {
-      stroke: '#000000',
-      strokeWidth: 1,
-      strokeOpacity: 0.75,
-      strokeDasharray: '6 6'
-    }
-  },
-  annotations: {
-    text: {
-      fontSize: 13,
-      outlineWidth: 2,
-      outlineColor: '#ffffff'
-    },
-    link: {
-      stroke: '#000000',
-      strokeWidth: 1,
-      outlineWidth: 2,
-      outlineColor: '#ffffff'
-    },
-    outline: {
-      fill: 'none',
-      stroke: '#000000',
-      strokeWidth: 2,
-      outlineWidth: 2,
-      outlineColor: '#ffffff'
-    },
-    symbol: {
-      fill: '#000000',
-      outlineWidth: 2,
-      outlineColor: '#ffffff'
-    }
+  }
+
+  // else find period which makes a max of 5 yearly labels.
+  const desiredLabels = 5
+  const periodYears = Math.ceil(daysInRange / 365 / desiredLabels)
+
+  return {
+    format: '%Y',
+    tickValues: `every ${periodYears} years`
   }
 }

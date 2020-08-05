@@ -4,12 +4,9 @@ This is a starter template for [Learn Next.js](https://nextjs.org/learn).
 
 - replace og-image, once deployed to vercel
 - full screen (no browserbar)
-- scales for time/graph range/units
 - refactor components, theme object (ctx)
 - fonts (Roboto, Tondo )
 - Overlay/ buttons for date range selector
-  - [react-use-gesture](https://github.com/react-spring/react-use-gesture)
-  - [react-spring](https://github.com/react-spring/react-spring)
 - Bottom button for addObs
 - Cleanup layout and all css
   - Add theme-ui (light/dark)

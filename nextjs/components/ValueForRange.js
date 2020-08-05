@@ -1,17 +1,13 @@
 import React, { useState } from 'react'
 import moment from 'moment'
+import { minmaxValues } from './minmaxValues'
 
 // We only pass in values.length>0
 export default function ValueForRange ({ values }) {
   const [bylineIndex, setBylineIndex] = useState(0)
 
   const { stamp, value } = values[0] // latest value
-  const { min, max } = values.reduce(({ min, max }, { value }) => {
-    return {
-      min: Math.min(min, value),
-      max: Math.max(max, value)
-    }
-  }, { min: Infinity, max: 0 })
+  const { min, max } = minmaxValues(values)
   const since = moment(values.slice(-1)[0].stamp).fromNow(true) // without ago
 
   const bylines = [
