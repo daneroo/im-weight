@@ -17,6 +17,5 @@
 ## Charting
 
 - [React/D3 Chart review](https://dev.to/giteden/top-5-react-chart-libraries-for-2020-1amb)
-  - [Nivo](https://nivo.rocks/line/)
-
-- Perhaps d3blackbox would be simpler...
+  - [Nivo](https://nivo.rocks/line/)- 
+  - [Swizec - d3blackbox](https://github.com/Swizec/d3blackbox)

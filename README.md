@@ -56,6 +56,7 @@ aws --profile im-dan s3 cp observationdata.json s3://im-weight/observationdata.j
 
 ## Historical Logs
 
+- 2020-08-05 Working next.js graphs (Nivo) - no addObs
 - 2020-07-10 Add S3 for backup, then remove Mongo (Shutdown notice: mLab MongoDB add-on)
 - 2020-07-10 Fix CSS Layout/GoogleCharts
 - 2019-11-04 Remove Dnode/Shoe/socks (wildly out of date)
