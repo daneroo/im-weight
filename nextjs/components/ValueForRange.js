@@ -30,7 +30,8 @@ export default function ValueForRange ({ values }) {
       }}
     >
       <div style={{
-        color: 'rgb(64,64,255)',
+        // color: 'rgb(64,64,255)',
+        color: 'rgb(128,128,255)',
         fontSize: '3rem',
         lineHeight: 1.2,
         fontWeight: 600

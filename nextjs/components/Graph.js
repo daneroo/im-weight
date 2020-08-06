@@ -3,7 +3,6 @@ import moment from 'moment'
 import { ResponsiveLine } from '@nivo/line'
 import { minmaxValuesRounded } from './minmaxValues'
 
-// TODO(daneroo): take data out of here...
 export default function Graph ({ values, since, adjustZoom }) {
   // important params: hasDots => enablePoints
   const hasDots = values.length < 75
@@ -26,6 +25,8 @@ export default function Graph ({ values, since, adjustZoom }) {
       tickAndGrid: 'rgb(128, 128, 128)'
     }
   }
+
+  // ----------------------------
   // That should be all for tuning.
 
   // nivo needs {x,y} pars

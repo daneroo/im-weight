@@ -6,7 +6,6 @@ This is a starter template for [Learn Next.js](https://nextjs.org/learn).
 - full screen (no browserbar)
 - refactor components, theme object (ctx)
 - fonts (Roboto, Tondo )
-- Overlay/ buttons for date range selector
 - Bottom button for addObs
 - Cleanup layout and all css
   - Add theme-ui (light/dark)
@@ -19,6 +18,5 @@ This is a starter template for [Learn Next.js](https://nextjs.org/learn).
 
 - [React/D3 Chart review](https://dev.to/giteden/top-5-react-chart-libraries-for-2020-1amb)
   - [Nivo](https://nivo.rocks/line/)
-  - [Uber react-vis](https://github.com/uber/react-vis)
 
 - Perhaps d3blackbox would be simpler...
