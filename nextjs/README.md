@@ -1,9 +1,9 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+# Next.js branch of im-weight
 
 ## TODO
 
 - replace og-image, once deployed to vercel
-- full screen (no browserbar)
+- full screen (no browser bar)
 - refactor components, theme object (ctx)
 - fonts (Roboto, Tondo )
 - Bottom button for addObs
@@ -14,7 +14,7 @@ This is a starter template for [Learn Next.js](https://nextjs.org/learn).
   - Legacy heroku
   - Deploy to vercel
 
-## Charting 
+## Charting
 
 - [React/D3 Chart review](https://dev.to/giteden/top-5-react-chart-libraries-for-2020-1amb)
   - [Nivo](https://nivo.rocks/line/)
