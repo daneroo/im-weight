@@ -1,9 +1,16 @@
 
 import moment from 'moment'
-import { ResponsiveLine } from '@nivo/line'
+
+// Now that width/height are injected, we can use Canvas or SVG
+// import { Line } from '@nivo/line'
+import { LineCanvas as Line } from '@nivo/line'
+
 import { minmaxValuesRounded } from './minmaxValues'
 
-export default function Graph ({ values, since, adjustZoom }) {
+export default function Graph ({ values, since, adjustZoom, width, height }) {
+  // guard against undefined w,h
+  if (!width || !height) return <></>
+
   // important params: hasDots => enablePoints
   const hasDots = values.length < 75
 
@@ -22,7 +29,9 @@ export default function Graph ({ values, since, adjustZoom }) {
   const myTheme = {
     color: {
       text: 'rgb(128, 128, 128)',
-      tickAndGrid: 'rgb(128, 128, 128)'
+      point: 'rgb(255, 255, 255)',
+      tickAndGrid: 'rgb(128, 128, 128)',
+      line: 'rgb(128, 128, 255)'
     }
   }
 
@@ -38,6 +47,8 @@ export default function Graph ({ values, since, adjustZoom }) {
   }]
 
   const commonProperties = {
+    width,
+    height,
     // add margin for axis labels
     margin: { top: 20, right: 20, bottom: 40, left: 60 },
     animate: true
@@ -59,7 +70,8 @@ export default function Graph ({ values, since, adjustZoom }) {
       },
       legend: {
         text: {
-          fontSize: 18
+          fontSize: 18,
+          color: 'red'
         }
       }
     },
@@ -71,26 +83,13 @@ export default function Graph ({ values, since, adjustZoom }) {
     }
   }
 
-  const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
-    <g>
-      <circle fill='#fff' r={size / 2} strokeWidth={borderWidth} stroke={borderColor} />
-      <circle
-        r={size / 5}
-        strokeWidth={borderWidth}
-        stroke={borderColor}
-        fill={color}
-        fillOpacity={0.35}
-      />
-    </g>
-  )
-
   return (
     <>
-      <ResponsiveLine
+      <Line
         {...commonProperties}
         theme={theme}
         data={nivoData}
-        colors={['rgb(128, 128, 255)']}
+        colors={[myTheme.color.line]}
         xScale={{
           type: 'time',
           format: '%Y-%m-%dT%H:%M:%S.%LZ',
@@ -120,28 +119,16 @@ export default function Graph ({ values, since, adjustZoom }) {
         }}
         axisLeft={{
           tickValues: 5
-          // legend: 'Weight',
+          // legend: 'lbs',
           // legendOffset: 5
         }}
         curve='monotoneX'
         enablePoints={hasDots}
-        // enablePointLabel
-        pointSymbol={CustomSymbol}
         pointSize={8}
-        pointBorderWidth={1}
-        pointBorderColor={{
-          from: 'color',
-          modifiers: [['darker', 0.3]]
-        }}
+        pointColor={myTheme.color.point}
         useMesh
         enableSlices={false}
       />
-
-      <div style={{ position: 'fixed', top: 0 }}>
-        <button onClick={() => adjustZoom(-1)}>-</button>
-        {since}
-        <button onClick={() => adjustZoom(+1)}>+</button>
-      </div>
     </>
 
   )

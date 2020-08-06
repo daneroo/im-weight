@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react'
 import moment from 'moment'
 import useSWR from 'swr'
+import Link from 'next/link'
 import useDimensions from 'react-use-dimensions'
 import fetcher from './fetcher'
+
 import Graph from '../components/Graph'
 import PullRelease from '../components/PullRelease'
-import Link from 'next/link'
-
 import utilStyles from '../styles/utils.module.css'
 import styles from './layout.module.css'
 import ValueForRange from './ValueForRange'
@@ -50,7 +50,10 @@ function memoizeDataByZoom (data) {
 }
 
 export default function WeightPage () {
+  // width for relative drag in PullRelease
   const [ref, { width }] = useDimensions()
+  // dimensions for graph
+  const [refGraph, { width: widthGraph, height: heightGraph }] = useDimensions()
   const [zoom, setZoom] = useState(0)
   const [zoomReference, setZoomReference] = useState(zoom)
   const { data, error } = useSWR('/api/backup', fetcher)
@@ -82,10 +85,8 @@ export default function WeightPage () {
   // This is the constrained movement from PullRelease
   const onDrag = ({ movement, last }) => {
     const [x] = movement
-    // step is [-5,5] // while we are dragging
-    const delta = x * 10 / width
-
-    //  need to debounce this
+    // step is [-7,+7] // while we are dragging
+    const delta = x * 14 / width
     setSafeZoom(delta)
     if (last) {
       setZoomReference(zoom)
@@ -100,8 +101,9 @@ export default function WeightPage () {
         overflow: 'hidden'
       }}
     >
-      <section style={{ width: '100%', height: '40vh', ...border }}>
-        <Graph values={values} since={since} adjustZoom={adjustZoom} />
+      {/* now using useDimensions to inject w/h for Canvas */}
+      <section ref={refGraph} style={{ width: '100%', height: '40vh', ...border }}>
+        <Graph values={values} since={since} adjustZoom={adjustZoom} width={widthGraph} height={heightGraph} />
       </section>
 
       <section style={{ width: '100%', height: '50vh', ...border }}>

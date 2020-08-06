@@ -2,6 +2,9 @@
 
 ## TODO
 
+- Toggle mode <-[]->, addObs
+- merge to master, when addObs done
+- Try CanvasLine
 - replace og-image, once deployed to vercel
 - full screen (no browser bar)
 - refactor components, theme object (ctx)
