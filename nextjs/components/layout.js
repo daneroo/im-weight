@@ -12,6 +12,9 @@ export default function Layout ({ children, home }) {
     <div className={styles.container}>
       <Head>
         <link rel='icon' href='/favicon.ico' />
+        {/* for full screen : would need a full manifest */}
+        <meta name='apple-mobile-web-app-capable' content='yes' />
+        <meta name='mobile-web-app-capable' content='yes' />
         <meta
           name='description'
           content='Learn how to build a personal website using Next.js'

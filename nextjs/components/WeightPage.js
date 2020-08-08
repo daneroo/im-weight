@@ -1,17 +1,15 @@
 import React, { useState, useMemo } from 'react'
 import moment from 'moment'
 import useSWR from 'swr'
-import Link from 'next/link'
 import useDimensions from 'react-use-dimensions'
 import fetcher from './fetcher'
 
 import Graph from '../components/Graph'
 import PullRelease from '../components/PullRelease'
-import utilStyles from '../styles/utils.module.css'
-import styles from './layout.module.css'
 import ValueForRange from './ValueForRange'
+import ButtonFeet from './ButtonFeet'
+import RadialGradient from './RadialGradient'
 
-const name = '@daneroo'
 const zoomMonths = [3, 6, 12, 24, 36, 60, 999]
 
 // TODO(daneroo) move this scale and filter stuff into own module
@@ -55,6 +53,7 @@ export default function WeightPage () {
   // dimensions for graph
   const [refGraph, { width: widthGraph, height: heightGraph }] = useDimensions()
   const [zoom, setZoom] = useState(0)
+  const [obsOn, setObsOn] = useState(false)
   const [zoomReference, setZoomReference] = useState(zoom)
   const { data, error } = useSWR('/api/backup', fetcher)
   const dataByZoom = useMemo(() => memoizeDataByZoom(data), [data])
@@ -93,6 +92,7 @@ export default function WeightPage () {
     }
   }
 
+  const toggleObs = () => { setObsOn(!obsOn) }
   const border = { border: '0px solid red' }
   return (
     <div
@@ -102,11 +102,27 @@ export default function WeightPage () {
       }}
     >
       {/* now using useDimensions to inject w/h for Canvas */}
-      <section ref={refGraph} style={{ width: '100%', height: '40vh', ...border }}>
+      <section
+        ref={refGraph}
+        style={{
+          ...border,
+          width: '100%',
+          height: '40vh',
+          position: 'fixed',
+          top: 0
+        }}
+      >
         <Graph values={values} since={since} adjustZoom={adjustZoom} width={widthGraph} height={heightGraph} />
       </section>
 
-      <section style={{ width: '100%', height: '50vh', ...border }}>
+      <section style={{
+        ...border,
+        width: '100%',
+        height: '50vh',
+        position: 'fixed',
+        bottom: 0
+      }}
+      >
         <div style={{
           height: '100%',
           display: 'flex',
@@ -119,12 +135,27 @@ export default function WeightPage () {
 
           <PullRelease onDrag={onDrag} msg={`${zoom}`} />
 
-          <footer className={styles.header}>
-            <h2 className={utilStyles.headingLg}>
-              <Link href='/'>
-                <a className={utilStyles.colorInherit}>{name}</a>
-              </Link>
-            </h2>
+          <footer
+            style={{
+              height: '100px', // for space-between
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
+            <RadialGradient obsOn={obsOn} />
+            <div
+              onClick={toggleObs}
+              style={{
+                position: 'absolute',
+                bottom: '0px',
+                paddingTop: obsOn ? '0px' : '32px',
+                width: '64px',
+                height: '64px'
+              }}
+            >
+              <ButtonFeet />
+            </div>
           </footer>
 
         </div>

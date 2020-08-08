@@ -27,20 +27,27 @@ export default function PullRelease ({ onDrag }) {
         style={{
           width: '64px',
           height: '64px',
-          background: 'rgba(0,0,0,1)',
-          backgroundImage: 'url(\'/images/twofeet-white.png\')',
-          backgroundSize: 'cover',
-          borderRadius: '40%',
-          border: '4px solid rgb(128, 128, 255)',
-          // border: '4px solid rgb(64, 64, 255)',
+          background: 'rgba(0,0,0,.2)',
+          borderRadius: '50%',
+          // border: '2px solid rgb(128, 128, 255)',
+          border: '2px solid rgb(255, 255, 255)',
           cursor: '-webkit-grab',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          color: 'white',
-          whiteSpace: 'pre'
+          justifyContent: 'center'
         }}
-      />
+      >
+        <span style={{
+          color: 'white',
+          fontSize: '20px',
+          fontStyle: 'bold'
+        }}
+        >
+        ⟻ ⟼
+          {/* ← ↔⛢↔ → ↤ ↦ */}
+
+        </span>
+      </div>
     </animated.div>
   )
 }

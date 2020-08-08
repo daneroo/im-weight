@@ -13,9 +13,9 @@ body {
 
 body {
   /* at bottom */
-  background: radial-gradient(circle at center bottom,rgb(128,128,255) 0% ,rgb(0,0,0) 40%); 
+  /* background: radial-gradient(circle at center bottom,rgb(128,128,255) 0% ,rgba(0,0,0,0) 40%);  */
   /* Roughly centered on button */
-  background: radial-gradient(circle at center 75%,rgb(128,128,255) 0% ,rgb(0,0,0) 40%); 
+  /* background: radial-gradient(circle at center 75%,rgb(128,128,255) 0% ,rgba(0,0,0,0) 40%);  */
 
   /* TODO(daneroo) this in to animate the background gradient 
     probably need to use transition background, not position*/
