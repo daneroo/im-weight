@@ -1,22 +1,26 @@
 
+import React from 'react'
 import { useTransition, animated } from 'react-spring'
 
 // use a transition group to show a gradient
-export default function RadialGradient ({ width = 400, obsOn = false }) {
-  const transitions = useTransition(obsOn, null, {
+// blend two gradient sizes with opacity
+// because css cannot transition gradients
+export default function RadialGradient ({ style, width = 400, big = false }) {
+  const transitions = useTransition(big, null, {
     from: { position: 'absolute', opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 }
   })
+  const wh = {
+    width,
+    height: width
+  }
 
-  const grad = (percent, item, key) => {
-    console.log({ item, key })
+  const Grad = ({ style, percent }) => {
     return (
       <div
         style={{
-          width: `${width}px`,
-          height: `${width}px`,
-          // background: 'blue',
+          ...wh,
           backgroundImage: `radial-gradient(circle at center,rgb(128,128,255) 0% ,rgb(0,0,0) ${percent}%)`
         }}
       />
@@ -26,18 +30,14 @@ export default function RadialGradient ({ width = 400, obsOn = false }) {
   return (
     <div
       style={{
-        zIndex: -2,
-        border: '1px solid red',
-        position: 'absolute',
-        bottom: `${-width / 2}px`,
-        width: `${width}px`,
-        height: `${width}px`
+        ...style,
+        ...wh
       }}
     >
       {transitions.map(({ item, key, props }) =>
         item
-          ? <animated.div style={props}>{grad(70.7, item, key)}</animated.div>
-          : <animated.div style={props}>{grad(20, item, key)}</animated.div>
+          ? <animated.div key={key} style={props}><Grad style={props} percent={70.7} /></animated.div>
+          : <animated.div key={key} style={props}><Grad style={props} percent={30} /></animated.div>
       )}
     </div>
   )

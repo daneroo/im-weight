@@ -1,7 +1,7 @@
 import { useSpring, animated } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 
-export default function PullRelease ({ onDrag }) {
+export default function PullRelease ({ style, onDrag }) {
   const [{ xy }, set] = useSpring(() => ({
     xy: [0, 0],
     config: { tension: 370 } // doubled default tension
@@ -13,6 +13,7 @@ export default function PullRelease ({ onDrag }) {
     // set({ xy: down ? movement : [0, 0] })
     //  constrain to horizontal movement only
     set({ xy: down ? [movement[0], 0] : [0, 0] })
+    // set({ xy: down ? movement : [0, 0] })
   })
 
   // Bind it to a component
@@ -20,6 +21,7 @@ export default function PullRelease ({ onDrag }) {
     <animated.div
       {...bind()}
       style={{
+        ...style,
         transform: xy.interpolate((x, y) => `translate3d(${x}px, ${y}px, 0)`)
       }}
     >

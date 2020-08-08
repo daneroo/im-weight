@@ -4,11 +4,8 @@ import useSWR from 'swr'
 import useDimensions from 'react-use-dimensions'
 import fetcher from './fetcher'
 
-import Graph from '../components/Graph'
-import PullRelease from '../components/PullRelease'
-import ValueForRange from './ValueForRange'
-import ButtonFeet from './ButtonFeet'
-import RadialGradient from './RadialGradient'
+import Graph from './Graph'
+import RadialFeet from './RadialFeet'
 
 const zoomMonths = [3, 6, 12, 24, 36, 60, 999]
 
@@ -49,11 +46,10 @@ function memoizeDataByZoom (data) {
 
 export default function WeightPage () {
   // width for relative drag in PullRelease
-  const [ref, { width }] = useDimensions()
+  const [ref, { width, height }] = useDimensions()
   // dimensions for graph
   const [refGraph, { width: widthGraph, height: heightGraph }] = useDimensions()
   const [zoom, setZoom] = useState(0)
-  const [obsOn, setObsOn] = useState(false)
   const [zoomReference, setZoomReference] = useState(zoom)
   const { data, error } = useSWR('/api/backup', fetcher)
   const dataByZoom = useMemo(() => memoizeDataByZoom(data), [data])
@@ -92,11 +88,10 @@ export default function WeightPage () {
     }
   }
 
-  const toggleObs = () => { setObsOn(!obsOn) }
-  const border = { border: '0px solid red' }
+  const border = { border: '1px solid orange' }
   return (
     <div
-      ref={ref}
+      // ref={ref}
       style={{
         overflow: 'hidden'
       }}
@@ -115,48 +110,43 @@ export default function WeightPage () {
         <Graph values={values} since={since} adjustZoom={adjustZoom} width={widthGraph} height={heightGraph} />
       </section>
 
-      <section style={{
-        ...border,
-        width: '100%',
-        height: '50vh',
-        position: 'fixed',
-        bottom: 0
-      }}
+      <section
+        ref={ref}
+        style={{
+          ...border,
+          width: '100%',
+          height: '50vh',
+          position: 'fixed',
+          bottom: 0
+        }}
       >
         <div style={{
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between',
+          // justifyContent: 'space-between',
           alignItems: 'center'
         }}
         >
-          <ValueForRange values={values} />
-
-          <PullRelease onDrag={onDrag} msg={`${zoom}`} />
 
           <footer
             style={{
-              height: '100px', // for space-between
+              border: '1px solid red',
+              flexGrow: 1,
+              width,
+              height,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center'
             }}
           >
-            <RadialGradient obsOn={obsOn} width={width} />
-            <div
-              onClick={toggleObs}
-              style={{
-                // border: '1px solid green',
-                position: 'absolute',
-                bottom: '0px',
-                paddingTop: obsOn ? '0px' : '32px',
-                // width: '64px',
-                height: '64px'
-              }}
-            >
-              <ButtonFeet />
-            </div>
+            <RadialFeet
+              width={400}
+              height={height}
+              values={values}
+              onDrag={onDrag}
+            />
+
           </footer>
 
         </div>
