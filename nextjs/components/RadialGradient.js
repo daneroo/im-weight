@@ -1,66 +1,44 @@
 
-import { Transition } from 'react-transition-group'
+import { useTransition, animated } from 'react-spring'
 
-const duration = 300
+// use a transition group to show a gradient
+export default function RadialGradient ({ width = 400, obsOn = false }) {
+  const transitions = useTransition(obsOn, null, {
+    from: { position: 'absolute', opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 }
+  })
 
-const zero = {
-  opacity: 0
-}
-const one = {
-  opacity: 1
-}
+  const grad = (percent, item, key) => {
+    console.log({ item, key })
+    return (
+      <div
+        style={{
+          width: `${width}px`,
+          height: `${width}px`,
+          // background: 'blue',
+          backgroundImage: `radial-gradient(circle at center,rgb(128,128,255) 0% ,rgb(0,0,0) ${percent}%)`
+        }}
+      />
+    )
+  }
 
-const defaultStyle = {
-  // transition: `opacity ${duration}ms ease-in-out`,
-  transition: `opacity ${duration}ms linear`,
-  ...zero
-}
-
-const transitionStyles = {
-  entering: one,
-  entered: one,
-  exiting: zero,
-  exited: zero
-}
-
-export default function RadialGradient ({ radius = 400, obsOn = false }) {
   return (
-    <>
-      <Transition in={obsOn} timeout={duration}>
-        {state => (
-          <div
-            style={{
-              zIndex: -2,
-              position: 'absolute',
-              bottom: `${-radius}px`,
-              width: `${2 * radius}px`,
-              height: `${2 * radius}px`,
-              // background: 'blue',
-              backgroundImage: 'radial-gradient(circle at center,rgb(128,128,255) 0% ,rgb(0,0,0) 60%)',
-              ...defaultStyle,
-              ...transitionStyles[state]
-            }}
-          />
-        )}
-      </Transition>
-      <Transition in={!obsOn} timeout={duration}>
-        {state => (
-          <div
-            style={{
-              zIndex: -2,
-              position: 'absolute',
-              bottom: `${-radius}px`,
-              width: `${2 * radius}px`,
-              height: `${2 * radius}px`,
-              background: 'red',
-              backgroundImage: 'radial-gradient(circle at center,rgb(128,128,255) 0% ,rgb(0,0,0) 20%)',
-              ...defaultStyle,
-              ...transitionStyles[state]
-            }}
-          />
-        )}
-      </Transition>
-    </>
-
+    <div
+      style={{
+        zIndex: -2,
+        border: '1px solid red',
+        position: 'absolute',
+        bottom: `${-width / 2}px`,
+        width: `${width}px`,
+        height: `${width}px`
+      }}
+    >
+      {transitions.map(({ item, key, props }) =>
+        item
+          ? <animated.div style={props}>{grad(70.7, item, key)}</animated.div>
+          : <animated.div style={props}>{grad(20, item, key)}</animated.div>
+      )}
+    </div>
   )
 }

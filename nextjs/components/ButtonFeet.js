@@ -10,7 +10,6 @@ export default function ButtonFeet () {
         backgroundSize: 'cover',
         borderRadius: '40%',
         border: '2px solid rgb(128, 128, 255)'
-        // border: '4px solid rgb(128, 128, 128)',
       }}
     />
   )

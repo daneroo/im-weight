@@ -15,7 +15,6 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-spring": "^8.0.27",
-    "react-transition-group": "^4.4.1",
     "react-use-dimensions": "^1.2.1",
     "react-use-gesture": "^7.0.15",
     "swr": "^0.2.3"

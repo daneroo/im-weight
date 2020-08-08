@@ -143,14 +143,15 @@ export default function WeightPage () {
               alignItems: 'center'
             }}
           >
-            <RadialGradient obsOn={obsOn} />
+            <RadialGradient obsOn={obsOn} width={width} />
             <div
               onClick={toggleObs}
               style={{
+                // border: '1px solid green',
                 position: 'absolute',
                 bottom: '0px',
                 paddingTop: obsOn ? '0px' : '32px',
-                width: '64px',
+                // width: '64px',
                 height: '64px'
               }}
             >
