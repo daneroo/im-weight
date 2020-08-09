@@ -13,6 +13,7 @@ export default function HideBottom ({ style, children }) {
     >
 
       {React.Children.map(children, (child, i) => {
+        if (!child) return (<></>) // for when we pass in empty fragments..
         return React.cloneElement(child, { style: { ...child.props.style, position: 'absolute' } })
       })}
     </div>

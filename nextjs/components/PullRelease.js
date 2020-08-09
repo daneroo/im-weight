@@ -2,7 +2,7 @@ import React from 'react'
 import { useSpring, animated } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 
-export default function PullRelease ({ style, onDrag }) {
+export default function PullRelease ({ style, onDrag, constrain = (movement) => [movement[0], 0] }) {
   const [{ xy }, set] = useSpring(() => ({
     xy: [0, 0],
     config: { tension: 370 } // doubled default tension
@@ -13,7 +13,7 @@ export default function PullRelease ({ style, onDrag }) {
     onDrag({ down, movement, first, last })
     // set({ xy: down ? movement : [0, 0] })
     //  constrain to horizontal movement only
-    set({ xy: down ? [movement[0], 0] : [0, 0] })
+    set({ xy: down ? constrain(movement) : [0, 0] })
     // set({ xy: down ? movement : [0, 0] })
   })
 
@@ -40,15 +40,13 @@ export default function PullRelease ({ style, onDrag }) {
           justifyContent: 'center'
         }}
       >
+        {/* ← ↔⛢↔ → ↤ ↦ ⟻ ⟼ ☉ */}
         <span style={{
           color: 'white',
           fontSize: '20px',
           fontStyle: 'bold'
         }}
-        >
-        ⟻ ⟼
-          {/* ← ↔⛢↔ → ↤ ↦ */}
-
+        >☉
         </span>
       </div>
     </animated.div>

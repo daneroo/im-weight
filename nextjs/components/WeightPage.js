@@ -88,7 +88,7 @@ export default function WeightPage () {
     }
   }
 
-  const border = { border: '1px solid orange' }
+  const border = { border: '0px solid orange' }
   return (
     <div
       // ref={ref}
@@ -131,7 +131,6 @@ export default function WeightPage () {
 
           <footer
             style={{
-              border: '1px solid red',
               flexGrow: 1,
               width,
               height,
