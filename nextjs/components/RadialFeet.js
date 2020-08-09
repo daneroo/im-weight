@@ -30,27 +30,51 @@ export default function RadialFeet ({
     // left: 0
   }
 
+  const max1 = (x) => Math.min(1, x)
   const constraints = {
     h: (movement) => [movement[0], 0],
     ll: (movement) => {
       // console.log(movement)
-      const [x] = movement
-      if (x < 0) return [0, 0]
-      // x 0 -> width
+      const [x] = movement // x: 0 -> width
       const xN = (width - x) / width // 1->0
-      const rad = Math.acos(xN) // 0->pi/2
-      return [(1 - Math.cos(rad)) * width, -Math.sin(rad) * width]
+      if (xN < 0) return [0, 0]
+      if (xN > 1) return [width, width]
+      const rad = Math.acos(max1(xN)) // 0->pi/2
+      const yN = -Math.sin(rad)
+      const y = yN * width
+      return [x, y]
+    },
+    ur: (movement) => {
+      const [x] = movement // x: 0 -> -width
+      const xN = -x / width // 0->1
+      if (xN < 0) return [0, 0]
+      if (xN > 1) return [-width, -width]
+      const rad = Math.asin(max1(xN)) // 0->pi/1
+      console.log(rad / Math.PI)
+      const yN = (1 - Math.cos(rad))
+      const y = yN * -width
+      return [x, -y]
     },
     lr: (movement) => {
-      // console.log(movement)
-      const [x] = movement
-      // if (x < 0) return [0, 0]
-      // x 0 -> -width
+      const [x] = movement // x: 0 -> -width
       const xN = (width + x) / width // 1->0
-      const rad = Math.acos(xN) // 0->pi/2
-      console.log(xN)
-      return [-(1 - Math.cos(rad)) * width, -Math.sin(rad) * width]
-      // return [movement[0], 0]
+      if (xN < 0) return [0, 0]
+      if (xN > 1) return [-width, width]
+      const rad = Math.acos(max1(xN)) // 0->pi/2
+      const yN = -Math.sin(rad)
+      const y = yN * width
+      return [x, y]
+    },
+    ul: (movement) => {
+      const [x] = movement // x: 0 -> -width
+      const xN = x / width // 0->1
+      if (xN < 0) return [0, 0]
+      if (xN > 1) return [width, width]
+      const rad = Math.asin(max1(xN)) // 0->pi/2
+      console.log(rad / Math.PI)
+      const yN = 1 - Math.cos(rad)
+      const y = yN * width
+      return [x, y]
     }
   }
   return (
@@ -81,16 +105,16 @@ export default function RadialFeet ({
         <PullRelease style={{ ...sliderPos }} onDrag={onDrag} constrain={constraints.h} />
       )}
       {big && (
-        <PullRelease style={{ top: 0, left: 0 }} onDrag={onDrag} />
+        <PullRelease style={{ bottom: width - 32, left: -32 }} onDrag={onDrag} constrain={constraints.ul} />
       )}
       {big && (
-        <PullRelease style={{ top: 0, right: 0 }} onDrag={onDrag} />
+        <PullRelease style={{ bottom: width - 32, right: -32 }} onDrag={onDrag} constrain={constraints.ur} />
       )}
       {big && (
-        <PullRelease style={{ bottom: 0, left: 0 }} onDrag={onDrag} constrain={constraints.ll} />
+        <PullRelease style={{ bottom: -32, left: -32 }} onDrag={onDrag} constrain={constraints.ll} />
       )}
       {big && (
-        <PullRelease style={{ bottom: 0, right: 0 }} onDrag={onDrag} constrain={constraints.lr} />
+        <PullRelease style={{ bottom: -32, right: -32 }} onDrag={onDrag} constrain={constraints.lr} />
       )}
     </HideBottom>
   )
