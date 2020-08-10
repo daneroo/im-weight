@@ -28,7 +28,9 @@ export const Playground = () => {
         style={{
           border: '1px solid green',
           width,
-          height
+          height,
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
         <RadialFeet

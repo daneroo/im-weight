@@ -93,7 +93,7 @@ export default function WeightPage () {
     <div
       // ref={ref}
       style={{
-        overflow: 'hidden'
+        overflow: 'hidden' // why?
       }}
     >
       {/* now using useDimensions to inject w/h for Canvas */}
@@ -117,38 +117,20 @@ export default function WeightPage () {
           width: '100%',
           height: '50vh',
           position: 'fixed',
-          bottom: 0
-        }}
-      >
-        <div style={{
-          height: '100%',
+          bottom: 0,
+          //  for the children's layout: I just need to center?
           display: 'flex',
           flexDirection: 'column',
-          // justifyContent: 'space-between',
           alignItems: 'center'
         }}
-        >
+      >
+        <RadialFeet
+          width={400}
+          height={height}
+          values={values}
+          onDrag={onDrag}
+        />
 
-          <footer
-            style={{
-              flexGrow: 1,
-              width,
-              height,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
-            }}
-          >
-            <RadialFeet
-              width={400}
-              height={height}
-              values={values}
-              onDrag={onDrag}
-            />
-
-          </footer>
-
-        </div>
       </section>
 
     </div>

@@ -3,7 +3,7 @@ import moment from 'moment'
 import { minmaxValues } from './minmaxValues'
 
 // We only pass in values.length>0
-export default function ValueForRange ({ values }) {
+export default function ValueForRange ({ values, style }) {
   const [bylineIndex, setBylineIndex] = useState(0)
 
   const { stamp, value } = values[0] // latest value
@@ -24,6 +24,7 @@ export default function ValueForRange ({ values }) {
     <div
       onClick={rotateByline}
       style={{
+        ...style,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'

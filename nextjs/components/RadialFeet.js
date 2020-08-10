@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import ButtonFeet from './ButtonFeet'
-import HideBottom from './HideBottom'
 import RadialGradient from './RadialGradient'
 import PullRelease from './PullRelease'
 import ValueForRange from './ValueForRange'
+import DragCanvas from './DragCanvas'
 
-// Combine HideBottom/ButtonFeet and RadialGradient
-// width if for the gradient, button is 64px
+// Combined control panel:
+//  - use parent:   position:relative, overflow:hidden
+//  - use children: position:absolute
+// width is for the gradient, button is 64px
 // the button state is coupled to the gradient "big state"
 export default function RadialFeet ({
   style, width, height,
@@ -78,8 +80,9 @@ export default function RadialFeet ({
     }
   }
   return (
-    <HideBottom
+    <div
       style={{
+        // position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -91,12 +94,12 @@ export default function RadialFeet ({
       <RadialGradient
         big={big}
         width={width}
-        style={{ bottom: radialBottom }}
+        style={{ position: 'absolute', bottom: radialBottom }}
       />
 
-      <Canvas style={{ bottom: 0 }} big={big} width={width} height={height} />
+      <DragCanvas style={{ position: 'absolute', bottom: 0 }} big={big} width={width} height={height} />
 
-      <ButtonFeet style={{ bottom: feetBottom }} onClick={toggle} />
+      <ButtonFeet style={{ position: 'absolute', bottom: feetBottom }} onClick={toggle} />
 
       <ValueForRange values={values} />
 
@@ -105,63 +108,17 @@ export default function RadialFeet ({
         <PullRelease style={{ ...sliderPos }} onDrag={onDrag} constrain={constraints.h} />
       )}
       {big && (
-        <PullRelease style={{ bottom: width - 32, left: -32 }} onDrag={onDrag} constrain={constraints.ul} />
+        <PullRelease style={{ position: 'absolute', bottom: width - 32, left: -32 }} onDrag={onDrag} constrain={constraints.ul} />
       )}
       {big && (
-        <PullRelease style={{ bottom: width - 32, right: -32 }} onDrag={onDrag} constrain={constraints.ur} />
+        <PullRelease style={{ position: 'absolute', bottom: width - 32, right: -32 }} onDrag={onDrag} constrain={constraints.ur} />
       )}
       {big && (
-        <PullRelease style={{ bottom: -32, left: -32 }} onDrag={onDrag} constrain={constraints.ll} />
+        <PullRelease style={{ position: 'absolute', bottom: -32, left: -32 }} onDrag={onDrag} constrain={constraints.ll} />
       )}
       {big && (
-        <PullRelease style={{ bottom: -32, right: -32 }} onDrag={onDrag} constrain={constraints.lr} />
+        <PullRelease style={{ position: 'absolute', bottom: -32, right: -32 }} onDrag={onDrag} constrain={constraints.lr} />
       )}
-    </HideBottom>
-  )
-}
-
-// width: the Width of the control Surface
-// big -> adding Observation
-function Canvas ({ style, width, big }) {
-  const opa = 1
-  const thick = 0.01
-  const clr = 'rgba(255,255,255,.2)'
-  return (
-    <div style={{
-      ...style,
-      // width: '100%',
-      width,
-      height: width
-      // background: clr
-    }}
-    >
-      <svg xmlns='http://www.w3.org/2000/svg' viewBox='-1 -1 2 2'>
-        <g transform='scale(1,-1)'>
-          <g transform='scale(.95)'>
-            <g
-              fill='none'
-              strokeWidth={thick}
-              strokeDasharray={0.05}
-              stroke={clr}
-            >
-              {!big && (
-                <polyline
-                  points='-1,0 1,0'
-                  opacity={opa}
-                />
-              )}
-              {big && (
-                <>
-                  <circle cx='1' cy='-1' r='2' />
-                  <circle cx='-1' cy='-1' r='2' />
-                </>
-              )}
-
-            </g>
-          </g>
-        </g>
-      </svg>
-
     </div>
   )
 }
