@@ -108,9 +108,11 @@ export default function DragCanvas ({ style, width, big: isArc, onZ }) {
         {down && (
           <g>
             {/* current drag position */}
-            <circle cx={xy[0]} cy={xy[1]} r={thick * 30} fill={gradient} />
+            <circle cx={xy[0]} cy={xy[1]} r={thick * 40} stroke='none' fill={gradient} />
+
+            {/* The sine wave */}
             <g
-              stroke='red' strokeWidth={thick}
+              stroke='rgba(128, 128, 255, 0.8)' strokeWidth={thick}
               strokeDasharray={0.05}
               transform='translate(1,0) scale(-2,1)'
             >
@@ -170,7 +172,7 @@ export default function DragCanvas ({ style, width, big: isArc, onZ }) {
           <path
             d={`M ${pI[0]} ${pI[1]}
         A 2 2 0 ${largeArcFlag} ${sweepFlag} ${pXY[0]} ${pXY[1]}
-       `} fill='none' stroke='red'
+       `} fill='none' stroke='rgba(128, 128, 255,1)'
           />
 
           {/* filled in arc */}
@@ -183,7 +185,7 @@ export default function DragCanvas ({ style, width, big: isArc, onZ }) {
           />
         </g>
         {/* current drag position */}
-        <circle cx={xy[0]} cy={xy[1]} r={thick * 30} fill={gradient} />
+        <circle cx={xy[0]} cy={xy[1]} r={thick * 40} stroke='none' fill={gradient} />
       </g>)
   }
 
@@ -224,8 +226,8 @@ export default function DragCanvas ({ style, width, big: isArc, onZ }) {
         >
           <defs>
             <radialGradient id='whiteGradient'>
-              <stop offset='10%' stop-color='rgba(255,255,255,0)' />
-              <stop offset='50%' stop-color='rgba(255,255,255,1)' />
+              <stop offset='0%' stop-color='rgba(255,255,255,.8)' />
+              {/* <stop offset='50%' stop-color='rgba(255,255,255,1)' /> */}
               <stop offset='100%' stop-color='rgba(255,255,255,0)' />
             </radialGradient>
           </defs>
