@@ -19,6 +19,7 @@ export const Playground = () => {
   })
   const zz = { ...z }
   delete zz.viewport
+  delete zz.svg
   // params {delta }
   const onZ = (zz) => {
     setZ(zz)

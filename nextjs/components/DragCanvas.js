@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useDrag } from 'react-use-gesture'
-import { useSpring, animated } from 'react-spring'
+import { animated } from 'react-spring'
 import useDimensions from 'react-use-dimensions'
 
 // width: the Width of the control Surface
 // big -> adding Observation
-export default function DragCanvas ({ style, width, big: isArc, onZ }) {
+export default function DragCanvas ({ style, width, big: isArc, onZ, onDelta }) {
   //  bug report: L10-11: https://github.com/Swizec/useDimensions/blob/master/src/index.ts
   const [ref, { x: left, y: top /* width,height */ }] = useDimensions()
 
@@ -66,11 +66,17 @@ export default function DragCanvas ({ style, width, big: isArc, onZ }) {
       // deltaA: -.5...5 // right corner, but sign reversed
       zzz.deltaA = (angleXY - angleI) / Math.PI
       zzz.corner = corner
+      // normalize(0-1) and flip for right corner
+      const flip = (initial[0] * initial[1] > 0) ? -1 : 1
+      zzz.deltaArc = clipAbs1(flip * (angleXY - angleI) * 2 / Math.PI)
     }
 
     setZ(zzz)
     if (onZ) {
-      onZ(zzz)
+      onZ({ down, delta: zzz.delta, deltaArc: zzz.deltaArc })
+    }
+    if (onDelta) {
+      onDelta({ down, delta: zzz.delta })
     }
   })
 
