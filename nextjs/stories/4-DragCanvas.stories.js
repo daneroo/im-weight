@@ -9,57 +9,51 @@ export default {
 }
 
 export const Playground = () => {
-  const width = 400
-  const height = 500
-
-  const stamp = new Date().toISOString()
-  const [values, setValues] = useState([{ stamp, value: 100 }])
+  const width = 300
+  const height = 350
+  const [isZoom, setZoom] = useState(true)
+  // const stamp = new Date().toISOString()
+  // const [values, setValues] = useState([{ stamp, value: 100 }])
   const [z, setZ] = useState({
-    down: false,
-    movement: [0, 0],
-    initial: [217, 316],
-    distance: 0,
-    direction: [0, 0]
+    down: false // ...
   })
-
+  const zz = { ...z }
+  delete zz.viewport
   // params {delta }
   const onZ = (zz) => {
     setZ(zz)
   }
-
+  const selectZoomOrSlide = (e) => {
+    setZoom(e.target.value === 'AnchorZoom')
+  }
   return (
-    <div style={{ height: 600, color: 'white', background: 'black', fontFamily: 'sans-serif' }}>
+    <div style={{ height: 500, color: 'white', background: 'black', fontFamily: 'sans-serif' }}>
       <h2>{JSON.stringify({ height, width })}</h2>
-      <pre style={{ fontSize: 14 }}>{JSON.stringify(z)}</pre>
-
-      <div style={{
-        // position: 'fixed', bottom: 0
-      }}
-      >
-
+      <div>
+        <input checked={isZoom} type='radio' id='AnchorZoom' name='ZoomOrSlide' value='AnchorZoom' onChange={selectZoomOrSlide} />
+        <label for='AnchorZoom'>AnchorZoom</label>
+        <input checked={!isZoom} type='radio' id='ArcSlider' name='ZoomOrSlide' value='ArcSlider' onChange={selectZoomOrSlide} />
+        <label for='ArcSlider'>ArcSlider</label>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div
           style={{
-          // border: '1px solid green',
+            border: '1px solid green',
             width,
-            height: height + 200
-            // display: 'relative'
+            height: height
+          // display: 'relative'
           }}
         >
-          <div style={{
-            // display: 'absolute', bottom: 0
-          }}
-          >
-            <DragCanvas
-              style={{ position: 'fixed', bottom: 0 }}
-              width={400}
-              height={height}
-              onZ={onZ}
-              big
-            />
-          </div>
+          <DragCanvas
+            style={{ overflow: 'hidden', width, height }}
+            width={width}
+            height={height}
+            onZ={onZ}
+            big={!isZoom}
+          />
         </div>
+        <pre style={{ fontSize: 14 }}>{JSON.stringify(zz, null, 2)}</pre>
       </div>
-
     </div>
   )
 }
