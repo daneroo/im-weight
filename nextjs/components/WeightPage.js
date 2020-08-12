@@ -78,11 +78,10 @@ export default function WeightPage () {
   }
 
   // This is the constrained movement from PullRelease
-  const onDrag = ({ movement, last }) => {
-    const [x] = movement
-    // step is [-7,+7] // while we are dragging
-    const delta = x * 14 / width
-    setSafeZoom(delta)
+  const onDelta = ({ delta, last }) => {
+    // delta  is [-1,+1] // while we are dragging
+    // we map it to [-7,7]
+    setSafeZoom(delta * 5)
     if (last) {
       setZoomReference(zoom)
     }
@@ -128,7 +127,7 @@ export default function WeightPage () {
           width={400}
           height={height}
           values={values}
-          onDrag={onDrag}
+          onDelta={onDelta}
         />
 
       </section>

@@ -14,7 +14,7 @@ export default function RadialFeet ({
   style, width, height,
   values,
   onClick = ({ big }) => {},
-  onDrag = ({ big }) => {}
+  onDelta = ({ last, delta }) => {}
 }) {
   // rename this to adding or adjusting,...
   const [big, setBig] = useState(false)
@@ -105,19 +105,19 @@ export default function RadialFeet ({
 
       {/* last, so it is on top */}
       {!big && (
-        <PullRelease style={{ ...sliderPos }} onDrag={onDrag} constrain={constraints.h} />
+        <PullRelease style={{ ...sliderPos }} onDelta={onDelta} constrain={constraints.h} />
       )}
       {big && (
-        <PullRelease style={{ position: 'absolute', bottom: width - 32, left: -32 }} onDrag={onDrag} constrain={constraints.ul} />
+        <PullRelease style={{ position: 'absolute', bottom: width - 32, left: -32 }} onDelta={onDelta} constrain={constraints.ul} />
       )}
       {big && (
-        <PullRelease style={{ position: 'absolute', bottom: width - 32, right: -32 }} onDrag={onDrag} constrain={constraints.ur} />
+        <PullRelease style={{ position: 'absolute', bottom: width - 32, right: -32 }} onDelta={onDelta} constrain={constraints.ur} />
       )}
       {big && (
-        <PullRelease style={{ position: 'absolute', bottom: -32, left: -32 }} onDrag={onDrag} constrain={constraints.ll} />
+        <PullRelease style={{ position: 'absolute', bottom: -32, left: -32 }} onDelta={onDelta} constrain={constraints.ll} />
       )}
       {big && (
-        <PullRelease style={{ position: 'absolute', bottom: -32, right: -32 }} onDrag={onDrag} constrain={constraints.lr} />
+        <PullRelease style={{ position: 'absolute', bottom: -32, right: -32 }} onDelta={onDelta} constrain={constraints.lr} />
       )}
     </div>
   )
