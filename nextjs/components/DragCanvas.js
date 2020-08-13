@@ -5,30 +5,28 @@ import useDimensions from 'react-use-dimensions'
 
 // width: the Width of the control Surface
 // big -> adding Observation
-export default function DragCanvas ({ style, width, big: isArc, onZ, onDelta }) {
+export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta }) {
   //  bug report: L10-11: https://github.com/Swizec/useDimensions/blob/master/src/index.ts
   const [ref, { x: left, y: top /* width,height */ }] = useDimensions()
 
-  // not using `set` from useSpring
-  // const [{ xy }] = useSpring(() => ({ xy: [0, 0] }))
-
   // event and coordinates in svg space, for use in Specialized Drawing components
-  const [svgSpace, setSvgSpace] = useState({ })
-  const [z, setZ] = useState({ })
+  const [svgState, setSvgState] = useState({ })
+  const [zGetRidOfMe, setZGetRidOfMe] = useState({ })
 
   const fromViewPort = ([x, y], { left, top }) => {
     return [x - left, y - top]
   }
 
   // This is where the transformations happen
-  // -For outside interaction, we only provide onDelta({down,delta})
-  // For Drawing we provide z state variable
-  const bind = useDrag(({ down, initial, xy, movement }) => {
+  // - For outside interaction, we only provide onDelta({down,delta})
+  // - For Drawing we provide svgState state variable
+  const bind = useDrag(({ last, down, initial, xy, movement }) => {
     const lt = { left, top } // from useDimensions
 
     const componentSpace = { down, initial: fromViewPort(initial, lt), xy: fromViewPort(xy, lt), movement }
 
     const svgSpc = {
+      // last,
       down,
       initial: vpToSvg(componentSpace.initial),
       xy: vpToSvg(componentSpace.xy),
@@ -38,7 +36,7 @@ export default function DragCanvas ({ style, width, big: isArc, onZ, onDelta }) 
       viewport: componentSpace,
       svg: svgSpc
     }
-    setSvgSpace(svgSpc)
+    setSvgState(svgSpc)
 
     // Do the delta calculations
     // delta has range [-1,1]
@@ -71,15 +69,16 @@ export default function DragCanvas ({ style, width, big: isArc, onZ, onDelta }) 
       zzz.deltaArc = clipAbs1(flip * (angleXY - angleI) * 2 / Math.PI)
     }
 
-    setZ(zzz)
-    if (onZ) {
-      onZ({ down, delta: zzz.delta, deltaArc: zzz.deltaArc })
+    setZGetRidOfMe(zzz)
+    if (onDrag) {
+      onDrag({ down, delta: zzz.delta, deltaArc: zzz.deltaArc })
     }
     if (onDelta) {
-      onDelta({ down, delta: zzz.delta })
+      onDelta({ last, delta: zzz.delta })
     }
   })
 
+  // extract as theme
   const opa = 1
   const thick = 0.01
   const clr = 'rgba(255,255,255,.2)'
@@ -196,9 +195,9 @@ export default function DragCanvas ({ style, width, big: isArc, onZ, onDelta }) 
   }
 
   const Dragging = () => {
-    const down = (z && z.viewport && z.viewport.down)
-    const { initial, xy } = z.svg || {}
-    const { delta, corner, deltaA, angleI, angleXY } = z
+    const down = (zGetRidOfMe && zGetRidOfMe.viewport && zGetRidOfMe.viewport.down)
+    const { initial, xy } = zGetRidOfMe.svg || {}
+    const { delta, corner, deltaA, angleI, angleXY } = zGetRidOfMe
     const freq = 3 + 2 * delta // freq: 1..5
     if (isArc) {
       return (
@@ -232,16 +231,16 @@ export default function DragCanvas ({ style, width, big: isArc, onZ, onDelta }) 
         >
           <defs>
             <radialGradient id='whiteGradient'>
-              <stop offset='0%' stop-color='rgba(255,255,255,.8)' />
-              {/* <stop offset='50%' stop-color='rgba(255,255,255,1)' /> */}
-              <stop offset='100%' stop-color='rgba(255,255,255,0)' />
+              <stop offset='0%' stopColor='rgba(255,255,255,.8)' />
+              {/* <stop offset='50%' stopColor='rgba(255,255,255,1)' /> */}
+              <stop offset='100%' stopColor='rgba(255,255,255,0)' />
             </radialGradient>
           </defs>
           <g transform='scale(1,-1)'>
-            <g transform='scale(1)'>
-              <rect x='-1' y='-1' width='2' height='2' fill='rgba(0,0,255,.1)' />
-              <Dragging />
-            </g>
+            {/* show background rect */}
+            <rect x='-1' y='-1' width='2' height='2' fill='rgba(0,0,255,.1)' />
+            {/* actual component content */}
+            <Dragging />
           </g>
         </svg>
       </animated.div>

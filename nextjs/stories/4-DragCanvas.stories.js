@@ -12,18 +12,12 @@ export const Playground = () => {
   const width = 300
   const height = 350
   const [isZoom, setZoom] = useState(true)
-  // const stamp = new Date().toISOString()
-  // const [values, setValues] = useState([{ stamp, value: 100 }])
-  const [z, setZ] = useState({
-    down: false // ...
-  })
-  const zz = { ...z }
-  delete zz.viewport
-  delete zz.svg
-  // params {delta }
-  const onZ = (zz) => {
-    setZ(zz)
-  }
+  const [deltaState, setDeltaState] = useState({ delta: 0, last: true })
+
+  const [gestureState, setGestureState] = useState({ down: false, movement: [0, 0], first: false, last: true })
+  const onDelta = (ds) => setDeltaState(ds)
+  const onDrag = (gs) => setGestureState(gs)
+
   const selectZoomOrSlide = (e) => {
     setZoom(e.target.value === 'AnchorZoom')
   }
@@ -49,11 +43,19 @@ export const Playground = () => {
             style={{ overflow: 'hidden', width, height }}
             width={width}
             height={height}
-            onZ={onZ}
+            onDelta={onDelta}
+            onDrag={onDrag}
             big={!isZoom}
           />
         </div>
-        <pre style={{ fontSize: 14 }}>{JSON.stringify(zz, null, 2)}</pre>
+        <div>
+          <pre style={{ margin: 50 }}>
+            onDelta: {JSON.stringify(deltaState, null, 2)}
+          </pre>
+          <pre style={{ margin: 50 }}>
+            onDrag: {JSON.stringify(gestureState, null, 2)}
+          </pre>
+        </div>
       </div>
     </div>
   )

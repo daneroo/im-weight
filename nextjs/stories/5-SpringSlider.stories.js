@@ -32,7 +32,7 @@ export const Playground = () => {
         <div style={{
           width,
           height,
-          margin: 100,
+          margin: 50,
           position: 'relative',
           border: '1px solid green'
         }}
@@ -74,11 +74,13 @@ export const Playground = () => {
           />
 
         </div>
-        <div>
-          onDelta:
-          <pre style={{ margin: 50 }}>{JSON.stringify(deltaState, null, 2)}</pre>
-          onDrag:
-          <pre style={{ margin: 50 }}>{JSON.stringify(gestureState, null, 2)}</pre>
+        <div style={{ margin: 50 }}>
+          <pre>
+            onDelta: {JSON.stringify(deltaState, null, 2)}
+          </pre>
+          <pre>
+            onDrag: {JSON.stringify(gestureState, null, 2)}
+          </pre>
         </div>
       </div>
     </div>

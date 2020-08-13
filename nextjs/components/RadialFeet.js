@@ -52,7 +52,7 @@ export default function RadialFeet ({
         style={{ position: 'absolute', bottom: radialBottom }}
       />
 
-      <DragCanvas style={{ position: 'absolute', bottom: 0 }} big={big} width={width} height={height} />
+      <DragCanvas style={{ position: 'absolute', bottom: 0 }} big={big} onDelta={onDelta} width={width} height={height} />
 
       <ButtonFeet style={{ position: 'absolute', bottom: feetBottom }} onClick={toggle} />
 
@@ -61,18 +61,6 @@ export default function RadialFeet ({
       {/* last, so it is on top */}
       {!big && (
         <SpringSlider style={{ ...sliderPos }} onDelta={onDelta} constrain={constraints.h} />
-      )}
-      {big && (
-        <SpringSlider style={{ position: 'absolute', bottom: width - 32, left: -32 }} onDelta={onDelta} constrain={constraints.ul} />
-      )}
-      {big && (
-        <SpringSlider style={{ position: 'absolute', bottom: width - 32, right: -32 }} onDelta={onDelta} constrain={constraints.ur} />
-      )}
-      {big && (
-        <SpringSlider style={{ position: 'absolute', bottom: -32, left: -32 }} onDelta={onDelta} constrain={constraints.ll} />
-      )}
-      {big && (
-        <SpringSlider style={{ position: 'absolute', bottom: -32, right: -32 }} onDelta={onDelta} constrain={constraints.lr} />
       )}
     </div>
   )
