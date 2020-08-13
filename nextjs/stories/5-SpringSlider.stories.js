@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 // import { action } from '@storybook/addon-actions'
 
-import PullRelease, { makeConstraints } from '../components/PullRelease'
+import SpringSlider, { makeConstraints } from '../components/SpringSlider'
 
 export default {
   title: 'SpringSlider (not used)',
-  component: PullRelease
+  component: SpringSlider
 }
 
-const onDrag = () => {}
 export const Playground = () => {
   const width = 300
   const height = 300
@@ -24,7 +23,11 @@ export const Playground = () => {
   return (
     <div style={{ height: '100%', color: 'white', background: 'black', fontFamily: 'sans-serif' }}>
       <h2>{JSON.stringify({ height, width })}</h2>
-      <div>PullRelease need to be renames SpringSlider...</div>
+      <ul>
+        <li>Better delta for arc sliders [x] based for now.</li>
+        <li>Needs work on boundary conditions</li>
+        <li>Arc Sliders in each corner</li>
+      </ul>
       <div style={{ display: 'flex', alignItems: 'stretch' }}>
         <div style={{
           width,
@@ -34,35 +37,35 @@ export const Playground = () => {
           border: '1px solid green'
         }}
         >
-          <PullRelease
+          <SpringSlider
             width={width}
             style={{ position: 'absolute', top: ((height || 100) - 64) / 2, left: ((width || 100) - 64) / 2 }}
             onDrag={onDrag}
             onDelta={onDelta}
           />
 
-          <PullRelease
+          <SpringSlider
             width={width}
             style={{ position: 'absolute', bottom: width - 32, left: -32 }}
             constrain={constraints.ul}
             onDrag={onDrag}
             onDelta={onDelta}
           />
-          <PullRelease
+          <SpringSlider
             width={width}
             style={{ position: 'absolute', bottom: width - 32, right: -32 }}
             constrain={constraints.ur}
             onDrag={onDrag}
             onDelta={onDelta}
           />
-          <PullRelease
+          <SpringSlider
             width={width}
             style={{ position: 'absolute', bottom: -32, left: -32 }}
             constrain={constraints.ll}
             onDrag={onDrag}
             onDelta={onDelta}
           />
-          <PullRelease
+          <SpringSlider
             width={width}
             style={{ position: 'absolute', bottom: -32, right: -32 }}
             constrain={constraints.lr}
@@ -72,7 +75,9 @@ export const Playground = () => {
 
         </div>
         <div>
+          onDelta:
           <pre style={{ margin: 50 }}>{JSON.stringify(deltaState, null, 2)}</pre>
+          onDrag:
           <pre style={{ margin: 50 }}>{JSON.stringify(gestureState, null, 2)}</pre>
         </div>
       </div>

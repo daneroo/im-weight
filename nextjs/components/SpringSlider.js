@@ -3,10 +3,10 @@ import { useSpring, animated } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 
 // Not used any more, but the idea was good.
-// - need to refactor contraints code
+// - need to refactor constraints code
 // - better delta for ul..lr constraints
 // -lots of boundary cases..
-export default function PullRelease ({
+export default function SpringSlider ({
   style,
   width = 100, // needed to normalize delta
   onDrag = ({ down, movement, first, last }) => {},

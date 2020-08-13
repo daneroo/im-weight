@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ButtonFeet from './ButtonFeet'
 import RadialGradient from './RadialGradient'
-import PullRelease from './PullRelease'
+import SpringSlider, { makeConstraints } from './SpringSlider'
 import ValueForRange from './ValueForRange'
 import DragCanvas from './DragCanvas'
 
@@ -32,53 +32,8 @@ export default function RadialFeet ({
     // left: 0
   }
 
-  const max1 = (x) => Math.min(1, x)
-  const constraints = {
-    h: (movement) => [movement[0], 0],
-    ll: (movement) => {
-      // console.log(movement)
-      const [x] = movement // x: 0 -> width
-      const xN = (width - x) / width // 1->0
-      if (xN < 0) return [0, 0]
-      if (xN > 1) return [width, width]
-      const rad = Math.acos(max1(xN)) // 0->pi/2
-      const yN = -Math.sin(rad)
-      const y = yN * width
-      return [x, y]
-    },
-    ur: (movement) => {
-      const [x] = movement // x: 0 -> -width
-      const xN = -x / width // 0->1
-      if (xN < 0) return [0, 0]
-      if (xN > 1) return [-width, -width]
-      const rad = Math.asin(max1(xN)) // 0->pi/1
-      console.log(rad / Math.PI)
-      const yN = (1 - Math.cos(rad))
-      const y = yN * -width
-      return [x, -y]
-    },
-    lr: (movement) => {
-      const [x] = movement // x: 0 -> -width
-      const xN = (width + x) / width // 1->0
-      if (xN < 0) return [0, 0]
-      if (xN > 1) return [-width, width]
-      const rad = Math.acos(max1(xN)) // 0->pi/2
-      const yN = -Math.sin(rad)
-      const y = yN * width
-      return [x, y]
-    },
-    ul: (movement) => {
-      const [x] = movement // x: 0 -> -width
-      const xN = x / width // 0->1
-      if (xN < 0) return [0, 0]
-      if (xN > 1) return [width, width]
-      const rad = Math.asin(max1(xN)) // 0->pi/2
-      console.log(rad / Math.PI)
-      const yN = 1 - Math.cos(rad)
-      const y = yN * width
-      return [x, y]
-    }
-  }
+  const constraints = makeConstraints(width, height)
+
   return (
     <div
       style={{
@@ -105,19 +60,19 @@ export default function RadialFeet ({
 
       {/* last, so it is on top */}
       {!big && (
-        <PullRelease style={{ ...sliderPos }} onDelta={onDelta} constrain={constraints.h} />
+        <SpringSlider style={{ ...sliderPos }} onDelta={onDelta} constrain={constraints.h} />
       )}
       {big && (
-        <PullRelease style={{ position: 'absolute', bottom: width - 32, left: -32 }} onDelta={onDelta} constrain={constraints.ul} />
+        <SpringSlider style={{ position: 'absolute', bottom: width - 32, left: -32 }} onDelta={onDelta} constrain={constraints.ul} />
       )}
       {big && (
-        <PullRelease style={{ position: 'absolute', bottom: width - 32, right: -32 }} onDelta={onDelta} constrain={constraints.ur} />
+        <SpringSlider style={{ position: 'absolute', bottom: width - 32, right: -32 }} onDelta={onDelta} constrain={constraints.ur} />
       )}
       {big && (
-        <PullRelease style={{ position: 'absolute', bottom: -32, left: -32 }} onDelta={onDelta} constrain={constraints.ll} />
+        <SpringSlider style={{ position: 'absolute', bottom: -32, left: -32 }} onDelta={onDelta} constrain={constraints.ll} />
       )}
       {big && (
-        <PullRelease style={{ position: 'absolute', bottom: -32, right: -32 }} onDelta={onDelta} constrain={constraints.lr} />
+        <SpringSlider style={{ position: 'absolute', bottom: -32, right: -32 }} onDelta={onDelta} constrain={constraints.lr} />
       )}
     </div>
   )
