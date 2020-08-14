@@ -110,7 +110,7 @@ export const AnchorZoom = ({ style, onDrag, onDelta }) => {
 }
 
 export const ArcSlider = ({ style, onDrag, onDelta }) => {
-  const vRatio = 0.5
+  const vRatio = 0.707
   const { theme: { colors: { primary, text } } } = useTheme()
 
   // compress incoming by vRatio (initial and xy)
