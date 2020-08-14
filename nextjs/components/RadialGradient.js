@@ -38,7 +38,7 @@ export default function RadialGradient ({ style, width = 400, big = false }) {
     >
       {transitions.map(({ item, key, props }) =>
         item
-          ? <animated.div key={key} style={props}><Grad style={props} percent={70.7} /></animated.div>
+          ? <animated.div key={key} style={props}><Grad style={props} percent={50} /></animated.div>
           : <animated.div key={key} style={props}><Grad style={props} percent={30} /></animated.div>
       )}
     </div>
