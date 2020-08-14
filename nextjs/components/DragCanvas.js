@@ -194,14 +194,8 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
       height: width
     }}
     >
-      <animated.div
-        {...bind()}
-        ref={ref}
-      >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          viewBox='-1 -1 2 2'
-        >
+      <animated.div {...bind()} ref={ref}>
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='-1 -1 2 2' >
           <defs>
             <radialGradient id='whiteGradient'>
               <stop offset='0%' stopColor='rgba(255,255,255,.8)' />
