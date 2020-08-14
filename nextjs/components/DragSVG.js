@@ -74,7 +74,19 @@ export const ArcSlide = ({ style, onDrag, onDelta }) => {
   // should call onDelta
   const augmentSVG = (svgSpc) => {
     const { last, initial, xy } = svgSpc
-    const { deltaA, deltaArc, corner, angleI, angleXY } = calcSliderStuff({ initial, xy })
+    const corner = (initial[0] * initial[1] > 0)
+      ? [1, -1] // right corner
+      : [-1, -1] // left corner
+
+    // angles go from 180..90 (right corner)
+    // angles go from 0..90 (left corner)
+    const angleI = Math.atan2(initial[1] - corner[1], initial[0] - corner[0])
+    const angleXY = Math.atan2(xy[1] - corner[1], xy[0] - corner[0])
+    const deltaA = (angleXY - angleI) / Math.PI
+    // normalize(0-1) and flip for right corner
+    const flip = (initial[0] * initial[1] > 0) ? -1 : 1
+    const deltaArc = clipAbs1(flip * (angleXY - angleI) * 2 / Math.PI)
+
     if (onDelta) {
       onDelta({ last, delta: deltaArc })
     }
@@ -137,27 +149,30 @@ export const ArcSlide = ({ style, onDrag, onDelta }) => {
             </g>
 
             {/* anchor for arc (corner) */}
-            <circle cx={corner[0]} cy={corner[1]} r={thick * 10} fill='rgba(255,255,255,.5)' />
+            {/* <circle cx={corner[0]} cy={corner[1]} r={thick * 10} fill='rgba(255,255,255,.5)' /> */}
 
             {/* line from corner to current */}
-            <line x1={corner[0]} y1={corner[1]} x2={xy[0]} y2={xy[1]} stroke='gray' strokeDasharray={0.05} />
+            {/* <line x1={corner[0]} y1={corner[1]} x2={xy[0]} y2={xy[1]} stroke='gray' strokeDasharray={0.05} /> */}
 
             <g>
               {/* drawn arc segment (not filled) */}
               <path
                 d={`M ${pI[0]} ${pI[1]}
-      A 2 2 0 ${largeArcFlag} ${sweepFlag} ${pXY[0]} ${pXY[1]}
-     `} fill='none' stroke='rgba(128, 128, 255,1)'
+                    A 2 2 0 ${largeArcFlag} ${sweepFlag} ${pXY[0]} ${pXY[1]}
+                `}
+                fill='none' stroke='rgba(128, 128, 255,1)'
+                markerEnd='url(#triangle)'
               />
 
               {/* filled in arc */}
-              <path
+              {/* <path
                 d={`M ${corner[0]} ${corner[1]}
-      L ${pI[0]} ${pI[1]}
-      A 2 2 0 ${largeArcFlag} ${sweepFlag} ${pXY[0]} ${pXY[1]}
-      Z
-     `} fill='rgba(255,255,0,.1)' stroke='none'
-              />
+                  L ${pI[0]} ${pI[1]}
+                  A 2 2 0 ${largeArcFlag} ${sweepFlag} ${pXY[0]} ${pXY[1]}
+                  Z
+               `}
+                fill='rgba(255,255,0,.1)' stroke='none'
+              /> */}
             </g>
             {/* current drag position */}
             <circle cx={xy[0]} cy={xy[1]} r={thick * 40} stroke='none' fill={gradient} />
@@ -168,6 +183,7 @@ export const ArcSlide = ({ style, onDrag, onDelta }) => {
   )
 }
 
+// <svg /> wrapper for
 function SVGUnit ({ children }) {
   return (
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='-1 -1 2 2'>
@@ -177,10 +193,19 @@ function SVGUnit ({ children }) {
           {/* <stop offset='50%' stopColor='rgba(255,255,255,1)' /> */}
           <stop offset='100%' stopColor='rgba(255,255,255,0)' />
         </radialGradient>
+        <marker
+          id='triangle' viewBox='0 0 10 10'
+          refX='1' refY='5'
+          markerUnits='strokeWidth'
+          markerWidth='10' markerHeight='10'
+          orient='auto'
+        >
+          <path d='M 0 0 L 10 5 L 0 10 z' fill='rgb(128,128,255)' />
+        </marker>
       </defs>
       <g transform='scale(1,-1)'>
         {/* show background rect */}
-        <rect x='-1' y='-1' width='2' height='2' fill='rgba(0,0,255,.1)' />
+        {/* <rect x='-1' y='-1' width='2' height='2' fill='rgba(0,0,255,.1)' /> */}
         {/* actual component content */}
         {children}
       </g>
@@ -188,12 +213,13 @@ function SVGUnit ({ children }) {
   )
 }
 
+// Transform viewport coordinates to svg ([-1,1]^2) coordinates
+// - Requires injected useDimensions for width, height=width, but also top and left.
 function viewportToSVG (dimensions, gesture) {
   // x/left,y/top: bug report: L10-11: https://github.com/Swizec/useDimensions/blob/master/src/index.ts
-  const { x: left, y: top, width, height } = dimensions
+  const { x: left, y: top, width } = dimensions
   const { last, down, initial, xy, movement } = gesture
 
-  console.log({ width, height })
   const vp2svgScale = [2 / width, -2 / width]
   const vpToSvg = (xy) => {
     return add(scale(xy, vp2svgScale), [-1, 1])
@@ -207,15 +233,18 @@ function viewportToSVG (dimensions, gesture) {
   }
 }
 
-let count = 0
-
+// Combine useDimensions, useState and useDrag
+// - useDimensions used to map coordinates (width x height):-> -1,1 svg unit square
+// - useDrag from react-use-gesture : gesture state: {last,down,initial,xy,movement,..}
+// - Fire onDrag event with coordinate transofmed coordinates
+// - Augment the return object with augmenSVG(svgState)
+//  - to make it available in the parent (calling) component
 function useDragSVG (onDrag, augmentSVG) {
   const [ref, dimensions] = useDimensions()
 
   // event and coordinates in svg space, for use in Specialized Drawing components
   const [svgState, setSvgState] = useState({ })
   const bind = useDrag((gesture) => {
-    console.log('drag', count++)
     const svg = viewportToSVG(dimensions, gesture)
     if (onDrag) {
       onDrag(svg)
@@ -223,37 +252,6 @@ function useDragSVG (onDrag, augmentSVG) {
     const svgAug = augmentSVG(svg)
     setSvgState(svgAug)
   })
-  return { ref, svgState, bind }
-}
-
-function NOTuseDragSVG (onDrag, onDelta) {
-  // x/left,y/top: bug report: L10-11: https://github.com/Swizec/useDimensions/blob/master/src/index.ts
-  const [ref, dimensions] = useDimensions()
-
-  // event and coordinates in svg space, for use in Specialized Drawing components
-  const [svgState, setSvgState] = useState({ })
-
-  const bind = useDrag((gesture) => {
-    console.log('drag')
-    const svgSpc = viewportToSVG(dimensions, gesture)
-    setSvgState(svgSpc)
-
-    // Do the delta calculations
-    // delta has range [-1,1]
-    // for anchor-zoom :
-    const delta = clipAbs1(svgSpc.movement[0] / 2)
-
-    // for arc-slider - just so I can call onDelta
-    const { deltaArc } = calcSliderStuff(svgSpc)
-
-    if (onDrag) {
-      onDrag(svgSpc)
-    }
-    if (onDelta) {
-      onDelta({ last: gesture.last, delta, deltaArc })
-    }
-  })
-
   return { ref, svgState, bind }
 }
 
@@ -267,39 +265,6 @@ function Sine ({ amplitude = 1, freq = 1 }) {
 }
 
 const clipAbs1 = (v) => Math.max(-1, Math.min(1, v))
-
-function calcSliderStuff ({ initial, xy }) {
-  // const { initial, xy } = zzz.svg
-  // pick the corner from for quadrant of initial point
-  const corner = (initial[0] * initial[1] > 0)
-    ? [1, -1] // right corner
-    : [-1, -1] // left corner
-
-  // angles go from 180..90 (right corner)
-  // angles go from 0..90 (left corner)
-  const angleI = Math.atan2(initial[1] - corner[1], initial[0] - corner[0])
-  const angleXY = Math.atan2(xy[1] - corner[1], xy[0] - corner[0])
-  const deltaA = (angleXY - angleI) / Math.PI
-  // normalize(0-1) and flip for right corner
-  const flip = (initial[0] * initial[1] > 0) ? -1 : 1
-  const deltaArc = clipAbs1(flip * (angleXY - angleI) * 2 / Math.PI)
-  // what we export
-  // zzz.angleI = angleI //* 180 / Math.PI
-  // zzz.angleXY = angleXY //* 180 / Math.PI
-
-  // // deltaA: -.5...5 // left corner
-  // // deltaA: -.5...5 // right corner, but sign reversed
-  // zzz.deltaA = deltaA
-  // zzz.corner = corner
-  // zzz.deltaArc = deltaArc
-  return {
-    corner,
-    angleI,
-    angleXY,
-    deltaA,
-    deltaArc
-  }
-}
 
 const scale = ([x, y], [a, b]) => {
   return [a * x, b * y]

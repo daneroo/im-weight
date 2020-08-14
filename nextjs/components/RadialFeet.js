@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import ButtonFeet from './ButtonFeet'
 import RadialGradient from './RadialGradient'
-import SpringSlider, { makeConstraints } from './SpringSlider'
 import ValueForRange from './ValueForRange'
-// import DragCanvas from './DragCanvas'
-// import { AnchorZoom } from './DragSVG'
-import { ArcSlide } from './DragSVG'
+import { AnchorZoom, ArcSlide } from './DragSVG'
 
 // Combined control panel:
 //  - use parent:   position:relative, overflow:hidden
@@ -27,14 +24,6 @@ export default function RadialFeet ({
     // send !big, as the state has not yet updated
     onClick({ big: !big })
   }
-  // careful height is injected by forwardRef, so it can be NaN initially
-  const sliderPos = {
-    top: ((height || 100) - 64) / 2
-    // bottom: 0,
-    // left: 0
-  }
-
-  const constraints = makeConstraints(width, height)
 
   return (
     <div
@@ -54,27 +43,24 @@ export default function RadialFeet ({
         style={{ position: 'absolute', bottom: radialBottom }}
       />
 
-      {/* <DragCanvas style={{ position: 'absolute', bottom: 0 }} big={big} onDelta={onDelta} width={width} height={height} /> */}
-      {/* <AnchorZoom
-        style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
-        width={width}
-        onDelta={onDelta}
-        // onDrag={onDrag}
-      /> */}
-      <ArcSlide
-        style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
-        width={width}
-        onDelta={onDelta}
-        // onDrag={onDrag}
-      />
+      {!big && (
+        <AnchorZoom
+          style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
+          width={width}
+          onDelta={onDelta}
+        />
+      )}
+      {big && (
+        <ArcSlide
+          style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
+          width={width}
+          onDelta={onDelta}
+        />
+      )}
       <ButtonFeet style={{ position: 'absolute', bottom: feetBottom }} onClick={toggle} />
 
       <ValueForRange values={values} />
 
-      {/* last, so it is on top */}
-      {!big && (
-        <SpringSlider style={{ ...sliderPos }} onDelta={onDelta} constrain={constraints.h} />
-      )}
     </div>
   )
 }

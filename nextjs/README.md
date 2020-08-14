@@ -2,15 +2,15 @@
 
 ## TODO
 
-- DragCanvas rename as DragSVG? and implement `onDelta`
+- Document DragSVG and components (SimpleSVG)
 - Rename RadialFeet - > ControlPanel
+- extract useTheme()
 - Rationalize (minimize) all layout
 - Animate BottomFeet movement
 - [HTML entities](https://www.toptal.com/designers/htmlarrows/symbols/)
 - merge to master, when addObs done
 - replace og-image, once deployed to vercel
 - full screen (no browser bar)
-- refactor components, theme object (ctx)
 - fonts (Roboto, Tondo )
 - Bottom button for addObs
 - Cleanup layout and all css
