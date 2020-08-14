@@ -6,8 +6,10 @@ import moment from 'moment'
 import { LineCanvas as Line } from '@nivo/line'
 
 import { minmaxValuesRounded } from './minmaxValues'
+import useTheme from './useTheme'
 
 export default function Graph ({ values, since, adjustZoom, width, height }) {
+  const { theme: { colors: { text, primary, secondary } } } = useTheme()
   // guard against undefined w,h
   if (!width || !height) return <></>
 
@@ -28,10 +30,10 @@ export default function Graph ({ values, since, adjustZoom, width, height }) {
 
   const myTheme = {
     color: {
-      text: 'rgb(128, 128, 128)',
-      point: 'rgb(255, 255, 255)',
-      tickAndGrid: 'rgb(128, 128, 128)',
-      line: 'rgb(128, 128, 255)'
+      text: text,
+      point: secondary,
+      tickAndGrid: text,
+      line: primary
     }
   }
 

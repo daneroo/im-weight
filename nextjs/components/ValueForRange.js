@@ -6,7 +6,7 @@ import useTheme from './useTheme'
 // We only pass in values.length>0
 export default function ValueForRange ({ values, style }) {
   const [bylineIndex, setBylineIndex] = useState(0)
-  const { theme: { colors: { primary, background } } } = useTheme()
+  const { theme: { colors: { primary } } } = useTheme()
 
   const { stamp, value } = values[0] // latest value
   const { min, max } = minmaxValues(values)

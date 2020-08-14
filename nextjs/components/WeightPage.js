@@ -46,7 +46,7 @@ function memoizeDataByZoom (data) {
 
 export default function WeightPage () {
   // width for relative drag in PullRelease
-  const [ref, { width, height }] = useDimensions()
+  const [ref, { height }] = useDimensions()
   // dimensions for graph
   const [refGraph, { width: widthGraph, height: heightGraph }] = useDimensions()
   const [zoom, setZoom] = useState(0)
