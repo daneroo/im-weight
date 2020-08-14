@@ -11,7 +11,7 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
 
   // event and coordinates in svg space, for use in Specialized Drawing components
   const [svgState, setSvgState] = useState({ })
-  const [zGetRidOfMe, setZGetRidOfMe] = useState({ })
+  // const [zGetRidOfMe, setZGetRidOfMe] = useState({ })
 
   const fromViewPort = ([x, y], { left, top }) => {
     return [x - left, y - top]
@@ -26,55 +26,27 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
     const componentSpace = { down, initial: fromViewPort(initial, lt), xy: fromViewPort(xy, lt), movement }
 
     const svgSpc = {
-      // last,
+      last,
       down,
       initial: vpToSvg(componentSpace.initial),
       xy: vpToSvg(componentSpace.xy),
       movement: scale(componentSpace.movement, vp2svgScale) // no offset, just scale
-    }
-    const zzz = {
-      viewport: componentSpace,
-      svg: svgSpc
     }
     setSvgState(svgSpc)
 
     // Do the delta calculations
     // delta has range [-1,1]
     // for anchor-zoom :
-    zzz.delta = clipAbs1(zzz.svg.movement[0] / 2)
+    const delta = clipAbs1(svgSpc.movement[0] / 2)
 
-    // for arc-slider
-    // angle with initial and right corner
-    {
-      const { initial, xy } = zzz.svg
-      // pick the corner from for quadrant of initial point
-      const corner = (initial[0] * initial[1] > 0)
-        ? [1, -1] // right corner
-        : [-1, -1] // left corner
+    // for arc-slider - just so I can call onDelta
+    const { deltaArc } = calcSliderStuff(svgSpc)
 
-      // angles go from 180..90 (right corner)
-      // angles go from 0..90 (left corner)
-      const angleI = Math.atan2(initial[1] - corner[1], initial[0] - corner[0])
-      const angleXY = Math.atan2(xy[1] - corner[1], xy[0] - corner[0])
-
-      // what we export
-      zzz.angleI = angleI //* 180 / Math.PI
-      zzz.angleXY = angleXY //* 180 / Math.PI
-      // deltaA: -.5...5 // left corner
-      // deltaA: -.5...5 // right corner, but sign reversed
-      zzz.deltaA = (angleXY - angleI) / Math.PI
-      zzz.corner = corner
-      // normalize(0-1) and flip for right corner
-      const flip = (initial[0] * initial[1] > 0) ? -1 : 1
-      zzz.deltaArc = clipAbs1(flip * (angleXY - angleI) * 2 / Math.PI)
-    }
-
-    setZGetRidOfMe(zzz)
     if (onDrag) {
-      onDrag({ down, delta: zzz.delta, deltaArc: zzz.deltaArc })
+      onDrag({ down, delta, deltaArc })
     }
     if (onDelta) {
-      onDelta({ last, delta: zzz.delta })
+      onDelta({ last, delta })
     }
   })
 
@@ -94,9 +66,10 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
   const vpToSvg = (xy) => {
     return add(scale(xy, vp2svgScale), [-1, 1])
   }
-  const clipAbs1 = (v) => Math.max(-1, Math.min(1, v))
 
-  const AnchorZoom = ({ down, freq, xy }) => {
+  const AnchorZoom = ({ down, xy, movement }) => {
+    const delta = down ? clipAbs1(movement[0] / 2) : 0
+    const freq = 3 + 2 * delta // freq: 1..5
     const gradient = 'url("#whiteGradient")'
 
     return (
@@ -130,7 +103,7 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
     )
   }
 
-  const ArcSlide = ({ down, deltaA, corner, initial, xy, angleI, angleXY }) => {
+  const ArcSlide = ({ down, initial, xy }) => {
     if (!down) {
       return (
         <g
@@ -146,6 +119,11 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
         </g>
       )
     }
+
+    // Calculate local values
+
+    const { deltaA, corner, angleI, angleXY } = calcSliderStuff({ initial, xy })
+
     const gradient = 'url("#whiteGradient")'
     const largeArcFlag = 0
     const sweepFlag = (deltaA && deltaA > 0) ? 1 : 0
@@ -194,18 +172,17 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
       </g>)
   }
 
-  const Dragging = () => {
-    const down = (zGetRidOfMe && zGetRidOfMe.viewport && zGetRidOfMe.viewport.down)
-    const { initial, xy } = zGetRidOfMe.svg || {}
-    const { delta, corner, deltaA, angleI, angleXY } = zGetRidOfMe
-    const freq = 3 + 2 * delta // freq: 1..5
+  const Dragging = ({ down, initial, xy, movement }) => {
+    // const down = (zGetRidOfMe && zGetRidOfMe.viewport && zGetRidOfMe.viewport.down)
+    // const { initial, xy } = zGetRidOfMe.svg || {}
+    // const { delta, corner, deltaA, angleI, angleXY } = zGetRidOfMe
     if (isArc) {
       return (
-        <ArcSlide {...{ down, deltaA, corner, initial, xy, angleI, angleXY }} />
+        <ArcSlide {...{ down, initial, xy }} />
       )
     } else {
       return (
-        <AnchorZoom {...{ down, xy, freq }} />
+        <AnchorZoom {...{ down, xy, movement }} />
       )
     }
   }
@@ -220,10 +197,6 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
       <animated.div
         {...bind()}
         ref={ref}
-        style={{
-          // not used as we never 'set' xy
-          // transform: xy.interpolate((x, y) => `translate3d(${x}px, ${y}px, 0)`)
-        }}
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -240,7 +213,7 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
             {/* show background rect */}
             <rect x='-1' y='-1' width='2' height='2' fill='rgba(0,0,255,.1)' />
             {/* actual component content */}
-            <Dragging />
+            <Dragging {...svgState} />
           </g>
         </svg>
       </animated.div>
@@ -255,4 +228,39 @@ function Sine ({ amplitude = 1, freq = 1 }) {
     return [x, amplitude * Math.sin(freq * x * 2 * Math.PI)]
   }).map(([x, y]) => `${x},${y}`).join(' ')
   return <polyline points={points} />
+}
+
+const clipAbs1 = (v) => Math.max(-1, Math.min(1, v))
+
+function calcSliderStuff ({ initial, xy }) {
+  // const { initial, xy } = zzz.svg
+  // pick the corner from for quadrant of initial point
+  const corner = (initial[0] * initial[1] > 0)
+    ? [1, -1] // right corner
+    : [-1, -1] // left corner
+
+  // angles go from 180..90 (right corner)
+  // angles go from 0..90 (left corner)
+  const angleI = Math.atan2(initial[1] - corner[1], initial[0] - corner[0])
+  const angleXY = Math.atan2(xy[1] - corner[1], xy[0] - corner[0])
+  const deltaA = (angleXY - angleI) / Math.PI
+  // normalize(0-1) and flip for right corner
+  const flip = (initial[0] * initial[1] > 0) ? -1 : 1
+  const deltaArc = clipAbs1(flip * (angleXY - angleI) * 2 / Math.PI)
+  // what we export
+  // zzz.angleI = angleI //* 180 / Math.PI
+  // zzz.angleXY = angleXY //* 180 / Math.PI
+
+  // // deltaA: -.5...5 // left corner
+  // // deltaA: -.5...5 // right corner, but sign reversed
+  // zzz.deltaA = deltaA
+  // zzz.corner = corner
+  // zzz.deltaArc = deltaArc
+  return {
+    corner,
+    angleI,
+    angleXY,
+    deltaA,
+    deltaArc
+  }
 }
