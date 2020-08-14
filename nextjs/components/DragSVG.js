@@ -71,6 +71,7 @@ export const AnchorZoom = ({ style, onDrag, onDelta }) => {
   const { down, xy, delta } = svgState
 
   const freq = 3 + 2 * delta // freq: 1..5
+  const amplitude = 0.5
   const gradient = 'url("#whiteGradient")'
 
   return (
@@ -79,7 +80,11 @@ export const AnchorZoom = ({ style, onDrag, onDelta }) => {
         <SVGUnit>
           {/* the dashed x axis */}
           <g strokeDasharray={thick * 5}>
-            <polyline points='-1,0 1,0' />
+            <polyline
+              points='-0.7,0 0.7,0'
+              markerStart='url(#arrowText)'
+              markerEnd='url(#arrowText)'
+            />
           </g>
 
           {down && (
@@ -94,7 +99,7 @@ export const AnchorZoom = ({ style, onDrag, onDelta }) => {
                 opacity={0.7}
                 transform='translate(1,0) scale(-2,1)'
               >
-                <Sine amplitude={0.5} freq={freq} />
+                <Sine amplitude={amplitude} freq={freq} />
               </g>
             </g>
           )}
@@ -105,14 +110,25 @@ export const AnchorZoom = ({ style, onDrag, onDelta }) => {
 }
 
 export const ArcSlider = ({ style, onDrag, onDelta }) => {
-  const { theme: { colors: { primary } } } = useTheme()
+  const vRatio = 0.5
+  const { theme: { colors: { primary, text } } } = useTheme()
 
+  // compress incoming by vRatio (initial and xy)
+  // this is reversed in svg coords with
+  const txIn = (v) => {
+    // vertical: [-1,1] -> -1,3
+    return [v[0], (v[1] + 1) / vRatio - 1]
+  }
+  const txOut = `translate(0,-1)scale(1,${vRatio})translate(0,1)`
   // This is where the transformations happen
   // - For outside interaction, we only provide onDelta({down,delta})
   // - For Drawing we provide svgState state variable
   // - Should call onDelta
   const augmentSVG = (svgSpc) => {
-    const { last, initial, xy } = svgSpc
+    const { last, initial: initialFull, xy: xyFull } = svgSpc
+    const initial = txIn(initialFull)
+    const xy = txIn(xyFull)
+
     const corner = (initial[0] * initial[1] > 0)
       ? [1, -1] // right corner
       : [-1, -1] // left corner
@@ -129,7 +145,8 @@ export const ArcSlider = ({ style, onDrag, onDelta }) => {
     if (onDelta) {
       onDelta({ last, delta: deltaArc })
     }
-    return { ...svgSpc, deltaA, deltaArc, corner, angleI, angleXY }
+    // override incoming initial,xy
+    return { ...svgSpc, ...{ initial, xy }, deltaA, deltaArc, corner, angleI, angleXY }
   }
 
   const { ref, svgState, bind } = useDragSVG(onDrag, augmentSVG)
@@ -141,10 +158,13 @@ export const ArcSlider = ({ style, onDrag, onDelta }) => {
       <div style={style}>
         <animated.div {...bind()} ref={ref}>
           <SVGUnit>
-            <g strokeDasharray={thick * 5}>
-              {/* two reference arcs */}
-              <circle cx='1' cy='-1' r='2' />
-              <circle cx='-1' cy='-1' r='2' />
+            <g transform={txOut}>
+              <g strokeDasharray={thick * 5}>
+                {/* two reference arcs */}
+                <circle cx='1' cy='-1' r='2' />
+                <circle cx='-1' cy='-1' r='2' />
+                <polyline points='-1,0 1,0' opacity={0.2} />
+              </g>
             </g>
           </SVGUnit>
         </animated.div>
@@ -167,31 +187,32 @@ export const ArcSlider = ({ style, onDrag, onDelta }) => {
     <div style={style}>
       <animated.div {...bind()} ref={ref}>
         <SVGUnit>
+          <g transform={txOut}>
 
-          <g strokeDasharray={thick * 5}>
-            {/* two reference arcs */}
-            <circle cx='1' cy='-1' r='2' />
-            <circle cx='-1' cy='-1' r='2' />
-          </g>
+            <g strokeDasharray={thick * 5}>
+              {/* two reference arcs */}
+              <circle cx='1' cy='-1' r='2' />
+              <circle cx='-1' cy='-1' r='2' />
+            </g>
 
-          {/* anchor for arc (corner) */}
-          {/* <circle cx={corner[0]} cy={corner[1]} r={thick * 10} fill={text} /> */}
+            {/* anchor for arc (corner) */}
+            <circle cx={corner[0]} cy={corner[1]} r={thick * 10} fill={text} />
 
-          {/* line from corner to current */}
-          {/* <line x1={corner[0]} y1={corner[1]} x2={xy[0]} y2={xy[1]} stroke={text} strokeDasharray={thick * 5} /> */}
+            {/* line from corner to current */}
+            <line x1={corner[0]} y1={corner[1]} x2={xy[0]} y2={xy[1]} stroke={text} strokeDasharray={thick * 5} />
 
-          <g>
-            {/* drawn arc segment (not filled) */}
-            <path
-              d={`M ${pI[0]} ${pI[1]}
+            <g>
+              {/* drawn arc segment (not filled) */}
+              <path
+                d={`M ${pI[0]} ${pI[1]}
                     A 2 2 0 ${largeArcFlag} ${sweepFlag} ${pXY[0]} ${pXY[1]}
                 `}
-              fill='none' stroke={primary}
-              markerEnd='url(#arrow)'
-            />
+                fill='none' stroke={primary}
+                markerEnd='url(#arrowPrimary)'
+              />
 
-            {/* filled in arc */}
-            {/* <path
+              {/* filled in arc */}
+              {/* <path
               d={`M ${corner[0]} ${corner[1]}
                   L ${pI[0]} ${pI[1]}
                   A 2 2 0 ${largeArcFlag} ${sweepFlag} ${pXY[0]} ${pXY[1]}
@@ -201,10 +222,11 @@ export const ArcSlider = ({ style, onDrag, onDelta }) => {
               opacity={0.2}
               stroke='none'
             /> */}
-          </g>
+            </g>
 
-          {/* current drag position */}
-          <circle cx={xy[0]} cy={xy[1]} r={thick * 40} stroke='none' fill={gradient} />
+            {/* current drag position */}
+            <circle cx={xy[0]} cy={xy[1]} r={thick * 40} stroke='none' fill={gradient} />
+          </g>
         </SVGUnit>
       </animated.div>
     </div>
@@ -224,13 +246,22 @@ function SVGUnit ({ children }) {
           <stop offset='100%' stopColor={secondary} stopOpacity={0.1} />
         </radialGradient>
         <marker
-          id='arrow' viewBox='0 0 10 10'
+          id='arrowPrimary' viewBox='0 0 10 10'
           refX='1' refY='5'
           markerUnits='strokeWidth'
           markerWidth='10' markerHeight='10'
-          orient='auto'
+          orient='auto-start-reverse'
         >
           <path d='M 0 0 L 10 5 L 0 10 z' fill={primary} />
+        </marker>
+        <marker
+          id='arrowText' viewBox='0 0 10 10'
+          refX='1' refY='5'
+          markerUnits='strokeWidth'
+          markerWidth='10' markerHeight='10'
+          orient='auto-start-reverse'
+        >
+          <path d='M 0 0 L 10 5 L 0 10 z' fill={text} />
         </marker>
       </defs>
       <g transform='scale(1,-1)'>
