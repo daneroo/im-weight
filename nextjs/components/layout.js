@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 // const name = '@daneroo'
 
-export const siteTitle = 'Next.js Sample Website'
+export const siteTitle = 'iM-Weight'
 
 export default function Layout ({ children, home }) {
   return (
@@ -17,7 +17,7 @@ export default function Layout ({ children, home }) {
         <meta name='mobile-web-app-capable' content='yes' />
         <meta
           name='description'
-          content='Learn how to build a personal website using Next.js'
+          content='Weight Tracker'
         />
         <meta
           property='og:image'
