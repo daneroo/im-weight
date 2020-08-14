@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // import { action } from '@storybook/addon-actions'
 
-import { AnchorZoom, ArcSlider } from '../components/DragSVG'
+import { AnchorZoom, ArcSlider, SimpleSlider } from '../components/DragSVG'
 
 export default {
   title: 'DragSVG'
@@ -16,6 +16,41 @@ function useDragAndDelta () {
   // const onDelta = (ds) => {} // console.log(ds)
   // const onDrag = (gs) => {} // console.log(gs)
   return { deltaState, onDelta, gestureState, onDrag }
+}
+
+export const SimpleSlider1 = () => {
+  const width = 300
+  const height = 300
+  const { deltaState, onDelta, gestureState, onDrag } = useDragAndDelta()
+  return (
+    <div style={{ height: 500, color: 'white', background: 'black', fontFamily: 'sans-serif' }}>
+      <h2>{JSON.stringify({ height, width })}</h2>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div
+          style={{
+            border: '1px solid green',
+            width,
+            height: height + 50
+          // display: 'relative'
+          }}
+        >
+          <SimpleSlider
+            style={{ overflow: 'hidden' }}
+            onDelta={onDelta}
+            onDrag={onDrag}
+          />
+        </div>
+        <div>
+          <pre style={{ margin: 50 }}>
+            onDelta: {JSON.stringify(deltaState, null, 2)}
+          </pre>
+          <pre style={{ margin: 50 }}>
+            onDrag: {JSON.stringify(gestureState, null, 2)}
+          </pre>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export const AnchorZoom1 = () => {
@@ -52,6 +87,7 @@ export const AnchorZoom1 = () => {
     </div>
   )
 }
+
 export const ArcSlider1 = () => {
   const width = 300
   const height = 300
@@ -110,7 +146,7 @@ export const Playground = () => {
           style={{
             border: '1px solid green',
             width,
-            height: height + 50
+            height
           // display: 'relative'
           }}
         >

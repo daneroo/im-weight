@@ -2,9 +2,7 @@
 
 ## TODO
 
-- Document DragSVG and components (SimpleSVG)
 - Rename RadialFeet - > ControlPanel
-- extract useTheme()
 - Rationalize (minimize) all layout
 - Animate BottomFeet movement
 - [HTML entities](https://www.toptal.com/designers/htmlarrows/symbols/)
@@ -23,5 +21,5 @@
 ## Charting
 
 - [React/D3 Chart review](https://dev.to/giteden/top-5-react-chart-libraries-for-2020-1amb)
-  - [Nivo](https://nivo.rocks/line/)- 
+  - [Nivo](https://nivo.rocks/line/)
   - [Swizec - d3blackbox](https://github.com/Swizec/d3blackbox)
