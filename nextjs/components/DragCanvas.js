@@ -11,26 +11,17 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
 
   // event and coordinates in svg space, for use in Specialized Drawing components
   const [svgState, setSvgState] = useState({ })
-  // const [zGetRidOfMe, setZGetRidOfMe] = useState({ })
-
-  const fromViewPort = ([x, y], { left, top }) => {
-    return [x - left, y - top]
-  }
 
   // This is where the transformations happen
   // - For outside interaction, we only provide onDelta({down,delta})
   // - For Drawing we provide svgState state variable
   const bind = useDrag(({ last, down, initial, xy, movement }) => {
-    const lt = { left, top } // from useDimensions
-
-    const componentSpace = { down, initial: fromViewPort(initial, lt), xy: fromViewPort(xy, lt), movement }
-
     const svgSpc = {
       last,
       down,
-      initial: vpToSvg(componentSpace.initial),
-      xy: vpToSvg(componentSpace.xy),
-      movement: scale(componentSpace.movement, vp2svgScale) // no offset, just scale
+      initial: vpToSvg(add(initial, [-left, -top])),
+      xy: vpToSvg(add(xy, [-left, -top])),
+      movement: scale(movement, vp2svgScale) // no offset, just scale
     }
     setSvgState(svgSpc)
 
@@ -43,10 +34,10 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
     const { deltaArc } = calcSliderStuff(svgSpc)
 
     if (onDrag) {
-      onDrag({ down, delta, deltaArc })
+      onDrag(svgSpc)
     }
     if (onDelta) {
-      onDelta({ last, delta })
+      onDelta({ last, delta, deltaArc })
     }
   })
 
@@ -58,9 +49,11 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
   const scale = ([x, y], [a, b]) => {
     return [a * x, b * y]
   }
+
   const add = ([x1, y1], [x2, y2]) => {
     return [x1 + x2, y1 + y2]
   }
+
   const vp2svgScale = [2 / width, -2 / width]
 
   const vpToSvg = (xy) => {
@@ -173,9 +166,6 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
   }
 
   const Dragging = ({ down, initial, xy, movement }) => {
-    // const down = (zGetRidOfMe && zGetRidOfMe.viewport && zGetRidOfMe.viewport.down)
-    // const { initial, xy } = zGetRidOfMe.svg || {}
-    // const { delta, corner, deltaA, angleI, angleXY } = zGetRidOfMe
     if (isArc) {
       return (
         <ArcSlide {...{ down, initial, xy }} />
@@ -195,7 +185,7 @@ export default function DragCanvas ({ style, width, big: isArc, onDrag, onDelta 
     }}
     >
       <animated.div {...bind()} ref={ref}>
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='-1 -1 2 2' >
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='-1 -1 2 2'>
           <defs>
             <radialGradient id='whiteGradient'>
               <stop offset='0%' stopColor='rgba(255,255,255,.8)' />
