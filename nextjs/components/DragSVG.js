@@ -8,7 +8,6 @@ import useTheme from './useTheme'
 const thick = 0.01
 
 export const SimpleSlider = ({ style, onDrag, onDelta }) => {
-
   // This is where the transformations happen
   // - For outside interaction, we only provide onDelta({down,delta})
   // - For Drawing we provide svgState state variable
@@ -16,7 +15,6 @@ export const SimpleSlider = ({ style, onDrag, onDelta }) => {
   const augmentSVG = (svgSpc) => {
     const { last, down, movement } = svgSpc
     const magnitude = (down) ? Math.sqrt(movement[0] * movement[0] + movement[1] * movement[1]) / 2 : 0
-    console.log({ magnitude })
     const delta = clipAbs1(magnitude)
     if (onDelta) {
       onDelta({ last, delta })
