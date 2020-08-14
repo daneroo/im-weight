@@ -3,7 +3,9 @@ import ButtonFeet from './ButtonFeet'
 import RadialGradient from './RadialGradient'
 import SpringSlider, { makeConstraints } from './SpringSlider'
 import ValueForRange from './ValueForRange'
-import DragCanvas from './DragCanvas'
+// import DragCanvas from './DragCanvas'
+// import { AnchorZoom } from './DragSVG'
+import { ArcSlide } from './DragSVG'
 
 // Combined control panel:
 //  - use parent:   position:relative, overflow:hidden
@@ -52,8 +54,19 @@ export default function RadialFeet ({
         style={{ position: 'absolute', bottom: radialBottom }}
       />
 
-      <DragCanvas style={{ position: 'absolute', bottom: 0 }} big={big} onDelta={onDelta} width={width} height={height} />
-
+      {/* <DragCanvas style={{ position: 'absolute', bottom: 0 }} big={big} onDelta={onDelta} width={width} height={height} /> */}
+      {/* <AnchorZoom
+        style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
+        width={width}
+        onDelta={onDelta}
+        // onDrag={onDrag}
+      /> */}
+      <ArcSlide
+        style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
+        width={width}
+        onDelta={onDelta}
+        // onDrag={onDrag}
+      />
       <ButtonFeet style={{ position: 'absolute', bottom: feetBottom }} onClick={toggle} />
 
       <ValueForRange values={values} />
