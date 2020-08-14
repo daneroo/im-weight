@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ButtonFeet from './ButtonFeet'
 import RadialGradient from './RadialGradient'
 import ValueForRange from './ValueForRange'
-import { AnchorZoom, ArcSlide } from './DragSVG'
+import { AnchorZoom, ArcSlider } from './DragSVG'
 
 // Combined control panel:
 //  - use parent:   position:relative, overflow:hidden
@@ -51,7 +51,7 @@ export default function RadialFeet ({
         />
       )}
       {big && (
-        <ArcSlide
+        <ArcSlider
           style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
           width={width}
           onDelta={onDelta}

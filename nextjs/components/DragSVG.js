@@ -66,7 +66,7 @@ export const AnchorZoom = ({ style, onDrag, onDelta }) => {
   )
 }
 
-export const ArcSlide = ({ style, onDrag, onDelta }) => {
+export const ArcSlider = ({ style, onDrag, onDelta }) => {
   // This is where the transformations happen
   // - For outside interaction, we only provide onDelta({down,delta})
   // - For Drawing we provide svgState state variable
