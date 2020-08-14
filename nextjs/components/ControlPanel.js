@@ -9,7 +9,7 @@ import { AnchorZoom, ArcSlider } from './DragSVG'
 //  - use children: position:absolute
 // width is for the gradient, button is 64px
 // the button state is coupled to the gradient "big state"
-export default function RadialFeet ({
+export default function ControlPanel ({
   style, width, height,
   values,
   onClick = ({ big }) => {},

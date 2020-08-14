@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 // import { action } from '@storybook/addon-actions'
 
-import RadialFeet from '../components/RadialFeet'
+import ControlPanel from '../components/ControlPanel'
 
 export default {
-  title: 'RadialFeet',
-  component: RadialFeet
+  title: 'ControlPanel',
+  component: ControlPanel
 }
 
 export const Playground = () => {
   const width = 400
-  const height = 500
+  const height = 400
 
   const stamp = new Date().toISOString()
   const [values, setValues] = useState([{ stamp, value: 100 }])
@@ -21,7 +21,7 @@ export const Playground = () => {
   }
 
   return (
-    <div style={{ height: 600, color: 'white', background: 'black', fontFamily: 'sans-serif' }}>
+    <div style={{ height: 600, color: 'gray', background: 'black', fontFamily: 'sans-serif' }}>
       <h2>{JSON.stringify({ height, width })}</h2>
 
       <div
@@ -33,7 +33,7 @@ export const Playground = () => {
           overflow: 'hidden'
         }}
       >
-        <RadialFeet
+        <ControlPanel
           width={400}
           height={height}
           values={values}

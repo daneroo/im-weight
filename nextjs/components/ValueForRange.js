@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import moment from 'moment'
 import { minmaxValues } from './minmaxValues'
+import useTheme from './useTheme'
 
 // We only pass in values.length>0
 export default function ValueForRange ({ values, style }) {
   const [bylineIndex, setBylineIndex] = useState(0)
+  const { theme: { colors: { primary, background } } } = useTheme()
 
   const { stamp, value } = values[0] // latest value
   const { min, max } = minmaxValues(values)
@@ -31,8 +33,7 @@ export default function ValueForRange ({ values, style }) {
       }}
     >
       <div style={{
-        // color: 'rgb(64,64,255)',
-        color: 'rgb(128,128,255)',
+        color: primary,
         fontSize: '3rem',
         lineHeight: 1.2,
         fontWeight: 600

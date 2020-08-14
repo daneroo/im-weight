@@ -5,7 +5,7 @@ import useDimensions from 'react-use-dimensions'
 import fetcher from './fetcher'
 
 import Graph from './Graph'
-import RadialFeet from './RadialFeet'
+import ControlPanel from './ControlPanel'
 
 const zoomMonths = [3, 6, 12, 24, 36, 60, 999]
 
@@ -123,7 +123,7 @@ export default function WeightPage () {
           alignItems: 'center'
         }}
       >
-        <RadialFeet
+        <ControlPanel
           width={400}
           height={height}
           values={values}
