@@ -196,10 +196,10 @@ export const ArcSlider = ({ style, onDrag, onDelta }) => {
             </g>
 
             {/* anchor for arc (corner) */}
-            <circle cx={corner[0]} cy={corner[1]} r={thick * 10} fill={text} />
+            {/* <circle cx={corner[0]} cy={corner[1]} r={thick * 10} fill={text} /> */}
 
             {/* line from corner to current */}
-            <line x1={corner[0]} y1={corner[1]} x2={xy[0]} y2={xy[1]} stroke={text} strokeDasharray={thick * 5} />
+            {/* <line x1={corner[0]} y1={corner[1]} x2={xy[0]} y2={xy[1]} stroke={text} strokeDasharray={thick * 5} /> */}
 
             <g>
               {/* drawn arc segment (not filled) */}

@@ -59,7 +59,7 @@ export default function ControlPanel ({
       )}
       <ButtonFeet style={{ position: 'absolute', bottom: feetBottom }} onClick={toggle} />
 
-      <ValueForRange values={values} />
+      <ValueForRange style={{ zIndex: 1 }} values={values} />
 
     </div>
   )
