@@ -35,10 +35,14 @@ export default function ControlPanel ({
 
   // wraps useStorage.add with panel control (back to addingObs=false)
   const addAndClose = async ({ value, stamp }) => {
-    // TODO: try catch, and show error
-    const ok = await add({ value, stamp })
-    setAddingObs(false)
-    return ok
+    try {
+      const ok = await add({ value, stamp })
+      setAddingObs(false)
+      return ok
+    } catch (error) {
+      console.error('Add', error.toString())
+      throw error
+    }
   }
 
   return (

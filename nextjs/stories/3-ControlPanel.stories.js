@@ -20,8 +20,12 @@ export const Playground = () => {
     // action('dragged')(JSON.stringify({ movement, last }))
   }
   const add = async ({ value, stamp }) => {
-    console.log({ value, stamp })
-    action('added')(JSON.stringify({ value, stamp }))
+    if (Math.random() > 0.5) {
+      action('add:error')(JSON.stringify({ value, stamp }))
+      throw new Error('Random error for testing')
+    } else {
+      action('add')(JSON.stringify({ value, stamp }))
+    }
     return { ETag: '"MD5_withQuotes"' }
   }
 

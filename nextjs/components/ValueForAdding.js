@@ -7,15 +7,22 @@ import useTheme from './useTheme'
 export default function ValueForAdding ({ value, reset = () => {}, add = async ({ value, stamp }) => {}, style }) {
   const { theme: { colors: { primary, secondary } } } = useTheme()
 
+  const [errorMsg, setErrorMsg] = useState(null)
   const [stamp, setStamp] = useState(null)
   const hasStamp = stamp !== null
 
-  //  here is where I can round this off...
+  // TODO(daneroo): here is where I could round this off, but better in useDeltaDrag
   const onSubmit = async () => {
-    const data = await add({ value, stamp })
-    console.log('ValueForAdding got', data)
+    try {
+      setErrorMsg(null) // clear previous error, if present
+      const data = await add({ value, stamp })
+      console.log('ValueForAdding got', data)
+    } catch (error) {
+      setErrorMsg(error.toString())
+    }
   }
   const onReset = () => {
+    setErrorMsg(null)
     setStamp(null)
     reset()
   }
@@ -94,9 +101,13 @@ export default function ValueForAdding ({ value, reset = () => {}, add = async (
         >
           Now
         </div>
-
       )}
-
+      {errorMsg && (
+        <>
+          <div style={{ color: 'red' }}>{errorMsg}</div>
+          <div style={{ color: 'red' }}>click reset and try again</div>
+        </>
+      )}
     </div>
   )
 }
