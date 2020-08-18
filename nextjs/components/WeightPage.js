@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import moment from 'moment'
 import useDimensions from 'react-use-dimensions'
-import { get } from './useStorage'
+import { get, add } from './useStorage'
 import Graph from './Graph'
 import ControlPanel from './ControlPanel'
 
@@ -130,6 +130,7 @@ export default function WeightPage () {
           height={height}
           values={values}
           onDelta={onDelta}
+          add={add}
         />
 
       </section>

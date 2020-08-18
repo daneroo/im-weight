@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import moment from 'moment'
 import useTheme from './useTheme'
-import { add } from './useStorage'
 
 // We only pass in value
 // but stamp is managed locally
-export default function ValueForAdding ({ value, reset = () => {}, style }) {
+export default function ValueForAdding ({ value, reset = () => {}, add = async ({ value, stamp }) => {}, style }) {
   const { theme: { colors: { primary, secondary } } } = useTheme()
 
   const [stamp, setStamp] = useState(null)

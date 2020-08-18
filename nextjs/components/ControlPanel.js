@@ -15,7 +15,8 @@ export default function ControlPanel ({
   style, width, height,
   values,
   onClick = ({ addingObs }) => {},
-  onDelta = ({ last, delta }) => {}
+  onDelta = ({ last, delta }) => {},
+  add = async ({ value, stamp }) => {} // from useStorage
 }) {
   const [addingObs, setAddingObs] = useState(false)
   // This should be moved to own component
@@ -62,7 +63,7 @@ export default function ControlPanel ({
       )}
       {addingObs && (
         <>
-          <ValueForAdding style={{ zIndex: 1 }} reset={reset} value={value} />
+          <ValueForAdding style={{ zIndex: 1 }} add={add} reset={reset} value={value} />
           <ArcSlider
             style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
             width={width}
