@@ -3,8 +3,8 @@ import axios from 'axios'
 
 import useSWR, { mutate } from 'swr'
 
-const GET_URL = '/api/backup'
-const POST_URL = '/api/add'
+const GET_URL = '/api/observations'
+const POST_URL = '/api/observations'
 
 // utility func for useSWR
 async function fetcher (url) {
