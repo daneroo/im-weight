@@ -54,12 +54,11 @@ export const AnchorZoom = ({ style, onDrag, onDelta }) => {
   const { theme: { colors: { primary } } } = useTheme()
 
   // This is where the transformations happen
-  // - For outside interaction, we only provide onDelta({down,delta})
+  // - For outside interaction, we only provide onDelta({last,delta})
   // - For Drawing we provide svgState state variable
-  // - Should call onDelta
   const augmentSVG = (svgSpc) => {
-    const { last, down, movement } = svgSpc
-    const delta = down ? clipAbs1(movement[0] / 2) : 0
+    const { last, movement } = svgSpc
+    const delta = clipAbs1(movement[0] / 2)
     if (onDelta) {
       onDelta({ last, delta })
     }

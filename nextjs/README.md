@@ -2,11 +2,12 @@
 
 ## TODO
 
-- round() in useDeltaDrag, and useDeltaDrag for AnchorZoom : WeightPage/setZoomReference
+- useDeltaDrag for AnchorZoom : WeightPage/setZoomReference
+- separate onDelta for AnchorZoom/ArcSlider in ControlPanel
 - Add put/get native ops for vercel.
 - Find a refresh/reset/recycle arrow glyph/icon.
 - Reset button could ControlPanel: !addingObs ?
-- ValueFor{Range|Adding} combine with {AnchorZoom/ArcSlider}
+- ValueFor{Range|Adding} combine with {AnchorZoom/ArcSlider} (as Components)
 - Rationalize ValueForAdding layout/styles
 - Animate BottomFeet/Panel movements/opacity
 - Update to StoryBook-6

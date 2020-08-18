@@ -81,6 +81,7 @@ export default function ValueForAdding ({ value, reset = () => {}, add = async (
           minWidth: '10rem',
           padding: '0.5rem',
           fontSize: '3rem',
+          fontVariantNumeric: 'tabular-nums',
           lineHeight: 1.2,
           fontWeight: 600,
           border: `2px solid ${primary}`,

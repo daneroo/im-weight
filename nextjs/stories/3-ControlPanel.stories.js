@@ -13,11 +13,13 @@ export const Playground = () => {
   const height = 400
 
   const stamp = new Date().toISOString()
-  const [values, setValues] = useState([{ stamp, value: 100 }])
+  const [values] = useState([{ stamp, value: 100 }])
 
-  const onDrag = ({ movement, last }) => {
-    setValues([{ stamp, value: movement[0] }])
-    // action('dragged')(JSON.stringify({ movement, last }))
+  const onDelta = ({ delta, last }) => {
+    console.log({ delta, last })
+    if (last) {
+      action('dragged')(JSON.stringify({ delta, last }))
+    }
   }
   const add = async ({ value, stamp }) => {
     if (Math.random() > 0.5) {
@@ -46,7 +48,7 @@ export const Playground = () => {
           width={400}
           height={height}
           values={values}
-          onDrag={onDrag}
+          onDelta={onDelta}
           add={add}
         />
       </div>

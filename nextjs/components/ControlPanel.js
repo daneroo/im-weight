@@ -19,8 +19,17 @@ export default function ControlPanel ({
   add = async ({ value, stamp }) => {} // from useStorage
 }) {
   const [addingObs, setAddingObs] = useState(false)
-  // This should be moved to own component
-  const [value, updateDrag, reset] = useDeltaDrag(values[0].value)
+
+  // This could be moved to own component
+  const adjustArcSliderDelta = ({ delta, referenceValue }) => {
+    // scale delta and round to 5ths i.e. *.{0,2,4,6,8}
+    const scale = 2
+    const nths = 10
+    const roundToNth = (value, nths) => Math.round(value * nths) / nths
+    const value = roundToNth(delta * scale + referenceValue, nths)
+    return value
+  }
+  const [arcSliderValue, updateDragArcSlider, resetArcSlider] = useDeltaDrag(values[0].value, adjustArcSliderDelta)
 
   const feetBottom = addingObs ? 0 : -20
   const radialBottom = -width / 2 - feetBottom / 2
@@ -30,7 +39,7 @@ export default function ControlPanel ({
     // send !addingObs, as the state has not yet updated
     onClick({ addingObs: nuAddingObs })
 
-    reset()
+    resetArcSlider()
   }
 
   // wraps useStorage.add with panel control (back to addingObs=false)
@@ -75,11 +84,11 @@ export default function ControlPanel ({
       )}
       {addingObs && (
         <>
-          <ValueForAdding style={{ zIndex: 1 }} add={addAndClose} reset={reset} value={value} />
+          <ValueForAdding style={{ zIndex: 1 }} add={addAndClose} reset={resetArcSlider} value={arcSliderValue} />
           <ArcSlider
             style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
             width={width}
-            onDelta={updateDrag}
+            onDelta={updateDragArcSlider}
           />
         </>
       )}

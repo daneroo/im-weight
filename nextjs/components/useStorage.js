@@ -16,12 +16,11 @@ async function fetcher (url) {
 // get(): wraps the useSWR hook
 // returns { data, error }
 export function get () {
-  console.log('about to GET')
   return useSWR(GET_URL, fetcher)
 }
 
 // add(): wraps axios POST
-// TODO: https://swr.vercel.app/docs/mutation#mutate-based-on-current-data
+// TODO(daneroo): Optimistic updates: https://swr.vercel.app/docs/mutation#mutate-based-on-current-data
 export async function add ({ value, stamp }) {
   console.log('about to POST (client)', ({ value, stamp }))
 
