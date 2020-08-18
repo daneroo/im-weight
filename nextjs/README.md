@@ -2,7 +2,6 @@
 
 ## TODO
 
-- return from Value add, in ControlPanel inject and decorate add, from WeightPage
 - round() in useDeltaDrag, and useDeltaDrag for AnchorZoom : WeightPage/setZoomReference
 - Add put/get native ops for vercel.
 - Find a refresh/reset/recycle arrow glyph/icon.
@@ -10,7 +9,7 @@
 - ValueFor{Range|Adding} combine with {AnchorZoom/ArcSlider}
 - Rationalize ValueForAdding layout/styles
 - Animate BottomFeet/Panel movements/opacity
-
+- Update to StoryBook-6
 - merge to master, when addObs done
 - replace og-image, once deployed to vercel
 - full screen (no browser bar)

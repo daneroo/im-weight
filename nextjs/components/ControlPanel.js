@@ -33,6 +33,14 @@ export default function ControlPanel ({
     reset()
   }
 
+  // wraps useStorage.add with panel control (back to addingObs=false)
+  const addAndClose = async ({ value, stamp }) => {
+    // TODO: try catch, and show error
+    const ok = await add({ value, stamp })
+    setAddingObs(false)
+    return ok
+  }
+
   return (
     <div
       style={{
@@ -63,7 +71,7 @@ export default function ControlPanel ({
       )}
       {addingObs && (
         <>
-          <ValueForAdding style={{ zIndex: 1 }} add={add} reset={reset} value={value} />
+          <ValueForAdding style={{ zIndex: 1 }} add={addAndClose} reset={reset} value={value} />
           <ArcSlider
             style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
             width={width}

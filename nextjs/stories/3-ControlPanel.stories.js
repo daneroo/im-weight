@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-// import { action } from '@storybook/addon-actions'
+import { action } from '@storybook/addon-actions'
 
 import ControlPanel from '../components/ControlPanel'
 
@@ -18,6 +18,11 @@ export const Playground = () => {
   const onDrag = ({ movement, last }) => {
     setValues([{ stamp, value: movement[0] }])
     // action('dragged')(JSON.stringify({ movement, last }))
+  }
+  const add = async ({ value, stamp }) => {
+    console.log({ value, stamp })
+    action('added')(JSON.stringify({ value, stamp }))
+    return { ETag: '"MD5_withQuotes"' }
   }
 
   return (
@@ -38,6 +43,7 @@ export const Playground = () => {
           height={height}
           values={values}
           onDrag={onDrag}
+          add={add}
         />
       </div>
 
