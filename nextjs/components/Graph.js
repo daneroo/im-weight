@@ -8,7 +8,7 @@ import { LineCanvas as Line } from '@nivo/line'
 import { minmaxValuesRounded } from './minmaxValues'
 import useTheme from './useTheme'
 
-export default function Graph ({ values, since, adjustZoom, width, height }) {
+export default function Graph ({ values, since, width, height }) {
   const { theme: { colors: { text, primary, secondary } } } = useTheme()
   // guard against undefined w,h
   if (!width || !height) return <></>

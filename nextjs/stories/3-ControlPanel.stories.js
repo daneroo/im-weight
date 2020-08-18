@@ -15,10 +15,16 @@ export const Playground = () => {
   const stamp = new Date().toISOString()
   const [values] = useState([{ stamp, value: 100 }])
 
-  const onDelta = ({ delta, last }) => {
-    console.log({ delta, last })
+  const onDeltaAnchorZoom = ({ delta, last }) => {
+    console.log('zoom', { delta, last })
     if (last) {
-      action('dragged')(JSON.stringify({ delta, last }))
+      action('dragged:zoom')(JSON.stringify({ delta, last }))
+    }
+  }
+  const onDeltaArcSlider = ({ delta, last }) => {
+    console.log('arc', { delta, last })
+    if (last) {
+      action('dragged:arc')(JSON.stringify({ delta, last }))
     }
   }
   const add = async ({ value, stamp }) => {
@@ -48,7 +54,8 @@ export const Playground = () => {
           width={400}
           height={height}
           values={values}
-          onDelta={onDelta}
+          onDeltaAnchorZoom={onDeltaAnchorZoom}
+          onDeltaArcSlider={onDeltaArcSlider}
           add={add}
         />
       </div>

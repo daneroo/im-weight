@@ -2,7 +2,6 @@
 
 ## TODO
 
-- useDeltaDrag for AnchorZoom : WeightPage/setZoomReference
 - separate onDelta for AnchorZoom/ArcSlider in ControlPanel
 - Add put/get native ops for vercel.
 - Find a refresh/reset/recycle arrow glyph/icon.

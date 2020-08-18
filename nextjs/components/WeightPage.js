@@ -1,9 +1,10 @@
-import React, { useState, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import moment from 'moment'
 import useDimensions from 'react-use-dimensions'
 import { get, add } from './useStorage'
 import Graph from './Graph'
 import ControlPanel from './ControlPanel'
+import useDeltaDrag from './useDeltaDrag'
 
 const zoomMonths = [3, 6, 12, 24, 36, 60, 999]
 
@@ -47,10 +48,16 @@ export default function WeightPage () {
   const [ref, { height }] = useDimensions()
   // dimensions for graph
   const [refGraph, { width: widthGraph, height: heightGraph }] = useDimensions()
-  const [zoom, setZoom] = useState(0)
-  const [zoomReference, setZoomReference] = useState(zoom)
 
-  // TODO: this is not quite right, combine with add and mutate. Ctx?
+  const adjustAnchorZoomDelta = ({ delta, referenceValue }) => {
+    // scale delta and round to [0..zoomMonths.length)
+    const scale = 7
+    const value = Math.min(zoomMonths.length - 1, Math.max(0, Math.floor(delta * scale + referenceValue)))
+    return value
+  }
+  const [anchorZoomValue, updateDragAnchorZoom] = useDeltaDrag(0, adjustAnchorZoomDelta)
+
+  // Get data: invoke useSWR()
   const { data, error } = get()
 
   const dataByZoom = useMemo(() => memoizeDataByZoom(data), [data])
@@ -60,34 +67,9 @@ export default function WeightPage () {
   if (!data) return <div>loading...</div>
   if (!data.values || data.values.length === 0) return <div>no data...</div>
 
-  // console.log(dataByZoom.map(z => z.since))
-  const { values, since } = dataByZoom[zoom]
+  const { values, since } = dataByZoom[anchorZoomValue]
 
   if (values.length === 0) return <div>no data...</div>
-
-  const adjustZoom = (delta) => {
-    setZoom((zoom + delta + zoomMonths.length) % zoomMonths.length)
-  }
-
-  // delta is relative to zoomReference
-  const setSafeZoom = (delta) => {
-    const nuZoom = Math.floor(zoomReference + delta)
-    // console.log(nuZoom, zoomReference)
-    if (zoom !== nuZoom && nuZoom >= 0 && nuZoom < zoomMonths.length) {
-      setZoom(nuZoom)
-    }
-  }
-
-  // This is the constrained movement from PullRelease
-  const onDelta = ({ delta, last }) => {
-    // delta  is [-1,+1] // while we are dragging
-    // we map it to [-7,7]
-    setSafeZoom(delta * 5)
-    if (last) {
-      // TODO this is wrong zoom has not yet been updated
-      setZoomReference(zoom)
-    }
-  }
 
   const border = { border: '0px solid orange' }
   return (
@@ -108,7 +90,7 @@ export default function WeightPage () {
           top: 0
         }}
       >
-        <Graph values={values} since={since} adjustZoom={adjustZoom} width={widthGraph} height={heightGraph} />
+        <Graph values={values} since={since} width={widthGraph} height={heightGraph} />
       </section>
 
       <section
@@ -129,7 +111,7 @@ export default function WeightPage () {
           width={400}
           height={height}
           values={values}
-          onDelta={onDelta}
+          onDeltaAnchorZoom={updateDragAnchorZoom}
           add={add}
         />
 

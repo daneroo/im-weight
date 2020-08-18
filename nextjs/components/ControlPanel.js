@@ -15,7 +15,8 @@ export default function ControlPanel ({
   style, width, height,
   values,
   onClick = ({ addingObs }) => {},
-  onDelta = ({ last, delta }) => {},
+  onDeltaAnchorZoom = ({ last, delta }) => {},
+  onDeltaArcSlider = ({ last, delta }) => {},
   add = async ({ value, stamp }) => {} // from useStorage
 }) {
   const [addingObs, setAddingObs] = useState(false)
@@ -30,7 +31,10 @@ export default function ControlPanel ({
     return value
   }
   const [arcSliderValue, updateDragArcSlider, resetArcSlider] = useDeltaDrag(values[0].value, adjustArcSliderDelta)
-
+  const updateAndBubbleUpArcSlider = ({ last, delta }) => {
+    updateDragArcSlider({ last, delta })
+    onDeltaArcSlider({ last, delta })
+  }
   const feetBottom = addingObs ? 0 : -20
   const radialBottom = -width / 2 - feetBottom / 2
   const toggleAddingObs = () => {
@@ -77,7 +81,7 @@ export default function ControlPanel ({
           <AnchorZoom
             style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
             width={width}
-            onDelta={onDelta}
+            onDelta={onDeltaAnchorZoom}
           />
           <ValueForRange style={{ zIndex: 1 }} values={values} />
         </>
@@ -88,7 +92,7 @@ export default function ControlPanel ({
           <ArcSlider
             style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
             width={width}
-            onDelta={updateDragArcSlider}
+            onDelta={updateAndBubbleUpArcSlider}
           />
         </>
       )}
