@@ -2,15 +2,14 @@
 
 ## TODO
 
-- Rename RadialFeet - > ControlPanel
-- Rationalize (minimize) all layout
-- Animate BottomFeet movement
-- [HTML entities](https://www.toptal.com/designers/htmlarrows/symbols/)
+- Reset button should ControlPanel: !addingObs
+- ValueFor{Range|Adding} combime with {AnchorZoom/ArcSlider}
+- Rationalize ValueForAdding layout/styles
+- Animate BottomFeet/Panel movements/opacity
 - merge to master, when addObs done
 - replace og-image, once deployed to vercel
 - full screen (no browser bar)
 - fonts (Roboto, Tondo )
-- Bottom button for addObs
 - Cleanup layout and all css
   - Add theme-ui (light/dark)
 
@@ -23,3 +22,7 @@
 - [React/D3 Chart review](https://dev.to/giteden/top-5-react-chart-libraries-for-2020-1amb)
   - [Nivo](https://nivo.rocks/line/)
   - [Swizec - d3blackbox](https://github.com/Swizec/d3blackbox)
+
+## References
+
+- [HTML entities](https://www.toptal.com/designers/htmlarrows/symbols/)

@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import ButtonFeet from './ButtonFeet'
 import RadialGradient from './RadialGradient'
 import ValueForRange from './ValueForRange'
+import ValueForAdding from './ValueForAdding'
 import { AnchorZoom, ArcSlider } from './DragSVG'
+import useDeltaDrag from './useDeltaDrag'
 
 // Combined control panel:
 //  - use parent:   position:relative, overflow:hidden
@@ -12,17 +14,22 @@ import { AnchorZoom, ArcSlider } from './DragSVG'
 export default function ControlPanel ({
   style, width, height,
   values,
-  onClick = ({ big }) => {},
+  onClick = ({ addingObs }) => {},
   onDelta = ({ last, delta }) => {}
 }) {
-  // rename this to adding or adjusting,...
-  const [big, setBig] = useState(false)
-  const feetBottom = big ? 0 : -20
+  const [addingObs, setAddingObs] = useState(false)
+  // This should be moved to own component
+  const [value, updateDrag, reset] = useDeltaDrag(values[0].value)
+
+  const feetBottom = addingObs ? 0 : -20
   const radialBottom = -width / 2 - feetBottom / 2
-  const toggle = () => {
-    setBig(!big)
-    // send !big, as the state has not yet updated
-    onClick({ big: !big })
+  const toggleAddingObs = () => {
+    const nuAddingObs = !addingObs
+    setAddingObs(nuAddingObs)
+    // send !addingObs, as the state has not yet updated
+    onClick({ addingObs: nuAddingObs })
+
+    reset()
   }
 
   return (
@@ -38,28 +45,32 @@ export default function ControlPanel ({
     >
       {/* first so it is on bottom (z) */}
       <RadialGradient
-        big={big}
+        big={addingObs}
         width={width}
         style={{ position: 'absolute', bottom: radialBottom }}
       />
 
-      {!big && (
-        <AnchorZoom
-          style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
-          width={width}
-          onDelta={onDelta}
-        />
+      {!addingObs && (
+        <>
+          <AnchorZoom
+            style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
+            width={width}
+            onDelta={onDelta}
+          />
+          <ValueForRange style={{ zIndex: 1 }} values={values} />
+        </>
       )}
-      {big && (
-        <ArcSlider
-          style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
-          width={width}
-          onDelta={onDelta}
-        />
+      {addingObs && (
+        <>
+          <ValueForAdding style={{ zIndex: 1 }} reset={reset} value={value} />
+          <ArcSlider
+            style={{ position: 'absolute', bottom: 0, overflow: 'hidden', width, height }}
+            width={width}
+            onDelta={updateDrag}
+          />
+        </>
       )}
-      <ButtonFeet style={{ position: 'absolute', bottom: feetBottom }} onClick={toggle} />
-
-      <ValueForRange style={{ zIndex: 1 }} values={values} />
+      <ButtonFeet style={{ position: 'absolute', bottom: feetBottom }} onClick={toggleAddingObs} />
 
     </div>
   )

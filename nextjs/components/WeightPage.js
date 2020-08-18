@@ -83,6 +83,7 @@ export default function WeightPage () {
     // we map it to [-7,7]
     setSafeZoom(delta * 5)
     if (last) {
+      // TODO this is wrong zoom has not yet been updated
       setZoomReference(zoom)
     }
   }
