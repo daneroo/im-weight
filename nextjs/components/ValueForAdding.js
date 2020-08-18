@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import moment from 'moment'
 import useTheme from './useTheme'
+import { add } from './useStorage'
 
 // We only pass in value
 // but stamp is managed locally
@@ -11,8 +12,9 @@ export default function ValueForAdding ({ value, reset = () => {}, style }) {
   const hasStamp = stamp !== null
 
   //  here is where I can round this off...
-  const onSubmit = () => {
-    alert(`Add ${value} @ ${stamp || 'now'}`)
+  const onSubmit = async () => {
+    const data = await add({ value, stamp })
+    console.log('ValueForAdding got', data)
   }
   const onReset = () => {
     setStamp(null)

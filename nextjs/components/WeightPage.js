@@ -1,9 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import moment from 'moment'
-import useSWR from 'swr'
 import useDimensions from 'react-use-dimensions'
-import fetcher from './fetcher'
-
+import { get } from './useStorage'
 import Graph from './Graph'
 import ControlPanel from './ControlPanel'
 
@@ -51,7 +49,10 @@ export default function WeightPage () {
   const [refGraph, { width: widthGraph, height: heightGraph }] = useDimensions()
   const [zoom, setZoom] = useState(0)
   const [zoomReference, setZoomReference] = useState(zoom)
-  const { data, error } = useSWR('/api/backup', fetcher)
+
+  // TODO: this is not quite right, combine with add and mutate. Ctx?
+  const { data, error } = get()
+
   const dataByZoom = useMemo(() => memoizeDataByZoom(data), [data])
 
   // TODO(daneroo): better loading/error positioning and rendering?
