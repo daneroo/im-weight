@@ -2,9 +2,10 @@
 
 ## TODO
 
-- Reset button should ControlPanel: !addingObs
-- ValueFor{Range|Adding} combime with {AnchorZoom/ArcSlider}
+- Reset button should ControlPanel: !addingObs ?
+- ValueFor{Range|Adding} combine with {AnchorZoom/ArcSlider}
 - Rationalize ValueForAdding layout/styles
+- Add put/get native ops for vercel.
 - Animate BottomFeet/Panel movements/opacity
 - merge to master, when addObs done
 - replace og-image, once deployed to vercel
