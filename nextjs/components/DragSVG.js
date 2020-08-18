@@ -225,7 +225,8 @@ export const ArcSlider = ({ style, onDrag, onDelta }) => {
             </g>
 
             {/* current drag position */}
-            <circle cx={xy[0]} cy={xy[1]} r={thick * 40} stroke='none' fill={gradient} />
+            {/* <circle cx={xy[0]} cy={xy[1]} r={thick * 40} stroke='none' fill={gradient} /> */}
+            <ellipse cx={xy[0]} cy={xy[1]} ry={thick * 40 / vRatio} rx={thick * 40} stroke='none' fill={gradient} />
           </g>
         </SVGUnit>
       </animated.div>
