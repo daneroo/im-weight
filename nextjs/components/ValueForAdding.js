@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import moment from 'moment'
 import useTheme from './useTheme'
+import { Check, Reset } from './ButtonsSVG'
 
 // We only pass in value
 // but stamp is managed locally
@@ -37,26 +38,6 @@ export default function ValueForAdding ({ value, reset = () => {}, add = async (
     console.log({ nuStampLocal, nuStampUTC })
     setStamp(nuStampUTC)
   }
-  const buttonStyle = {
-    // ANTICLOCKWISE CLOSED CIRCLE ARROW: ⥀
-    // ANTICLOCKWISE GAPPED CIRCLE ARROW: ⟲
-    // ANTICLOCKWISE OPEN CIRCLE ARROW: ↺
-    // CLOCKWISE OPEN CIRCLE ARROW: ↻
-    // CHECK MARK: ✓
-    // HEAVY CHECK MARK: ✔
-    // BALLOT X: ✗
-    // HEAVY BALLOT X: ✘
-    fontSize: '2rem',
-    fontStyle: 'bold',
-    margin: '0 1rem',
-    textAlign: 'center',
-    minWidth: '3rem',
-    // minHeight: '3rem',
-    borderRadius: '50%',
-    // border: `2px solid ${secondary}`,
-    color: secondary,
-    backgroundColor: primary
-  }
   return (
     <div
       style={{
@@ -73,8 +54,9 @@ export default function ValueForAdding ({ value, reset = () => {}, add = async (
         alignItems: 'center'
       }}
       >
-        {/* reset */}
-        <div onClick={onReset} style={buttonStyle}>✘</div>
+        <div style={{ margin: '0 1rem' }}>
+          <Reset onClick={onReset} />
+        </div>
         <div style={{
           color: secondary,
           textAlign: 'center',
@@ -89,8 +71,9 @@ export default function ValueForAdding ({ value, reset = () => {}, add = async (
         }}
         >{Number(value).toFixed(1)}
         </div>
-        {/* add/confirm */}
-        <div onClick={onSubmit} style={buttonStyle}>✔</div>
+        <div style={{ margin: '0 1rem' }}>
+          <Check onClick={onSubmit} />
+        </div>
 
       </div>
       {hasStamp ? (

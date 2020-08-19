@@ -1,6 +1,6 @@
 import React from 'react'
 // This kind of import so it works with StroyBook: next.config.js
-import bgImg from './ButtonFeet.png'
+import bgImg from './BtnBgImg/ButtonFeet.png'
 import useTheme from './useTheme'
 
 export default function ButtonFeet ({ style, onClick = () => {} }) {

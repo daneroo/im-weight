@@ -15,7 +15,7 @@ export const Wrapped = () => {
       color: 'white'
     }}
     >
-      <p>
+      <div>
         You can partially hide content by setting
         <ul>
           <li>a parent
@@ -30,7 +30,7 @@ export const Wrapped = () => {
             </ul>
           </li>
         </ul>
-      </p>
+      </div>
       <div style={{
         color: 'white',
         // height: 3 * (128),

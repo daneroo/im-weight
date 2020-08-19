@@ -2,20 +2,19 @@
 
 ## TODO
 
-- separate onDelta for AnchorZoom/ArcSlider in ControlPanel
 - Add put/get native ops for vercel.
-- Find a refresh/reset/recycle arrow glyph/icon.
-- Reset button could ControlPanel: !addingObs ?
+- Merge to master, when addObs done
+- replace og-image, once deployed to vercel
+- Buttons
+  - Act more like buttons on press/hover
 - ValueFor{Range|Adding} combine with {AnchorZoom/ArcSlider} (as Components)
 - Rationalize ValueForAdding layout/styles
 - Animate BottomFeet/Panel movements/opacity
 - Update to StoryBook-6
-- merge to master, when addObs done
-- replace og-image, once deployed to vercel
 - full screen (no browser bar)
 - fonts (Roboto, Tondo )
 - Cleanup layout and all css
-  - Add theme-ui (light/dark)
+- Add theme-ui (light/dark)
 
 - Update README in top level README
   - Legacy heroku
@@ -31,3 +30,8 @@
 ## References
 
 - [HTML entities](https://www.toptal.com/designers/htmlarrows/symbols/)
+
+## Creative Common Attribution
+
+- [Check by iconcheese from the Noun Project](https://thenounproject.com/term/check/2422594/)
+- [reset by Roberto Chiaveri from the Noun Project](https://thenounproject.com/term/reset/299645/)

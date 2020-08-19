@@ -72,7 +72,7 @@ export default function Graph ({ values, since, width, height }) {
       },
       legend: {
         text: {
-          fontSize: 18,
+          fontSize: 24,
           color: 'red'
         }
       }
