@@ -2,15 +2,15 @@
 
 ## TODO
 
+- Merge to master
+  - Update README in top level README
+  - keep next.js subfolder? github?
+  - Legacy heroku
+  - Deploy to vercel
+  - update backups script `/api/observations`
 - Vercel
-  - new cli
-  - Add put/get native ops for vercel.
-  - ad secret to vercel (which environments)
-  - add health(Z)/head
-  - add route for get
   - custom domain
   - github integration
-- Merge to master, when addObs done
 - replace og-image, once deployed to vercel
 - Buttons
   - Act more like buttons on press/hover
@@ -22,11 +22,6 @@
 - fonts (Roboto, Tondo )
 - Cleanup layout and all css
 - Add theme-ui (light/dark)
-
-- Update README in top level README
-  - Legacy heroku
-  - Deploy to vercel
-  - update backups script `/api/observations`
 
 ## Usage
 
@@ -41,7 +36,14 @@ npm i -g vercel
 `vercel login` stores token in `/Users/daniel/Library/Application\ Support/com.vercel.cli/`
 
 ```bash
+./push_vercel_creds.sh
+./push_vercel_creds.sh preview
+./push_vercel_creds.sh production
+```
 
+Other vercel `env/secret` notes
+
+```bash
 # global (non-project) secrets
 vercel secrets add secret_key "secret_value"
 # this can then be used in vercel.json:env:{ZZZ:'@secret_key'}
@@ -53,13 +55,8 @@ echo -n 'dev_secret_update' | vercel env add SECRET development
 # full rotation example
 (echo 'y' | vercel env rm SECRET development) ; echo $?; ( echo -n $(date -u +"%Y-%m-%dT%H:%M:%SZ") | vercel env add SECRET development); echo $?;
 
+# and pull all dev env vars to file for `vercel dev` and `next dev`
 vercel env pull .env.local
-
-(echo 'y' | vercel env rm ACCESS_KEY_ID development) ; echo $?; ( echo -n $(cat ../s3/s3-credentials.json | jq -r .AccessKeyId) | vercel env add ACCESS_KEY_ID development); echo $?;
-(echo 'y' | vercel env rm SECRET_ACCESS_KEY development) ; echo $?; ( echo -n $(cat ../s3/s3-credentials.json | jq -r .SecretAccessKey) | vercel env add SECRET_ACCESS_KEY development); echo $?;
-
-vercel env pull .env.local
-
 ```
 
 ### Deployment
