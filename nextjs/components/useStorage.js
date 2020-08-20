@@ -20,6 +20,7 @@ export function get () {
 }
 
 // add(): wraps axios POST
+// Could we optimistically set the cache value ?
 // TODO(daneroo): Optimistic updates: https://swr.vercel.app/docs/mutation#mutate-based-on-current-data
 export async function add ({ value, stamp }) {
   console.log('about to POST (client)', ({ value, stamp }))
@@ -36,6 +37,12 @@ export async function add ({ value, stamp }) {
 
     return data
   } catch (error) {
+    // this is the axios error, the body {error:msg} is in error.response
+    if (error.response.data && error.response.data.error) {
+      // data is {error:"message"}
+      throw new Error(error.response.data.error)
+    }
     console.error('Add error', error)
+    throw error
   }
 }

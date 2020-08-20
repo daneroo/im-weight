@@ -3,6 +3,7 @@
 all:
 	@echo "im-weight backups.. check | head | resore"
 
+# new endpoint supports /api/observations?digest
 check:
 	aws --profile im-dan s3 cp s3://im-weight/observationdata.json - | md5sum
 	curl -s https://im-weight.herokuapp.com/backup | md5sum

@@ -25,7 +25,7 @@ export default function ControlPanel ({
   const adjustArcSliderDelta = ({ delta, referenceValue }) => {
     // scale delta and round to 5ths i.e. *.{0,2,4,6,8}
     const scale = 2
-    const nths = 10
+    const nths = 5
     const roundToNth = (value, nths) => Math.round(value * nths) / nths
     const value = roundToNth(delta * scale + referenceValue, nths)
     return value

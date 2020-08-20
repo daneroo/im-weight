@@ -2,14 +2,21 @@
 
 set -e
 
-ENVIRONMENT='development'
+defaultEnvironment='development'
+ENVIRONMENT=${1:-$defaultEnvironment} 
+
+case $ENVIRONMENT in
+    production|preview|development) echo "The Environment \"${ENVIRONMENT}\" is valid.";;
+    *) echo "The Environment \"${ENVIRONMENT}\" is invalid. It must be one of: <production | preview | development>"; exit;;
+esac
 
 function info {
   local msg=$1
   echo
   echo "${msg}"
-
 }
+
+# Could be per environment..
 function getFromVault {
   local key=$1
   cat ../s3/s3-credentials.json | jq -r ".${key}"
