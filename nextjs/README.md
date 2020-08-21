@@ -1,16 +1,15 @@
 # Next.js branch of im-weight
 
+ Deployed to <https://weight.v.imetrical.com/>
+
 ## TODO
 
 - Merge to master
   - Update README in top level README
   - keep next.js subfolder? github?
   - Legacy heroku
-  - Deploy to vercel
-  - update backups script `/api/observations`
-- Vercel
-  - custom domain
-  - github integration
+  - update backup script `/api/observations`
+- Vercel github integration
 - replace og-image, once deployed to vercel
 - Buttons
   - Act more like buttons on press/hover
