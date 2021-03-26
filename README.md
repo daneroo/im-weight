@@ -1,5 +1,7 @@
 # im-weight
 
+See Redeploy section below for legacy deploy
+
 - Deployed to heroku @ <https://im-weight.herokuapp.com/>
 - Backed up from dirac and shannon crons
 
