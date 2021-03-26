@@ -138,7 +138,9 @@ export default async function (req, res) {
         if (digest !== undefined) {
           res.json(await head())
         } else {
-          res.json(await get())
+          // res.json(await get())
+          // stringify/pretty to preserve md5sum
+          res.send(JSON.stringify(await get(), null, 2))
         }
         break
       }

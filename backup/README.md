@@ -1,17 +1,21 @@
 # Backups fo im-weight
-We are now deployed on heroku
 
-## Backups from http://im-weight.herokuapp.com/
+- We are now deployed on vercel and heroku
+- Backups from weight.v.imetrical.com
+
 This is just to grab the data every 4 hours, and have it saved in TimeMachine,...
 We should allow for save/restore from the app....
 
-    # crontab -e # on shannon
-    03 */4 * * * cd /Users/daniel/Code/iMetrical/im-weight/backup; ./backup.sh >> error.log 2>&1
+## Usage
 
-	03 */4 * * * cd /Users/daniel/Code/iMetrical/im-weight/backup; ./backup.sh >> error.log 2>&1
+```bash
+make check  # md5sum - all sources
+make head   # last observation all sources
+make restore
+```
 
-## Backups from im-w.cloudfoundry.com
-These have been disabled, and the app removed
+## Crontab -e on dirac and shannon
 
-    # crontab -e # on dirac
-    03 */4 * * * cd /Users/daniel/Sites/im-weight; ./backup.sh >> error.log 2>&1
+```bash
+03 */4 * * * cd /Users/daniel/Code/iMetrical/im-weight/backup; ./backup.sh >> error.log 2>&1
+```

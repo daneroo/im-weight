@@ -1,26 +1,28 @@
 # im-weight
 
+- Deployed to vercel @ <https://weight.v.imetrical.com/>
 - Deployed to heroku @ <https://im-weight.herokuapp.com/>
 - Backed up from dirac and shannon crons
 
 ## TODO
 
-- JSON.stringify(.,null,2) for output?
-- include public/js for linter
+- Nx monorepo
+- Migrate heroku to use nextjs
+- Deploy to netlify
+- Vercel github integration
 - Infra
   - Turn on history on bucket - with cleanup
   - Add backup/restore/digest methods to npm scripts
-    - remove observationdata.json from `/`
-    - backup using what credentials? currently open for heroku, im-dan?
+    - backup using what credentials? currently open for heroku/vercel, im-dan?
   - backup cron += nats
   - Pulumi
     - Rotate keys with temp script (heroku config < `s3/s3-credentials.json`)
     - provision multiple stacks for S3: dev/prod - enhance config
-- Add local minio/s3 for testing - requires test config for s3 endpoint
-- Move to vercel/next
 - App icons, <http://realfavicongenerator.net/> and <http://css-tricks.com/favicon-quiz/>
 
 ## Usage
+
+See `./nextjs` for dev and deploy
 
 ### Redeploy - Legacy
 
@@ -32,30 +34,14 @@ git push heroku legacy-heroku:master
 git push heroku master
 ```
 
-## Backup/Restore
+## Backup/Restore/Credentials
 
-Now that our backend is S3, we can backup and restore with `aws s3 {cp|sync}`
-
-```bash
-# checksum
-aws --profile im-dan s3 cp s3://im-weight/observationdata.json - | md5sum
-curl -s https://im-weight.herokuapp.com/backup | md5sum
-cat observationdata.json | md5sum
-cat backup/observationdata.json | md5sum
-
-# head (latest)
-aws --profile im-dan s3 cp s3://im-weight/observationdata.json - | jq .values[0]
-curl -s https://im-weight.herokuapp.com/backup | jq .values[0]
-cat backup/observationdata.json | jq .values[0]
-
-# backup
-aws --profile im-dan s3 cp s3://im-weight/observationdata.json observationdata.json
-# restore
-aws --profile im-dan s3 cp observationdata.json s3://im-weight/observationdata.json
-```
+- See `./backup/README.md` for details
+- See `./s3` for key rotation/provisioning
 
 ## Historical Logs
 
+- 2021-03-26 redeploy to heroku from legacy with stack-20
 - 2020-08-05 Working next.js graphs (Nivo) - no addObs
 - 2020-07-10 Add S3 for backup, then remove Mongo (Shutdown notice: mLab MongoDB add-on)
 - 2020-07-10 Fix CSS Layout/GoogleCharts

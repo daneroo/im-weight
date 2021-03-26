@@ -3,9 +3,9 @@
 # ** Do not put the LOGGLY TOKEN in version control...
 # source as env variable $LOGGLY_TOKEN
 . ENV.sh
-SOURCE="im-weight.herokuapp.com"
-# ssl when available, which it is on heroku
-SOURCE_URI="https://${SOURCE}/backup"
+SOURCE="weight.v.imetrical.com"
+# trailing slash required on vercel
+SOURCE_URI="https://${SOURCE}/api/observations/"
 DESTINATION="`hostname`"
 
 # Get the backup data

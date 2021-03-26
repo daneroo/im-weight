@@ -4,12 +4,6 @@
 
 ## TODO
 
-- Merge to master
-  - Update README in top level README
-  - keep next.js subfolder? github?
-  - Legacy heroku
-  - update backup script `/api/observations`
-- Vercel github integration
 - replace og-image, once deployed to vercel
 - Buttons
   - Act more like buttons on press/hover
@@ -24,10 +18,11 @@
 
 ## Usage
 
-### Vercel setup
+### Deployment
 
 ```bash
-npm i -g vercel
+npm run deploy:vercel
+vercel --prod
 ```
 
 ### Credentials and Secrets
@@ -58,15 +53,6 @@ echo -n 'dev_secret_update' | vercel env add SECRET development
 vercel env pull .env.local
 ```
 
-### Deployment
-
-```bash
-npm run deploy:vercel
-vercel --prod
-```
-
-### Development
-
 ## Charting
 
 - [React/D3 Chart review](https://dev.to/giteden/top-5-react-chart-libraries-for-2020-1amb)
@@ -79,7 +65,7 @@ vercel --prod
 
 ## Creative Common Attribution
 
-I used 2 icons (svg_ from *The nous project* which require this attribution:
+I used 2 icons (svg_ from *The nouns project* which require this attribution:
 
 - [Check by iconcheese from the Noun Project](https://thenounproject.com/term/check/2422594/)
 - [reset by Roberto Chiaveri from the Noun Project](https://thenounproject.com/term/reset/299645/)
