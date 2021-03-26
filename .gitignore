@@ -1,4 +1,4 @@
 node_modules
 # contains loggly token
 backup/ENV.sh
-backup/error.log*
+backup/error*.log
