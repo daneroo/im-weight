@@ -4,7 +4,8 @@
 
 ## TODO
 
-- replace og-image, once deployed to vercel
+- Upgrade to next.js v10
+- Replace og-image, once deployed to vercel
 - Buttons
   - Act more like buttons on press/hover
 - ValueFor{Range|Adding} combine with {AnchorZoom/ArcSlider} (as Components)

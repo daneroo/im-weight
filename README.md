@@ -6,6 +6,7 @@
 
 ## TODO
 
+- Upgrade to Next.js v10
 - Nx monorepo
 - Migrate heroku to use nextjs
 - Deploy to netlify
