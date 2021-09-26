@@ -4,7 +4,11 @@
 
 ## TODO
 
-- Upgrade to next.js v10
+- Build on push from Next.js
+  - Push creds replaced by vercel secrets (run/build?)
+  - Incremental static build
+- Get a favicon on next.js
+- Upgrade to next.js v11
 - Replace og-image, once deployed to vercel
 - Buttons
   - Act more like buttons on press/hover
@@ -27,6 +31,14 @@ vercel --prod
 ```
 
 ### Credentials and Secrets
+
+Actual AWS S3 key is generated and rotated from `../s3`.
+
+Credentials are pushed to [Vercel environement variables](https://vercel.com/daneroo/weight/settings/environment-variables).
+
+There are three environments: development, preview, and production.
+
+So for local development, the credentials are pulled back in to `.env.local`
 
 `vercel login` stores token in `/Users/daniel/Library/Application\ Support/com.vercel.cli/`
 

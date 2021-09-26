@@ -2,10 +2,13 @@
 
 - Deployed to vercel @ <https://weight.v.imetrical.com/>
 - Deployed to heroku @ <https://im-weight.herokuapp.com/>
-- Backed up from dirac and shannon crons
+- Backed up [GitHub Actions](https://github.com/daneroo/scrobble-weight-data/)
+  - See [formatted data here](https://flatgithub.com/daneroo/scrobble-weight-data?filename=formatted.json)
+- Backed up from dirac and shannon crons `>~/Code/iMetrical/im-weight/backup`
 
 ## TODO
 
+- Replace Loggly with NATS in backup scripts (perhaps in scrobble-weight-data too)
 - Upgrade to Next.js v10
 - Nx monorepo
 - Migrate heroku to use nextjs
@@ -37,11 +40,15 @@ git push heroku master
 
 ## Backup/Restore/Credentials
 
-- See `./backup/README.md` for details
-- See `./s3` for key rotation/provisioning
+- Credentials
+  - See `./s3` for AWS key rotation/provisioning
+  - See `./nextjs` for use with vercel enviroment variables
+- Backup/restore  
+  - See `./backup/README.md` for details of backup/restore
 
 ## Historical Logs
 
+- 2021-09-23 Backed up [GitHub Actions](https://github.com/daneroo/scrobble-weight-data/)
 - 2021-03-26 redeploy to heroku from legacy with stack-20
 - 2020-08-05 Working next.js graphs (Nivo) - no addObs
 - 2020-07-10 Add S3 for backup, then remove Mongo (Shutdown notice: mLab MongoDB add-on)
