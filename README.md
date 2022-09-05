@@ -1,4 +1,8 @@
-# im-weight
+# im-weight (Deprecated/Legacy)
+
+As of 2022-09-05, this branch has been undeployed from Heroku
+
+Heroku Note: _Starting November 28th, 2022, free Heroku Dynos, free Heroku Postgres, and free Heroku Data for Redis® will no longer be available._
 
 See Redeploy section below for legacy deploy
 
@@ -123,7 +127,7 @@ af update im-weight --runtime=node08
 
 When it's up, you can find it [here on cloudfoundry](http://im-w.cloudfoundry.com)
 Started from example at
-  [cloudfoundry_node_mongodb](https://github.com/gatesvp/cloudfoundry_node_mongodb.git)
+[cloudfoundry_node_mongodb](https://github.com/gatesvp/cloudfoundry_node_mongodb.git)
 
 ```bash
 # get dependencies
