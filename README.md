@@ -1,26 +1,25 @@
 # im-weight
 
 - Deployed to vercel @ <https://weight.v.imetrical.com/>
-- Deployed to heroku @ <https://im-weight.herokuapp.com/>
 - Backed up [GitHub Actions](https://github.com/daneroo/scrobble-weight-data/)
   - See [formatted data here](https://flatgithub.com/daneroo/scrobble-weight-data?filename=formatted.json)
 - Backed up from dirac and shannon crons `>~/Code/iMetrical/im-weight/backup`
+- Removed from heroku (@ <https://im-weight.herokuapp.com/>)
 
 ## TODO
 
 - Replace Loggly with NATS in backup scripts (perhaps in scrobble-weight-data too)
-- Upgrade to Next.js v10
+- Upgrade to Next.js v12
 - Nx monorepo
-- Migrate heroku to use nextjs
-- Deploy to netlify
+- Deploy to netlify/cloudflare/synology
 - Vercel github integration
 - Infra
   - Turn on history on bucket - with cleanup
   - Add backup/restore/digest methods to npm scripts
-    - backup using what credentials? currently open for heroku/vercel, im-dan?
+    - backup using what credentials? currently open for vercel, im-dan?
   - backup cron += nats
   - Pulumi
-    - Rotate keys with temp script (heroku config < `s3/s3-credentials.json`)
+    - Rotate keys ( `s3/s3-credentials.json`)
     - provision multiple stacks for S3: dev/prod - enhance config
 - App icons, <http://realfavicongenerator.net/> and <http://css-tricks.com/favicon-quiz/>
 
@@ -28,26 +27,18 @@
 
 See `./nextjs` for dev and deploy
 
-### Redeploy - Legacy
-
-From legacy-heroku branch (`git checkout legacy-heroku`)
-
-```bash
-git push heroku legacy-heroku:master
-# previously... from master branch
-git push heroku master
-```
-
 ## Backup/Restore/Credentials
 
 - Credentials
   - See `./s3` for AWS key rotation/provisioning
   - See `./nextjs` for use with vercel enviroment variables
-- Backup/restore  
+- Backup/restore
   - See `./backup/README.md` for details of backup/restore
 
 ## Historical Logs
 
+- 2022-09-05 Undeploy from Heroku: Thanks for all the fish!
+  - also marked `legacy-heroku` branch as deprecated and removed git remote `heroku`
 - 2021-09-23 Backed up [GitHub Actions](https://github.com/daneroo/scrobble-weight-data/)
 - 2021-03-26 redeploy to heroku from legacy with stack-20
 - 2020-08-05 Working next.js graphs (Nivo) - no addObs
@@ -118,7 +109,7 @@ af update im-weight --runtime=node08
 
 When it's up, you can find it [here on cloudfoundry](http://im-w.cloudfoundry.com)
 Started from example at
-  [cloudfoundry_node_mongodb](https://github.com/gatesvp/cloudfoundry_node_mongodb.git)
+[cloudfoundry_node_mongodb](https://github.com/gatesvp/cloudfoundry_node_mongodb.git)
 
 ```bash
 # get dependencies
