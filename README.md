@@ -3,7 +3,7 @@
 - Deployed to vercel @ <https://weight.v.imetrical.com/>
 - Backed up [GitHub Actions](https://github.com/daneroo/scrobble-weight-data/)
   - See [formatted data here](https://flatgithub.com/daneroo/scrobble-weight-data?filename=formatted.json)
-- Backed up from dirac and shannon crons `>~/Code/iMetrical/im-weight/backup`
+- No longer Backed up from dirac and shannon crons `>~/Code/iMetrical/im-weight/backup`
 - Removed from heroku (@ <https://im-weight.herokuapp.com/>)
 
 ## TODO
@@ -37,6 +37,7 @@ See `./nextjs` for dev and deploy
 
 ## Historical Logs
 
+- 2023-05-06 Remove Crons from dirac and shannon
 - 2022-09-05 Undeploy from Heroku: Thanks for all the fish!
   - also marked `legacy-heroku` branch as deprecated and removed git remote `heroku`
 - 2021-09-23 Backed up [GitHub Actions](https://github.com/daneroo/scrobble-weight-data/)
