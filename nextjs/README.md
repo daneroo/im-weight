@@ -7,32 +7,6 @@
 ## Upgrading from Next.js 9.3.5 and React 16.13.1
 
 ```bash
-# 1. First, analyze current setup
-git checkout -b pre-upgrade-backup  # Created backup branch
-npx @next/codemod list  # Shows available transformations:
-# - add-missing-react-import (needed for React 17+)
-# - new-link (for newer Next.js versions)
-# - next-image-to-legacy-image (if we use next/image)
-# - and more...
-
-# 3. Planned upgrade path:
-# Step 1: Next.js 12 + React 17
-#   - Apply add-missing-react-import codemod
-#   - Update dependencies
-#   - Test locally
-#   - Deploy to Vercel
-
-# Step 2: UI libraries
-#   - Update @nivo/line
-#   - Update react-spring
-#   - Update react-use-gesture
-#   - Test visualizations and animations
-
-# Step 3: Next.js 13/14 + React 18
-#   - Apply new-link codemod
-#   - Apply image codemods if needed
-#   - Update to React 18
-#   - Test and deploy
 ```
 
 ## TODO
