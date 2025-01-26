@@ -4,6 +4,21 @@
 
  Deployed to <https://weight.v.imetrical.com/>
 
+## Upgrading from Next.js 9.3.5 and React 16.13.1
+
+```bash
+# 1. First, analyze current setup
+npx @next/upgrade-detector
+
+# 2. Create a backup branch
+git checkout -b pre-upgrade-backup
+
+# 3. Planned upgrade path:
+# - Step 1: Next.js 12 + React 17 (intermediate step)
+# - Step 2: UI libraries (@nivo, react-spring, etc)
+# - Step 3: Next.js 13/14 + React 18
+```
+
 ## TODO
 
 - Build on push from Next.js
