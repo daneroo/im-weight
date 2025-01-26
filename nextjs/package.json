@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' next dev",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' next build",
+    "start": "NODE_OPTIONS='--openssl-legacy-provider' next start",
     "deploy:vercel": "vercel --prod && vercel rm --safe --yes weight",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
