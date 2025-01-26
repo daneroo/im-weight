@@ -1,6 +1,6 @@
 # im-weight
 
-*Note: Upgraded to node v22.x* in project settings on Vercel, and added `NODE_OPTIONS='--openssl-legacy-provider'` to package.json
+*Note: 2025-01-26: Upgraded to node v22.x* in project settings on Vercel, and added `NODE_OPTIONS='--openssl-legacy-provider'` to package.json
 
 - Deployed to vercel @ <https://weight.v.imetrical.com/>
 - Backed up [GitHub Actions](https://github.com/daneroo/scrobble-weight-data/)

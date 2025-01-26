@@ -1,5 +1,7 @@
 # Next.js branch of im-weight
 
+*Note: 2025-01-26: Upgraded to node v22.x* in project settings on Vercel, and added `NODE_OPTIONS='--openssl-legacy-provider'` to package.json
+
  Deployed to <https://weight.v.imetrical.com/>
 
 ## TODO
